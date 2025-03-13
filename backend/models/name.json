@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Miếng dán, cao xoa, dầu",
+    "description": "Các sản phẩm miếng dán, cao xoa, dầu xoa bóp.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/mieng_dan_cao_xoa_dau_level_2_7d93bfa246.png"
+    },
+  {
+    "name": "Thuốc bổ & vitamin",
+    "description": "Các loại thuốc bổ sung vitamin và dưỡng chất.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/vitamin_khoang_chat_level_2_57b22bd117.png"
+    },
+  {
+    "name": "Thuốc dị ứng",
+    "description": "Thuốc điều trị các triệu chứng dị ứng.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/thuoc_di_ung_level_2_f56f6551c4.png"
+    },
+  {
+    "name": "Thuốc giảm đau, hạ sốt, kháng viêm",
+    "description": "Thuốc giúp giảm đau, hạ sốt và có tác dụng kháng viêm.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/thuoc_giam_dau_khong_opioid_ha_sot_level_3_fa9b2d11bd.png"
+    },
+  {
+    "name": "Thuốc kháng sinh, kháng nấm",
+    "description": "Nhóm thuốc kháng sinh và kháng nấm.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/thuoc_khang_sinh_duong_toan_than_level_2_b033595f14.png"
+    },
+  {
+    "name": "Thuốc Mắt, Tai, Mũi, Họng",
+    "description": "Nhóm thuốc chuyên dùng cho mắt, tai, mũi, họng.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/mat_level_2_df0d1af16c.png"
+    },
+  {
+    "name": "Thuốc tiêu hóa & gan mật",
+    "description": "Thuốc điều trị các vấn đề tiêu hóa và gan mật.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/he_tieu_hoa_gan_mat_level_2_fbbb4ffa80.png"
+    },
+  {
+    "name": "Thuốc ung thư",
+    "description": "Thuốc điều trị ung thư và các bệnh liên quan.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/thuoc_chong_ung_thu_level_2_ba9b79b543.png"
+    },
+  {
+    "name": "Cơ - xương - khớp",
+    "description": "Nhóm thuốc hỗ trợ điều trị các bệnh về xương khớp, cơ bắp.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/he_co_xuong_level_2_02067f5217.png"
+    },
+  {
+    "name": "Hỗ trợ điều trị",
+    "description": "Các sản phẩm hỗ trợ điều trị bệnh lý, phục hồi sức khỏe.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/ho_tro_dieu_tri_level_2_8f4b2f7a43.png"
+    },
+  {
+    "name": "Thực phẩm - Đồ uống",
+    "description": "Các sản phẩm thực phẩm chức năng, đồ uống bổ dưỡng.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/80x80/https://cms-prod.s3-sgn09.fptcloud.com/than_tien_liet_tuyen_level_3_7e9789c0cb.png"
+    },
+  {
+    "name": "Thuốc giải độc, khử độc và hỗ trợ cai nghiện",
+    "description": "Nhóm thuốc giúp giải độc cơ thể, hỗ trợ cai nghiện.",
+    "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/40x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/thuoc_giai_doc_khu_doc_va_ho_tro_cai_nghien_level_2_7b576fe58e.png"
+     }
+]

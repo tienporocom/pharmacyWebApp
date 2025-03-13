@@ -1,0 +1,35 @@
+const loggerMiddleware = require('./middleware/logger');
+const errorMiddleware = require("./middleware/error");
+
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+
+const connectDB = require("./config/db");
+connectDB();
+
+const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const drugGroupRoutes = require('./routes/drugGroupRoutes');
+
+dotenv.config();
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
+app.use(loggerMiddleware);
+// Đăng ký các routes
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/drug-groups', drugGroupRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.use(errorMiddleware);
