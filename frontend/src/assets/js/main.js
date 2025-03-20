@@ -14,3 +14,5 @@ function includeHTML() {
 
 // Gọi hàm sau khi trang đã load
 document.addEventListener("DOMContentLoaded", includeHTML);
+
+

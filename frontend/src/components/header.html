@@ -1,11 +1,66 @@
-
-<header>
-    <nav>
-        <ul>
-            <li><a href="index.html">🏠 Trang chủ</a></li>
-            <li><a href="products.html">🛒 Sản phẩm</a></li>
-            <li><a href="cart.html">🛍 Giỏ hàng</a></li>
-            <li><a href="contact.html">📞 Liên hệ</a></li>
-        </ul>
-    </nav>
+<header class="header" id="header">
+    <div class="container">
+        <h1>Shop Thuoc</h1>
+        <nav>
+            <ul class="nav">
+                <li class="nav-item"><a href="#" class="nav-link">Trang chu</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">San pham</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Lien he</a></li>
+            </ul>
+        </nav>
+    </div>
 </header>
+
+<style>
+    /* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Header mặc định */
+.header {
+    background: #007bff;
+    color: white;
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    position: sticky;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav {
+    display: flex;
+    list-style: none;
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Khi header floating */
+
+
+</style>
