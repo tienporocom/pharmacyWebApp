@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 
 const connectDB = require("./config/db");
+dotenv.config();
 connectDB();
 
 const productRoutes = require('./routes/productRoutes');
@@ -15,7 +16,6 @@ const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const drugGroupRoutes = require('./routes/drugGroupRoutes');
 
-dotenv.config();
 const app = express();
 
 app.use(express.json());
@@ -33,3 +33,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 app.use(errorMiddleware);
+// console.log("MONGO_URI from .env:", process.env.MONGO_URI);

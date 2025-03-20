@@ -9,6 +9,8 @@ const {
   getGroups,
   getProductsByGroup,
   updateProductQuantity,
+    getProductsByPage,
+    searchProducts,
 } = require("../controllers/productController");
 
 //lấy danh sách nhóm sản phẩm
