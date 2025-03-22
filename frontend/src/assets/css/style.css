@@ -1,8 +1,271 @@
 @import url(reset.css); /* reset.css is imported here */
 
+/* Home Page */
+/* Tổng quát */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+}
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
+/* Header Top */
+.header-top {
+  background-color: #eee;
+  padding: 5px 0;
+}
+.header-top .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-top p {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Header Main */
+.header-main {
+  background-color: #fff;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+}
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo img {
+  max-height: 50px;
+}
+.search-bar {
+  flex: 1;
+  margin: 0 20px;
+  display: flex;
+  align-items: center;
+}
+.search-bar input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+.search-bar button {
+  padding: 9px 16px;
+  background-color: #0074d9;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+}
+.account-info a {
+  text-decoration: none;
+  color: #0074d9;
+  font-weight: bold;
+}
+
+/* Main Nav */
+.main-nav {
+  background-color: #0074d9;
+}
+.nav-flex {
+  display: flex;
+}
+.main-nav ul {
+  list-style: none;
+  display: flex;
+}
+.main-nav li {
+  margin-right: 20px;
+}
+.main-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 10px 0;
+  display: inline-block;
+}
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
+/* Banner */
+.banner {
+  margin: 10px 0;
+}
+.banner img {
+  width: 100%;
+  border-radius: 4px;
+}
+/* Các chức năng hỗ trợ */
+.feature-boxes {
+  background-color: #f8f8f8;
+  padding: 20px 0;
+}
+
+.feature-boxes .container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  background-color: #fff;
+  padding: 15px;
+  width: 18%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  margin-right: 10px; /* Khoảng cách giữa icon và text */
+}
+
+.feature-item img {
+  max-width: 50px;
+  height: 50px;
+}
+
+.feature-item p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.feature-item:hover {
+  background-color: #eaf1ff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Best Sellers */
+.best-sellers {
+  background-color: #fff;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+.best-sellers h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: #333;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.product-card {
+  background-color: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  text-align: center;
+  padding: 10px;
+}
+.product-image img {
+  width: 100%;
+  height: auto;
+}
+.product-info {
+  margin-top: 10px;
+}
+.product-info h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #333;
+}
+.price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #e74c3c;
+  margin-bottom: 5px;
+}
+.discount {
+  color: #999;
+  font-size: 14px;
+}
+
+/* Footer */
+/* Footer */
+.footer {
+  background-color: #f7f7f7;
+  padding: 40px 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.footer-flex {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-col h4 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0074d9;
+  margin-bottom: 15px;
+}
+
+.footer-col ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.footer-col ul li a:hover {
+  color: #0074d9;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 30px;
+  color: #777;
+}
+
+.footer-bottom p {
+  margin-bottom: 5px;
+}
+
+.footer-bottom a {
+  text-decoration: none;
+  color: #0074d9;
+}
 
 /* header */
-
 
 /* footer */

@@ -47,7 +47,11 @@ const readExcelData = (filePath) => {
     if (unitName === "") unitName = "Viên";
     if (price === 0) price = 10000;
     // ✅ Thêm đơn vị tính và giá vào sản phẩm
-    groupedData[productName].packagingUnits.push({ unitName, price, quantity: 100 });
+    groupedData[productName].packagingUnits.push({
+      unitName,
+      price,
+      quantity: 100,
+    });
   });
 
   return Object.values(groupedData);
