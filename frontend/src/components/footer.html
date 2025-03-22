@@ -1,49 +1,120 @@
+<!-- Footer -->
 <footer class="footer">
-    <div class="container">
-        <p>&copy; 2024 Shop Thuoc - All Rights Reserved</p>
-        <ul class="footer-links">
-            <li class="footer-item"><a href="#" class="footer-link">Chinh sach</a></li>
-            <li class="footer-item"><a href="#" class="footer-link">Dieu khoan</a></li>
-            <li class="footer-item"><a href="#" class="footer-link">Ho tro</a></li>
-        </ul>
+  <div class="container footer-flex">
+    <div class="footer-col">
+      <h4>Về Chúng Tôi</h4>
+      <ul>
+        <li><a href="#">Giới thiệu</a></li>
+        <li><a href="#">Hệ thống cửa hàng</a></li>
+        <li><a href="#">Giấy phép kinh doanh</a></li>
+        <li><a href="#">Đội ngũ hoạt động</a></li>
+        <li><a href="#">Chính sách bảo mật</a></li>
+        <li><a href="#">Chính sách đổi trả</a></li>
+      </ul>
     </div>
+    <div class="footer-col">
+      <h4>Danh Mục</h4>
+      <ul>
+        <li><a href="#">Thuốc</a></li>
+        <li><a href="#">Thực phẩm chức năng</a></li>
+        <li><a href="#">Dược mỹ phẩm</a></li>
+        <li><a href="#">Chăm sóc cá nhân</a></li>
+        <li><a href="#">Thiết bị y tế</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Thông Tin Khác</h4>
+      <ul>
+        <li><a href="#">Góc sức khỏe</a></li>
+        <li><a href="#">Tra cứu thuốc</a></li>
+        <li><a href="#">Tra cứu dược liệu</a></li>
+        <li><a href="#">Bệnh viện</a></li>
+        <li><a href="#">Bệnh thường gặp</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kết Nối</h4>
+      <ul>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Zalo</a></li>
+        <li><a href="#">Ứng dụng Long Châu</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>
+      &copy; 2007 - 2025 Công ty Cổ phần Dược phẩm FPT Long Châu. Địa chỉ:
+      379-381 Hai Bà Trưng, P. Võ Thị Sáu, Q.3, TP. HCM
+    </p>
+    <p>
+      Chăm sóc khách hàng:
+      <a href="mailto:sale@nhathuoclongchau.com.vn"
+        >sale@nhathuoclongchau.com.vn</a
+      >
+    </p>
+  </div>
 </footer>
 
 <style>
-    /* Footer */
-.footer {
-    background: #222;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    margin-top: auto; /* Đẩy footer xuống cuối nếu nội dung ít */
-}
+  /* Footer */
+  .footer {
+    background-color: #f7f7f7;
+    padding: 40px 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
 
-.footer .container {
-    width: 90%;
-    margin: 0 auto;
+  .footer-flex {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
 
-.footer-links {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-}
+  .footer-col {
+    flex: 1;
+    min-width: 200px;
+  }
 
-.footer-item {
-    margin: 0 10px;
-}
+  .footer-col h4 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0074d9;
+    margin-bottom: 15px;
+  }
 
-.footer-link {
-    color: #ddd;
+  .footer-col ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .footer-col ul li {
+    margin-bottom: 10px;
+  }
+
+  .footer-col ul li a {
     text-decoration: none;
-}
+    color: #333;
+    font-size: 14px;
+  }
 
-.footer-link:hover {
-    color: white;
-}
+  .footer-col ul li a:hover {
+    color: #0074d9;
+  }
 
+  .footer-bottom {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 30px;
+    color: #777;
+  }
+
+  .footer-bottom p {
+    margin-bottom: 5px;
+  }
+
+  .footer-bottom a {
+    text-decoration: none;
+    color: #0074d9;
+  }
 </style>

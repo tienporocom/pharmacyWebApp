@@ -1,66 +1,151 @@
 <header class="header" id="header">
+  <!-- Header Top: Thông tin, Hotline, v.v. -->
+  <div class="header-top">
     <div class="container">
-        <h1>Shop Thuoc</h1>
-        <nav>
-            <ul class="nav">
-                <li class="nav-item"><a href="#" class="nav-link">Trang chu</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">San pham</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Lien he</a></li>
-            </ul>
-        </nav>
+      <div class="top-left">
+        <p>Hệ thống nhà thuốc trên toàn quốc</p>
+      </div>
+      <div class="top-right">
+        <p>Hotline: 1800 6928</p>
+      </div>
     </div>
+  </div>
+
+  <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
+  <div class="header-main">
+    <div class="container header-flex">
+      <div class="logo">
+        <a href="#">
+          <img src="../assets/img/logo.png" alt="Logo" />
+        </a>
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Tìm thuốc, TPCN, sản phẩm..." />
+        <button>Tìm kiếm</button>
+      </div>
+      <div class="account-info">
+        <a href="#">Đăng nhập / Đăng ký</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thanh menu điều hướng -->
+  <nav class="main-nav">
+    <div class="container nav-flex">
+      <ul>
+        <li><a href="#">Thuốc</a></li>
+        <li><a href="#">Thực phẩm chức năng</a></li>
+        <li><a href="#">Chăm sóc cá nhân</a></li>
+        <li><a href="#">Thiết bị y tế</a></li>
+        <li><a href="#">Bệnh & sức khỏe</a></li>
+        <li><a href="#">Kiểm tra đơn thuốc</a></li>
+      </ul>
+    </div>
+  </nav>
 </header>
 
 <style>
-    /* Reset CSS */
-* {
+  /* Reset CSS */
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+  }
 
-body {
+  body {
     font-family: Arial, sans-serif;
-}
+  }
 
-/* Header mặc định */
-.header {
-    background: #007bff;
-    color: white;
-    padding: 15px 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    position: sticky;
-}
-
-.container {
-    width: 90%;
-    margin: 0 auto;
+  /* Header mặc định */
+  /* Header Top */
+  .header-top {
+    background-color: #eee;
+    padding: 5px 0;
+  }
+  .header-top .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+  }
+  .header-top p {
+    font-size: 14px;
+    color: #333;
+  }
 
-.nav {
+  /* Header Main */
+  .header-main {
+    background-color: #fff;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .header-flex {
     display: flex;
-    list-style: none;
-}
-
-.nav-item {
-    margin-left: 20px;
-}
-
-.nav-link {
-    color: white;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo img {
+    max-height: 50px;
+  }
+  .search-bar {
+    flex: 1;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+  }
+  .search-bar button {
+    padding: 9px 16px;
+    background-color: #0074d9;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+  }
+  .account-info a {
     text-decoration: none;
+    color: #0074d9;
     font-weight: bold;
-}
+  }
 
-/* Khi header floating */
+  /* Main Nav */
+  .main-nav {
+    background-color: #0074d9;
+  }
+  .nav-flex {
+    display: flex;
+  }
+  .main-nav ul {
+    list-style: none;
+    display: flex;
+  }
+  .main-nav li {
+    margin-right: 20px;
+  }
+  .main-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 0;
+    display: inline-block;
+  }
+  .main-nav a:hover {
+    text-decoration: underline;
+  }
 
-
+  /* Banner */
+  .banner {
+    margin: 10px 0;
+  }
+  .banner img {
+    width: 100%;
+    border-radius: 4px;
+  }
+  /* Khi header floating */
 </style>
