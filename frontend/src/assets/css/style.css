@@ -2,6 +2,7 @@
 
 /* Home Page */
 /* Tổng quát */
+
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +11,7 @@
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 700;
-  background-color: #f8f8f8;
+  background-color: #eaeffb;
 }
 .container {
   width: 90%;
@@ -132,7 +133,7 @@ body {
 }
 /* Các chức năng hỗ trợ */
 .feature-boxes {
-  background-color: #f8f8f8;
+  background-color: #eaeffb;
   padding: 20px 0;
 }
 
@@ -180,7 +181,7 @@ body {
 }
 
 /* Best Sellers */
-/* .product-grid {
+.product-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -218,8 +219,8 @@ body {
   margin-top: 20px;
   padding: 10px 20px;
   cursor: pointer;
-} */
-.best-sellers {
+}
+/* .best-sellers {
   background-color: #fff;
   padding: 20px 0;
   margin-bottom: 20px;
@@ -263,11 +264,11 @@ body {
 .discount {
   color: #999;
   font-size: 14px;
-}
+} */
 
 /* Footer */
 .footer {
-  background-color: #f7f7f7;
+  background-color: #eaeffb;
   padding: 40px 0;
   font-family: Arial, sans-serif;
   color: #333;
