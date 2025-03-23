@@ -31,18 +31,23 @@ exports.getProducts = async (req, res) => {
 };
 
 // lấy danh sách sản phẩm theo phân trang và nhóm sản phẩm
+// API lấy danh sách sản phẩm theo phân trang (nếu không nhập group thì lấy tất cả)
 exports.getProductsByPage = async (req, res) => {
   try {
-    const { page, limit, group } = req.query;
-    const products = await Product.find({ drugGroup: group })
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
+    const { page = 1, limit = 10, group } = req.query; // Mặc định page=1, limit=10 nếu không nhập
+    const query = group ? { drugGroup: group } : {}; // Nếu có group thì lọc, không thì lấy tất cả
+
+    const products = await Product.find(query)
+      .limit(Number(limit)) // Chuyển limit thành số
+      .skip((Number(page) - 1) * Number(limit)) // Skip theo phân trang
       .exec();
+
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Lấy danh sách sản phẩm theo nhóm
 exports.getProductsByGroup = async (req, res) => {
