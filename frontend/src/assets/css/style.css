@@ -8,7 +8,8 @@
   box-sizing: border-box;
 }
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
   background-color: #f8f8f8;
 }
 .container {
@@ -19,7 +20,7 @@ body {
 
 /* Header Top */
 .header-top {
-  background-color: #eee;
+  background-color: #0074d9;
   padding: 5px 0;
 }
 .header-top .container {
@@ -34,17 +35,35 @@ body {
 
 /* Header Main */
 .header-main {
-  background-color: #fff;
+  background-image: url(../img/backgroundheader.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 15px 0;
-  border-bottom: 1px solid #ddd;
 }
 .header-flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.logo img {
-  max-height: 50px;
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 60px;
+}
+.logo {
+  width: 90px;
+  height: auto;
+}
+.text h1 {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0;
+  margin-left: 10px;
+  color: #fff;
 }
 .search-bar {
   flex: 1;
@@ -57,8 +76,9 @@ body {
   padding: 8px;
   font-size: 14px;
   border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
+  border-radius: 10px;
   outline: none;
+  margin-right: 10px;
 }
 .search-bar button {
   padding: 9px 16px;
@@ -66,11 +86,11 @@ body {
   color: #fff;
   border: none;
   cursor: pointer;
-  border-radius: 0 4px 4px 0;
+  border-radius: 5px;
 }
 .account-info a {
   text-decoration: none;
-  color: #0074d9;
+  color: #fff;
   font-weight: bold;
 }
 
@@ -82,11 +102,14 @@ body {
   display: flex;
 }
 .main-nav ul {
+  width: 1200px;
   list-style: none;
   display: flex;
+  justify-content: space-around;
 }
 .main-nav li {
   margin-right: 20px;
+  font-weight: 500;
 }
 .main-nav a {
   color: #fff;
@@ -157,6 +180,45 @@ body {
 }
 
 /* Best Sellers */
+/* .product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+}
+
+.product-info h3 {
+  font-size: 16px;
+  margin: 10px 0 5px;
+}
+
+.price {
+  color: red;
+  font-weight: bold;
+}
+
+.discount {
+  color: green;
+  font-size: 13px;
+}
+
+.load-more {
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+} */
 .best-sellers {
   background-color: #fff;
   padding: 20px 0;
