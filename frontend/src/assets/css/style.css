@@ -229,9 +229,10 @@ body {
   font-size: 16px;
   margin: 10px 0 5px;
   font-weight: 500;
-  display: -webkit-box;
+  /* display: -webkit-box;
   -webkit-line-clamp: 4; /* Giới hạn tối đa 3 dòng */
-  -webkit-box-orient: vertical;F
+  /* -webkit-box-orient: vertical; */ */
+  line-clamp: 4;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5em; /* Điều chỉnh tùy thuộc vào thiết kế */
