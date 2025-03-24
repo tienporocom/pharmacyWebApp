@@ -9,8 +9,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: "user" },
   avatar: {
     type: String,
-    default:
-      "https://res.cloudinary.com/dkkgmzj9p/image/upload/v1629310349/avatar/avatar-1577909_1280_vqzv9a.png",
+    
   },
   dOB: { type: Date, default: Date.now },
 });

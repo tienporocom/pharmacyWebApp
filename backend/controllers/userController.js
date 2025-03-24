@@ -38,15 +38,19 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    // console.log(user.password);
+    // console.log(password);
+    console.log(await bcrypt.compare(password, user.password));
+    if (!(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Sai email hoặc mật khẩu" });
     }
-
+    console.log(user);
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
+    console.log(token);
     res.json({ token, user });
   } catch (error) {
     res.status(500).json({ message: "Lỗi máy chủ", error });
