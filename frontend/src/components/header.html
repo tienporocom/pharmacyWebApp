@@ -1,4 +1,4 @@
-<header class="header" id="header">
+<div>
   <!-- Header Top: Thông tin, Hotline, v.v. -->
   <div class="header-top">
     <div class="container">
@@ -12,12 +12,12 @@
   </div>
 
   <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
-  <div class="header-main">
+  <header class="header-main">
     <div class="container header-flex">
-      <div class="logo">
-        <a href="#">
-          <img src="../assets/img/logo.png" alt="Logo" />
-        </a>
+      <img class="logo" src="../assets/img/logo.png" alt="logo" />
+      <div class="text">
+        <h1>NHÀ THUỐC</h1>
+        <h1>TẬN TÂM</h1>
       </div>
       <div class="search-bar">
         <input type="text" placeholder="Tìm thuốc, TPCN, sản phẩm..." />
@@ -27,7 +27,7 @@
         <a href="#">Đăng nhập / Đăng ký</a>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- Thanh menu điều hướng -->
   <nav class="main-nav">
@@ -42,110 +42,4 @@
       </ul>
     </div>
   </nav>
-</header>
-
-<style>
-  /* Reset CSS */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: Arial, sans-serif;
-  }
-
-  /* Header mặc định */
-  /* Header Top */
-  .header-top {
-    background-color: #eee;
-    padding: 5px 0;
-  }
-  .header-top .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .header-top p {
-    font-size: 14px;
-    color: #333;
-  }
-
-  /* Header Main */
-  .header-main {
-    background-color: #fff;
-    padding: 15px 0;
-    border-bottom: 1px solid #ddd;
-  }
-  .header-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .logo img {
-    max-height: 50px;
-  }
-  .search-bar {
-    flex: 1;
-    margin: 0 20px;
-    display: flex;
-    align-items: center;
-  }
-  .search-bar input {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px 0 0 4px;
-    outline: none;
-  }
-  .search-bar button {
-    padding: 9px 16px;
-    background-color: #0074d9;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 0 4px 4px 0;
-  }
-  .account-info a {
-    text-decoration: none;
-    color: #0074d9;
-    font-weight: bold;
-  }
-
-  /* Main Nav */
-  .main-nav {
-    background-color: #0074d9;
-  }
-  .nav-flex {
-    display: flex;
-  }
-  .main-nav ul {
-    list-style: none;
-    display: flex;
-  }
-  .main-nav li {
-    margin-right: 20px;
-  }
-  .main-nav a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    padding: 10px 0;
-    display: inline-block;
-  }
-  .main-nav a:hover {
-    text-decoration: underline;
-  }
-
-  /* Banner */
-  .banner {
-    margin: 10px 0;
-  }
-  .banner img {
-    width: 100%;
-    border-radius: 4px;
-  }
-  /* Khi header floating */
-</style>
+</div>
