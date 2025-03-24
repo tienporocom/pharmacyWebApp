@@ -1,56 +1,24 @@
 <!DOCTYPE html>
 <html lang="vi">
   <head>
+    <script src="../assets/js/main.js"></script>
+    <!-- Import file JS -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nhà thuốc Long Châu</title>
+    <title>Nhà thuốc Tận Tâm</title>
+    <link
+      type="image/x-icon"
+      href="../assets/img/logo.png"
+      rel="shortcut icon"
+    />
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="stylesheet" href="../assets/css/reset.css" />
+    <script src="../assets/js/main.js"></script>
   </head>
   <body>
     <!-- Header Top: Thông tin, Hotline, v.v. -->
-    <div class="header-top">
-      <div class="container">
-        <div class="top-left">
-          <p>Hệ thống nhà thuốc trên toàn quốc</p>
-        </div>
-        <div class="top-right">
-          <p>Hotline: 1800 6928</p>
-        </div>
-      </div>
-    </div>
 
-    <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
-    <header class="header-main">
-      <div class="container header-flex">
-        <img class="logo" src="../assets/img/logo.png" alt="logo" />
-        <div class="text">
-          <h1>NHÀ THUỐC</h1>
-          <h1>TẬN TÂM</h1>
-        </div>
-        <div class="search-bar">
-          <input type="text" placeholder="Tìm thuốc, TPCN, sản phẩm..." />
-          <button>Tìm kiếm</button>
-        </div>
-        <div class="account-info">
-          <a href="#">Đăng nhập / Đăng ký</a>
-        </div>
-      </div>
-    </header>
-
-    <!-- Thanh menu điều hướng -->
-    <nav class="main-nav">
-      <div class="container nav-flex">
-        <ul>
-          <li><a href="#">Thuốc</a></li>
-          <li><a href="#">Thực phẩm chức năng</a></li>
-          <li><a href="#">Chăm sóc cá nhân</a></li>
-          <li><a href="#">Thiết bị y tế</a></li>
-          <li><a href="#">Bệnh & sức khỏe</a></li>
-          <li><a href="#">Kiểm tra đơn thuốc</a></li>
-        </ul>
-      </div>
-    </nav>
+    <div data-include="../components/header.html"></div>
+    <!-- Nhúng Header -->
 
     <!-- Banner quảng cáo -->
     <div class="banner">
@@ -101,7 +69,6 @@
     </section>
 
     <!-- Khu vực các sản phẩm bán chạy -->
-    <!-- Bản lỗi -->
     <section class="best-sellers">
       <div class="container">
         <h2>Sản phẩm bán chạy</h2>
@@ -117,7 +84,7 @@
       async function loadProducts() {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/products/page?page=${currentPage}`
+            `http://localhost:5000/api/products/page?page=${currentPage}&limit=12`
           );
           const products = await res.json();
 
@@ -128,7 +95,6 @@
 
           products.forEach((product) => {
             const price = product.packagingUnits?.[0]?.price || 0;
-            const discount = Math.floor(Math.random() * 30 + 10); // Giảm giá ngẫu nhiên từ 10-40%
 
             const card = document.createElement("div");
             card.className = "product-card";
@@ -140,8 +106,13 @@
               </div>
               <div class="product-info">
                 <h3>${product.name}</h3>
-                <p class="price">${price.toLocaleString("vi-VN")}đ</p>
-                <p class="discount">-${discount}%</p>
+                <p class="price">${price.toLocaleString("vi-VN")}đ / <span>${
+              product.packagingUnits?.[0]?.unitName
+            }</span></p>
+                <!-- button to add to cart -->
+                <button class="add-to-cart" data-product-id="${
+                  product.id
+                }">Chọn mua</button>
               </div>
             `;
             productGrid.appendChild(card);
@@ -156,57 +127,7 @@
       loadMoreBtn.addEventListener("click", loadProducts);
       loadProducts(); // Tải trang đầu tiên khi load trang
     </script>
-    <!-- <section class="best-sellers">
-      <div class="container">
-        <h2>Sản phẩm bán chạy</h2>
-        <div class="product-grid"> -->
-    <!-- Mỗi sản phẩm -->
-    <!-- <div class="product-card">
-            <div class="product-image">
-              <img src="https://via.placeholder.com/200x200" alt="Sản phẩm 1" />
-            </div>
-            <div class="product-info">
-              <h3>Tên Sản Phẩm 1</h3>
-              <p class="price">1.200.000đ</p>
-              <p class="discount">-20%</p>
-            </div>
-          </div>
 
-          <div class="product-card">
-            <div class="product-image">
-              <img src="https://via.placeholder.com/200x200" alt="Sản phẩm 2" />
-            </div>
-            <div class="product-info">
-              <h3>Tên Sản Phẩm 2</h3>
-              <p class="price">390.000đ</p>
-              <p class="discount">-40%</p>
-            </div>
-          </div>
-
-          <div class="product-card">
-            <div class="product-image">
-              <img src="https://via.placeholder.com/200x200" alt="Sản phẩm 3" />
-            </div>
-            <div class="product-info">
-              <h3>Tên Sản Phẩm 3</h3>
-              <p class="price">790.000đ</p>
-              <p class="discount">-10%</p>
-            </div>
-          </div>
-
-          <div class="product-card">
-            <div class="product-image">
-              <img src="https://via.placeholder.com/200x200" alt="Sản phẩm 4" />
-            </div>
-            <div class="product-info">
-              <h3>Tên Sản Phẩm 4</h3>
-              <p class="price">2.100.000đ</p>
-              <p class="discount">-15%</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
     <!-- Footer -->
     <footer class="footer">
       <div class="container footer-flex">
