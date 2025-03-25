@@ -1,45 +1,76 @@
-<div>
-  <!-- Header Top: Thông tin, Hotline, v.v. -->
-  <div class="header-top">
-    <div class="container">
-      <div class="top-left">
-        <p>Hệ thống nhà thuốc trên toàn quốc</p>
-      </div>
-      <div class="top-right">
-        <p>Hotline: 1800 6928</p>
-      </div>
+<link rel="stylesheet" href="../assets/css/style.css">
+<div class="header-top">
+  <div class="container">
+    <div class="top-left">
+      <p>Hệ thống nhà thuốc trên toàn quốc</p>
+    </div>
+    <div class="top-right">
+      <p>Hotline: 1800 6928</p>
     </div>
   </div>
-
-  <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
-  <header class="header-main">
-    <div class="container header-flex">
+</div>
+<!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
+<header class="header-main">
+  <div class="container header-flex">
+    <a href="../pages/index.html" id="link-logo" >
       <img class="logo" src="../assets/img/logo.png" alt="logo" />
       <div class="text">
         <h1>NHÀ THUỐC</h1>
         <h1>TẬN TÂM</h1>
       </div>
-      <div class="search-bar">
-        <input type="text" placeholder="Tìm thuốc, TPCN, sản phẩm..." />
-        <button>Tìm kiếm</button>
-      </div>
-      <div class="account-info">
-        <a href="#">Đăng nhập / Đăng ký</a>
+    </a>
+    
+    <div class="search-bar">
+      <input type="text" placeholder="Tìm tên thuốc, bệnh lý, thực phẩm chức năng..." />
+      <div class="search-icons">
+        <span class="scan-icon">🔍</span>
       </div>
     </div>
-  </header>
+    
+    <div class="account-info">
+      <a href="../pages/login.html" id="login-btn" class="login-button">Đăng nhập</a>
+    
+      <div id="user-info" style="display: none;">
+        <a href="../pages/userInfo.html" id="account-link">
+          <img id="user-avatar" src="" alt="">
+          <span id="user-name"></span>
+        </a>
+        <div class="dropdown-menu" id="dropdown-menu">
+          <button id="logout-btn">Đăng xuất</button>
+        </div>
+      </div>
+    </div>
 
-  <!-- Thanh menu điều hướng -->
-  <nav class="main-nav">
-    <div class="container nav-flex">
-      <ul>
-        <li><a href="#">Thuốc</a></li>
-        <li><a href="#">Thực phẩm chức năng</a></li>
-        <li><a href="#">Chăm sóc cá nhân</a></li>
-        <li><a href="#">Thiết bị y tế</a></li>
-        <li><a href="#">Bệnh & sức khỏe</a></li>
-        <li><a href="#">Kiểm tra đơn thuốc</a></li>
-      </ul>
+    <div class="cart">
+      <a href="cart.html" class="cart-icon">
+        <img src="../assets/img/cart.png" alt="Giỏ hàng" />
+        <span class="cart-label">Giỏ hàng</span>
+        <span id="cart-count">3</span>
+      </a>
+      <div class="cart-dropdown">
+        <h3>Giỏ hàng</h3>
+        <ul id="cart-items">
+          <!-- Sản phẩm sẽ được thêm vào đây bằng JS -->
+        </ul>
+        <p id="cart-total"></p>
+        <button id="view-cart">Xem giỏ hàng</button>
+      </div>
     </div>
-  </nav>
-</div>
+    
+    
+    
+</header>
+
+<!-- Thanh menu điều hướng -->
+<nav class="main-nav">
+  <div class="container nav-flex">
+    <ul>
+      <li><a href="#">Thuốc</a></li>
+      <li><a href="#">Thực phẩm chức năng</a></li>
+      <li><a href="#">Chăm sóc cá nhân</a></li>
+      <li><a href="#">Thiết bị y tế</a></li>
+      <li><a href="#">Bệnh & sức khỏe</a></li>
+      <li><a href="#">Kiểm tra đơn thuốc</a></li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      type="image/x-icon"
+      href="../assets/img/logo.png"
+      rel="shortcut icon"
+    />
+    <!-- favicon Logo -->
+
+    <title>Thông tin cá nhân</title>
+    <link rel="stylesheet" href="../assets/css/userInfo.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/userInfo.js"></script>
+   
+  </head>
+  <body>
+    <div data-include="../components/header.html"></div>
+    <!-- Nhúng Header -->
+
+    <main>
+      <div class="profile-container">
+        <h2>Thông tin cá nhân</h2>
+        <div class="profile-card">
+          <img
+            id="avatar"
+            src="../assets/img/default_avatar.png"
+            alt="Ảnh đại diện"
+            class="profile-avatar"
+          />
+          <div class="profile-info">
+            <div class="info-row">
+              <span>Họ và tên</span>
+              <span id="name">Loading...</span>
+            </div>
+            <div class="info-row">
+              <span>Số điện thoại</span>
+              <span id="phone">Loading...</span>
+            </div>
+            <div class="info-row">
+              <span>Email</span>
+              <span id="email">Loading...</span>
+            </div>
+            <div class="info-row">
+              <span>Giới tính</span>
+              <span id="sex">Loading...</span>
+            </div>
+            <div class="info-row">
+              <span>Ngày sinh</span>
+              <span id="dob">Loading...</span>
+            </div>
+          </div>
+          <div id="barcode" ></div>
+          <button id="edit-profile">Chỉnh sửa thông tin</button>
+          <button id="edit-address">Chỉnh sửa sổ địa chỉ</button>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div id="editModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2 id="modal-title">Chỉnh sửa thông tin</h2>
+          <form id="edit-form">
+            <label for="edit-name">Họ và tên:</label>
+            <input type="text" id="edit-name" name="name" />
+
+            <label for="edit-phone">Số điện thoại:</label>
+            <input type="text" id="edit-phone" name="phone" />
+
+            <label for="edit-email">Email:</label>
+            <input type="email" id="edit-email" name="email" />
+
+            <label for="edit-sex">Giới tính:</label>
+            <select id="edit-sex" name="sex">
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+              <option value="Khác">Khác</option>
+            </select>
+
+            <label for="edit-dob">Ngày sinh:</label>
+            <input type="date" id="edit-dob" name="dob" />
+
+            <button type="submit">Lưu</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal Chỉnh sửa Sổ Địa Chỉ -->
+      <div id="addressModal" class="modal" >
+        <div class="modal-content-location">
+          <span class="close close-address">&times;</span>
+          <h2>Quản lý Sổ Địa Chỉ</h2>
+          <div class="address-container">
+            <div class="address-list">
+              <h3>Danh sách địa chỉ</h3>
+              <table id="address-table">
+                <tr>
+                    <th>Địa chỉ</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ mặc định</th>
+                    <th>Chức năng</th>
+                </tr>
+                <tbody id="address-items">
+                    
+                </tbody>
+              </table>
+            </div>
+            <div class="address-form-container">
+              <h3>Chỉnh sửa địa chỉ</h3>
+              <form id="address-form">
+                <label for="edit-address-inp">Địa chỉ:</label>
+                <input type="text" id="edit-address-inp" name="address" required />
+
+                <label for="edit-phoneToDelivery"
+                  >Số điện thoại nhận hàng:</label
+                >
+                <input
+                  type="text"
+                  id="edit-phoneToDelivery"
+                  name="phoneToDelivery"
+                  required
+                />
+
+                <label class="checkbox-container">
+                  <input
+                    type="checkbox"
+                    id="edit-default-address"
+                    name="default"
+                  />
+                  Đặt làm địa chỉ mặc định
+                </label>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn save">Lưu</button>
+              <button id="add-address" class="btn" type="button">Thêm</button>
+
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div data-include="../components/footer.html"></div>
+    <!-- Nhúng Footer -->
+    
+
+    <script src="../assets/js/main.js"></script>
+    <!-- Import file JS -->
+
+    
+  </body>
+</html>
