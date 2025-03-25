@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+      /* -------------------- KHUNG NGOÀI -------------------- */
+      .product-detail-container {
+        display: flex;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      /* -------------------- CỘT TRÁI: ẢNH SẢN PHẨM -------------------- */
+      .product-images {
+        flex: 0 0 300px; /* Chiều rộng cột trái */
+        text-align: center;
+      }
+      .product-images img {
+        max-width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+
+      /* -------------------- CỘT PHẢI: THÔNG TIN SẢN PHẨM -------------------- */
+      .product-info {
+        flex: 1;
+      }
+      .product-info h1 {
+        font-size: 22px;
+        margin-bottom: 8px;
+        color: #333;
+      }
+      .product-info .drug-group {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 10px;
+      }
+
+      /* Giá & Đơn vị tính */
+      .price-box {
+        margin-bottom: 10px;
+      }
+      .current-price {
+        font-size: 20px;
+        font-weight: bold;
+        color: #d0021b; /* Màu đỏ */
+        margin-bottom: 5px;
+      }
+      .unit-select {
+        margin-top: 10px;
+      }
+
+      /* Mô tả ngắn */
+      .short-desc {
+        margin: 15px 0;
+        font-size: 15px;
+        color: #555;
+      }
+
+      /* Các thông tin khác (Hãng, Quy cách, Số đăng ký, ...) */
+      .info-list p {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      /* Nút chọn mua (nếu cần) */
+      .buy-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 20px;
+        background-color: #d0021b;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .buy-button:hover {
+        background-color: #b10016;
+      }
+
+      /* -------------------- KHU VỰC MÔ TẢ CHI TIẾT -------------------- */
+      .product-detail-content {
+        max-width: 1200px;
+        margin: 20px auto 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .product-detail-content h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #333;
+        border-bottom: 2px solid #d0021b;
+        display: inline-block;
+        padding-bottom: 5px;
+      }
+      .full-description {
+        margin-top: 15px;
+        line-height: 1.6;
+      }
+      .full-description p {
+        margin: 8px 0;
+      }
+
+      /* Nhóm hiển thị (isPrescribe, iD, placeOfManufacture, ...) */
+      .additional-info {
+        margin-top: 15px;
+        background: #fafafa;
+        padding: 10px;
+        border-radius: 6px;
+      }
+      .additional-info p {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div data-include="../components/header.html"></div>
+    <!-- Nhúng Header -->
+    <!-- KHUNG CHÍNH 2 CỘT (ẢNH - THÔNG TIN) -->
+    <div class="product-detail-container">
+      <!-- CỘT TRÁI: ẢNH SẢN PHẨM -->
+      <div class="product-images">
+        <img id="productImage" alt="Product Image" />
+      </div>
+
+      <!-- CỘT PHẢI: THÔNG TIN SẢN PHẨM -->
+      <div class="product-info">
+        <!-- Tên sản phẩm -->
+        <h1 id="productName"></h1>
+        <!-- Nhóm thuốc -->
+        <div class="drug-group" id="drugGroup"></div>
+
+        <!-- Giá và đơn vị tính -->
+        <div class="price-box">
+          <div class="current-price" id="productPrice">0đ</div>
+          <div class="unit-select" id="unitSelect"></div>
+        </div>
+
+        <!-- Mô tả ngắn -->
+        <p class="short-desc" id="productShortDescription"></p>
+
+        <!-- Thông tin chi tiết: Hãng SX, Quy cách, Số đăng ký, Dạng bào chế,... -->
+        <div class="info-list">
+          <p><strong>Hãng sản xuất:</strong> <span id="manufacturer"></span></p>
+          <p><strong>Xuất xứ:</strong> <span id="manufacturerOrigin"></span></p>
+          <p><strong>Quy cách:</strong> <span id="packaging"></span></p>
+          <p>
+            <strong>Số đăng ký:</strong> <span id="registrationNumber"></span>
+          </p>
+          <p>
+            <strong>Thành phần (ingredient):</strong>
+            <span id="ingredient"></span>
+          </p>
+          <p><strong>Dạng bào chế:</strong> <span id="dosageForm"></span></p>
+        </div>
+
+        <!-- Nếu cần nút mua -->
+        <button class="buy-button">Chọn mua</button>
+
+        <!-- Thông tin kê đơn -->
+        <div class="additional-info">
+          <p><strong>Mã sản phẩm (iD):</strong> <span id="productID"></span></p>
+          <p>
+            <strong>Có kê đơn (isPrescribe?):</strong>
+            <span id="isPrescribe"></span>
+          </p>
+          <p>
+            <strong>Nơi sản xuất:</strong> <span id="placeOfManufacture"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- KHU VỰC HIỂN THỊ MÔ TẢ CHI TIẾT (description) -->
+    <div class="product-detail-content">
+      <h2>Mô tả chi tiết</h2>
+      <!-- Phần HTML mô tả đầy đủ -->
+      <div class="full-description" id="productDescriptionHTML"></div>
+    </div>
+
+    <script>
+      // Lấy productId từ URL (VD: product-detail.html?id=xxx)
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get("id");
+
+      // Hàm load chi tiết sản phẩm
+      async function loadProductDetail() {
+        try {
+          const res = await fetch(
+            `http://localhost:5000/api/products/${productId}`
+          );
+          if (!res.ok) {
+            throw new Error("Không tìm thấy sản phẩm!");
+          }
+
+          // Dữ liệu sản phẩm dạng JSON
+          const product = await res.json();
+
+          // 1. Tên sản phẩm
+          document.getElementById("productName").textContent =
+            product.name || "Chưa có tên";
+
+          // 2. Ảnh
+          document.getElementById("productImage").src =
+            product.images || "https://via.placeholder.com/300x300";
+
+          // 3. Nhóm thuốc (drugGroup)
+          document.getElementById("drugGroup").textContent = product.drugGroup
+            ? `Nhóm: ${product.drugGroup}`
+            : "";
+
+          // 4. Giá (lấy từ packagingUnits[0].price nếu có)
+          let priceText = "0";
+          if (
+            product.packagingUnits &&
+            product.packagingUnits.length > 0 &&
+            product.packagingUnits[0].price
+          ) {
+            priceText = product.packagingUnits[0].price.toLocaleString("vi-VN");
+          }
+          document.getElementById("productPrice").textContent = priceText + "đ";
+
+          // 5. Nếu có nhiều packagingUnits, hiển thị chọn đơn vị
+          const unitSelectDiv = document.getElementById("unitSelect");
+          if (product.packagingUnits && product.packagingUnits.length > 1) {
+            // Tạo radio buttons cho từng đơn vị
+            product.packagingUnits.forEach((unit, index) => {
+              const radioId = `unit-${index}`;
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = "unitRadio";
+              radio.id = radioId;
+              radio.value = unit.price;
+              // Mặc định chọn radio đầu tiên
+              if (index === 0) radio.checked = true;
+
+              // Khi đổi radio -> cập nhật giá hiển thị
+              radio.addEventListener("change", () => {
+                document.getElementById("productPrice").textContent =
+                  Number(radio.value).toLocaleString("vi-VN") + "đ";
+              });
+
+              const label = document.createElement("label");
+              label.htmlFor = radioId;
+              label.style.marginRight = "10px";
+              label.textContent = unit.unitName;
+
+              unitSelectDiv.appendChild(radio);
+              unitSelectDiv.appendChild(label);
+            });
+          } else if (
+            product.packagingUnits &&
+            product.packagingUnits.length === 1
+          ) {
+            // Chỉ có 1 đơn vị -> hiển thị text
+            unitSelectDiv.textContent =
+              "Đơn vị tính: " + product.packagingUnits[0].unitName;
+          } else {
+            // Không có packagingUnits
+            unitSelectDiv.textContent = "Chưa có thông tin đơn vị tính";
+          }
+
+          // 6. Mô tả ngắn
+          document.getElementById("productShortDescription").textContent =
+            product.shortDescription || "Chưa có mô tả ngắn";
+
+          // 7. Các trường khác
+          document.getElementById("manufacturer").textContent =
+            product.manufacturer || "Chưa xác định";
+          document.getElementById("manufacturerOrigin").textContent =
+            product.manufacturerOrigin || "Chưa xác định";
+          document.getElementById("packaging").textContent =
+            product.packaging || "Chưa xác định";
+          document.getElementById("registrationNumber").textContent =
+            product.registrationNumber || "Chưa xác định";
+          document.getElementById("ingredient").textContent =
+            product.ingredient || "Chưa xác định";
+          document.getElementById("dosageForm").textContent =
+            product.dosageForm || "Chưa xác định";
+
+          // 8. Mã sản phẩm (iD)
+          document.getElementById("productID").textContent =
+            product.iD || "Chưa có";
+
+          // 9. isPrescribe
+          document.getElementById("isPrescribe").textContent =
+            product.isPrescribe ? "Có" : "Không";
+
+          // 10. Nơi sản xuất
+          document.getElementById("placeOfManufacture").textContent =
+            product.placeOfManufacture || "Chưa xác định";
+
+          // 11. Mô tả chi tiết (description) -> innerHTML (vì có HTML)
+          document.getElementById("productDescriptionHTML").innerHTML =
+            product.description || "<p>Chưa có mô tả chi tiết</p>";
+
+          // Sau khi gán nội dung, xóa các phần HTML không mong muốn
+          const descEl = document.getElementById("productDescriptionHTML");
+
+          // Xóa phần tử kích thước chữ (lc-switch-size)
+          const switchSizeEl = descEl.querySelector(".lc-switch-size");
+          if (switchSizeEl) {
+            switchSizeEl.remove();
+          }
+
+          // Xóa phần tử "Xem thêm"
+          const xemThemEl = descEl.querySelector(".css-15sc8tc");
+          if (xemThemEl) {
+            xemThemEl.remove();
+          }
+
+          // Xóa phần tử chứa "Thu gọn"
+          const wrapLinkEl = descEl.querySelector(".lc-wrap-link");
+          if (wrapLinkEl) {
+            wrapLinkEl.remove();
+          }
+        } catch (err) {
+          console.error("Lỗi khi tải sản phẩm:", err);
+          document.getElementById("productName").textContent =
+            "Không tìm thấy sản phẩm!";
+        }
+      }
+
+      // Gọi hàm khi load trang
+      loadProductDetail();
+    </script>
+    <div data-include="../components/footer.html"></div>
+    <!-- Nhúng Footer -->
+    <script src="../assets/js/main.js"></script>
+    <!-- Import file JS -->
+  </body>
+</html>

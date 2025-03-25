@@ -7,6 +7,8 @@ const {
   getUserProfile,
   updateUserProfile,
   deleteUser,
+  getAddress,
+  updateAddress
 } = require("../controllers/userController");
 
 // Đăng ký người dùng mới
@@ -24,4 +26,7 @@ router.put("/profile", authMiddleware, updateUserProfile);
 // Xóa tài khoản người dùng (yêu cầu xác thực)
 router.delete("/profile", authMiddleware, deleteUser);
 
+
+router.get("/address", authMiddleware, getAddress);
+router.put("/address", authMiddleware, updateAddress);
 module.exports = router;
