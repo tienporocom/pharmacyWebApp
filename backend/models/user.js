@@ -12,5 +12,13 @@ const userSchema = new mongoose.Schema({
     
   },
   dOB: { type: Date, default: Date.now },
+  sex: { type: String },
+  address: [
+    {
+      address: { type: String },
+      phoneToDelivery: { type: String },
+      default: { type: Boolean, default: false },
+    },
+  ]
 });
 module.exports = mongoose.model("User", userSchema);

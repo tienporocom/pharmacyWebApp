@@ -24,4 +24,7 @@ router.put("/profile", authMiddleware, updateUserProfile);
 // Xóa tài khoản người dùng (yêu cầu xác thực)
 router.delete("/profile", authMiddleware, deleteUser);
 
+
+router.get("/address", authMiddleware, getUserProfile);
+router.put("/address", authMiddleware, updateUserProfile);
 module.exports = router;

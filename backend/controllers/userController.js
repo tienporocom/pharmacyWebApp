@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 // Đăng ký người dùng mới
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, password, address, phone } = req.body;
+    const { name, email, phone, password, dOB,sex, } = req.body;
 
     let user = await User.findOne({ email });
     let userPhone = await User.findOne({ phone });
@@ -21,8 +21,9 @@ exports.registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      address,
+      dOB,
       phone,
+      sex,
     });
 
     await user.save();
@@ -60,10 +61,13 @@ exports.loginUser = async (req, res) => {
 // Lấy thông tin hồ sơ người dùng
 exports.getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) {
-      return res.status(404).json({ message: "Người dùng không tồn tại" });
-    }
+    console.log(req.user);
+    const user = await User.findById(req.user);
+    
+    // if (!user) {
+    //   return res.status(404).json({ message: "Người dùng không tồn tại" });
+    // }
+    // console.log(user);
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: "Lỗi máy chủ", error });
@@ -73,8 +77,8 @@ exports.getUserProfile = async (req, res) => {
 // Cập nhật thông tin hồ sơ người dùng
 exports.updateUserProfile = async (req, res) => {
   try {
-    const { name, address, phone, avatar } = req.body;
-    const user = await User.findById(req.user.id);
+    const { name, address, phone, avatar, dOB, sex } = req.body;
+    const user = await User.findById(req.user);
 
     if (!user) {
       return res.status(404).json({ message: "Người dùng không tồn tại" });
@@ -84,6 +88,9 @@ exports.updateUserProfile = async (req, res) => {
     user.address = address || user.address;
     user.phone = phone || user.phone;
     user.avatar = avatar || user.avatar;
+    user.dOB = dOB || user.dOB;
+    user.sex = sex || user.dOB;
+
 
     await user.save();
     res.json({ message: "Cập nhật thành công", user });
@@ -95,9 +102,41 @@ exports.updateUserProfile = async (req, res) => {
 // Xóa tài khoản người dùng
 exports.deleteUser = async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.user.id);
+    await User.findByIdAndDelete(req.user);
     res.json({ message: "Xóa tài khoản thành công" });
   } catch (error) {
     res.status(500).json({ message: "Lỗi máy chủ", error });
   }
 };
+
+// lấy danh sách địa chỉ
+exports.getAddress = async (req, res) => {
+  try {
+    const user = await User.findById(req.user);
+    if (!user) {
+      return res.status(404).json({ message: "Người dùng không tồn tại" });
+    }
+    res.json(user.address);
+  }
+  catch (error) {
+    res.status(500).json({ message: "Lỗi máy chủ", error });
+  }
+}
+
+// chỉnh sửa danh sách địa chỉ 
+exports.updateAddress = async (req, res) => {
+  try {
+    const { address } = req.body;
+    const user = await User.findById(req.user); 
+    if (!user) {
+      return res.status(404).json({ message: "Người dùng không tồn tại" });
+    }
+    user.address = address;
+    await user.save();
+    res.json({ message: "Cập nhật thành công", user });
+  }
+  catch (error) {
+    res.status(500).json({ message: "Lỗi máy chủ", error });
+  }
+}
+// chỉnh sửa danh sách địa chỉ
