@@ -5,14 +5,14 @@ const jwt = require("jsonwebtoken");
 // Đăng ký người dùng mới
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, phone, password, dOB,sex, } = req.body;
+    const { name, email, phone, password, dOB, sex } = req.body;
 
     let user = await User.findOne({ email });
     let userPhone = await User.findOne({ phone });
     if (user) {
       return res.status(400).json({ message: "Email đã tồn tại" });
-    }else if(userPhone){
-        return res.status(400).json({ message: "Số điện thoại đã tồn tại" });
+    } else if (userPhone) {
+      return res.status(400).json({ message: "Số điện thoại đã tồn tại" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -63,7 +63,7 @@ exports.getUserProfile = async (req, res) => {
   try {
     console.log(req.user);
     const user = await User.findById(req.user);
-    
+
     // if (!user) {
     //   return res.status(404).json({ message: "Người dùng không tồn tại" });
     // }
@@ -91,7 +91,6 @@ exports.updateUserProfile = async (req, res) => {
     user.dOB = dOB || user.dOB;
     user.sex = sex || user.dOB;
 
-
     await user.save();
     res.json({ message: "Cập nhật thành công", user });
   } catch (error) {
@@ -117,26 +116,30 @@ exports.getAddress = async (req, res) => {
       return res.status(404).json({ message: "Người dùng không tồn tại" });
     }
     res.json(user.address);
-  }
-  catch (error) {
+  } catch (error) {
     res.status(500).json({ message: "Lỗi máy chủ", error });
   }
-}
+};
 
-// chỉnh sửa danh sách địa chỉ 
+// chỉnh sửa danh sách địa chỉ
 exports.updateAddress = async (req, res) => {
   try {
-    const { address } = req.body;
+    console.log(req.user);
+    console.log(req.body);
     const user = await User.findById(req.user); 
+  
     if (!user) {
       return res.status(404).json({ message: "Người dùng không tồn tại" });
     }
-    user.address = address;
+
+    user.address = req.body; // Gán danh sách địa chỉ mới vào user
     await user.save();
-    res.json({ message: "Cập nhật thành công", user });
-  }
-  catch (error) {
+
+    res.json({ message: "Cập nhật địa chỉ thành công", user });
+  } catch (error) {
     res.status(500).json({ message: "Lỗi máy chủ", error });
   }
-}
-// chỉnh sửa danh sách địa chỉ
+};
+
+
+
