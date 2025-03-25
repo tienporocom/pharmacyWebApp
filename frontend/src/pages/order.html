@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      type="image/x-icon"
+      href="../assets/img/logo.png"
+      rel="shortcut icon"
+    />
+    <!-- favicon Logo -->
+
+    <title>Danh sách đơn hàng</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 80%; /* Hoặc bạn có thể dùng max-width */
+        margin: 20px auto; /* Căn giữa */
+      }
+      h2 {
+        text-align: center;
+      }
+      .search-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+      .search-bar input {
+        flex: 1; /* Input sẽ giãn theo khoảng trống còn lại */
+        max-width: 400px; /* Giới hạn tối đa */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        margin-left: 10px; /* Tạo khoảng cách giữa input và tiêu đề */
+      }
+      .order-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .order {
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      .order-header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .status {
+        color: green;
+      }
+      .order-details p {
+        margin: 5px 0;
+      }
+      .buy-again {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        width: 100px;
+        margin-top: 10px;
+      }
+      .buy-again:hover {
+        background: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-include="../components/header.html"></div>
+    <!-- Nhúng Header -->
+
+    <div class="container">
+        <h2>Đơn hàng của tôi</h2>
+      <div class="search-bar">
+        
+        <input
+          type="text"
+          placeholder="Tìm theo tên đơn, mã đơn, hoặc tên sản phẩm..."
+        />
+      </div>
+
+      <div class="order-list">
+        <div class="order">
+          <div class="order-header">
+            <span>Đơn hàng 07/12/2024</span>
+            <span class="status">● Đã giao</span>
+          </div>
+          <div class="order-details">
+            <p><strong>CLEDOMOX 1000MG TENAMYD 2X7</strong> +2 sản phẩm khác</p>
+            <p>7.000đ x4 Viên</p>
+            <p><strong>Thành tiền:</strong> 43.300đ</p>
+          </div>
+          <button class="buy-again">Mua lại</button>
+        </div>
+
+        <div class="order">
+          <div class="order-header">
+            <span>Đơn hàng 04/12/2024</span>
+            <span class="status">● Đã giao</span>
+          </div>
+          <div class="order-details">
+            <p><strong>EFFERALGAN 500MG 4X4</strong></p>
+            <p>11.998đ x2 Vỉ</p>
+            <p><strong>Thành tiền:</strong> 23.996đ</p>
+          </div>
+          <button class="buy-again">Mua lại</button>
+        </div>
+
+        <div class="order">
+          <div class="order-header">
+            <span>Đơn hàng 04/12/2024</span>
+            <span class="status">● Đã giao</span>
+          </div>
+          <div class="order-details">
+            <p><strong>TÚI CHƯỜM LẠNH</strong></p>
+            <p>25.500đ x1 Cái</p>
+            <p><strong>Thành tiền:</strong> 25.500đ</p>
+          </div>
+          <button class="buy-again">Mua lại</button>
+        </div>
+      </div>
+    </div>
+
+    <div data-include="../components/footer.html"></div>
+    <!-- Nhúng Footer -->
+
+    <script src="../assets/js/main.js"></script>
+    <!-- Import file JS -->
+  </body>
+</html>
