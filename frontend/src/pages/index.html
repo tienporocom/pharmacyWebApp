@@ -16,7 +16,6 @@
   </head>
   <body>
     <!-- Header Top: Thông tin, Hotline, v.v. -->
-
     <div data-include="../components/header.html"></div>
     <!-- Nhúng Header -->
 
@@ -99,21 +98,24 @@
             const card = document.createElement("div");
             card.className = "product-card";
             card.innerHTML = `
-              <div class="product-image">
-                <img src="${
-                  product.images || "https://via.placeholder.com/200x200"
-                }" alt="${product.name}" />
-              </div>
-              <div class="product-info">
-                <h3>${product.name}</h3>
-                <p class="price">${price.toLocaleString("vi-VN")}đ / <span>${
-              product.packagingUnits?.[0]?.unitName
+              <a href="product-detail.html?id=${
+                product._id || product.id
+              }" class="product-link">
+                <div class="product-image">
+                  <img src="${
+                    product.images || "https://via.placeholder.com/200x200"
+                  }" alt="${product.name}" />
+                </div>
+                <div class="product-info">
+                  <h3>${product.name}</h3>
+                  <p class="price">${price.toLocaleString("vi-VN")}đ / <span>${
+              product.packagingUnits?.[0]?.unitName || ""
             }</span></p>
-                <!-- button to add to cart -->
-                <button class="add-to-cart" data-product-id="${
-                  product.id
-                }">Chọn mua</button>
-              </div>
+                </div>
+              </a>
+              <button class="add-to-cart" data-product-id="${
+                product._id || product.id
+              }">Chọn mua</button>
             `;
             productGrid.appendChild(card);
           });
