@@ -11,13 +11,13 @@ const {
 } = require('../controllers/cartController');
 
 // Thêm sản phẩm vào giỏ hàng (hỗ trợ cả user và sessionId)
-router.post('/', addToCart);
+router.post('/', authMiddleware, addToCart);
+
+// Lấy danh sách sản phẩm giỏ hàng (hỗ trợ cả user và sessionId)
+router.get('/', authMiddleware, getCart);
 
 // Lấy thông tin giỏ hàng (hỗ trợ cả user và sessionId)
-router.get('/', getCart);
-
-// Lấy thông tin giỏ hàng (hỗ trợ cả user và sessionId)
-router.get('/info', getCartInfo);
+router.get('/info', authMiddleware, getCartInfo);
 
 // Cập nhật số lượng sản phẩm trong giỏ hàng 
 router.put('/', authMiddleware, updateCartItem);
