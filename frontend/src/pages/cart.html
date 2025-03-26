@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nhà thuốc Tận Tâm</title>
+    <title>Giỏ hàng - Nhà thuốc Tận Tâm</title>
     <style>
-        
-
         .containerT {
             display: flex;
             max-width: 900px;
@@ -76,9 +74,83 @@
             text-decoration: none;
             font-size: 16px;
 
-            
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f8f8;
+                padding: 20px;
+            }
+
+            .container0 {
+                max-width: 800px;
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin: auto;
+            }
+
+            h3 {
+                margin-bottom: 10px;
+                border-bottom: 2px solid #007bff;
+                padding-bottom: 5px;
+            }
+
+            label {
+                font-weight: bold;
+                display: block;
+                margin-top: 10px;
+            }
+
+            input,
+            select,
+            textarea {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .toggle-switch {
+                display: flex;
+                align-items: center;
+                margin-top: 15px;
+            }
+
+            .toggle-switch input {
+                margin-right: 10px;
+            }
+
+            .buttons {
+                text-align: center;
+                margin-top: 15px;
+            }
+
+            button {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 100%;
+                font-size: 16px;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="stylesheet" href="../assets/css/reset.css" />
     <script src="../assets/js/jquery.min.js"></script>
@@ -92,58 +164,92 @@
 
 
         $(document).ready(function () {
-      $.get("http://localhost:27017/cart", function (data) {
-        let productList = $(".product-list");
-        let totalAmount = 0;
-        productList.empty();
+            $.get("http://localhost:5000/cart", function (data) {
+                let productList = $(".product-list");
+                let totalAmount = 0;
+                productList.empty();
 
-        data.forEach(product => {
-          let price = product.price || Math.floor(Math.random() * 500000 + 100000);
-          let quantity = product.quantity || 1;
-          totalAmount += price * quantity;
+                data.forEach(product => {
+                    let price = product.price || Math.floor(Math.random() * 500000 + 100000);
+                    let quantity = product.quantity || 1;
+                    totalAmount += price * quantity;
 
-          productList.append(`
+                    productList.append(`
             <div class="product">
               <img src="${product.image || 'default.jpg'}" alt="${product.name}">
               <div>
                 <div>${product.name}</div>
                 <div class="price">${price.toLocaleString("vi-VN")}đ x${quantity}</div>
               </div>
-            </div>
-          `);
-        });
+            </div>`);
+                });
 
-        $(".summary").html(`
+                $(".summary").html(`
           <h3>Thanh toán</h3>
           <div><span>Tổng tiền:</span><span>${totalAmount.toLocaleString("vi-VN")}đ</span></div>
           <div><span>Giảm giá trực tiếp:</span><span>-100.000đ</span></div>
           <div><span>Phí vận chuyển:</span><span>Miễn phí</span></div>
           <div><strong>Thành tiền:</strong><strong>${(totalAmount - 100000).toLocaleString("vi-VN")}đ</strong></div>
-          <a href="#" class="btn-complete">Hoàn tất</a>
-        `);
-      });
-    });
+          <a href="#" class="btn-complete">Hoàn tất</a>`);
+            });
+        });
 
     </script>
 
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
     <div id="content-header"></div>
-    <br>
-    <div class="containerT">
-        <div class="product-list"></div>
-        <div class="summary">
-            <h3>Thanh toán</h3>
-            <div><span>Tổng tiền:</span><span>...</span></div>
-            <div><span>Giảm giá trực tiếp:</span><span>...</span></div>
-            <div><span>Phí vận chuyển:</span><span>Miễn phí</span></div>
-            <div><strong>Thành tiền:</strong><strong>...</strong></div>
-            <a href="#" class="btn-complete">Hoàn tất</a>
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col-8 container text-center">
+                <br>
+                <a href="#" class="btn" role="button" data-bs-toggle="button">Quay lại giỏ hàng</a>
+                <br>
+                <div class="row">
+                    <div class="col-8">
+                        <p>Danh sách sản phẩm</p>
+                        <div style="margin: 5px;">
+                            <div style="margin: 5px;">
+                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG"
+                                    alt="">
+                                    <p>Sữa bột CaloSure gold Vitadairy ít đường, tăng cường sức khỏe tim mạch, hồi phục sức khỏe (900g)</p>
+                            </div>
+                        </div>
+                        <br>
+                        <p>Chọn hình thức nhận hàng</p>
+                        <div>
+
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="summary">
+                            <h3>Thành tiền</h3>
+                            <p>Tổng tiền: 510.000đ</p>
+                            <p>Giảm giá trực tiếp: -51.000đ</p>
+                            <p>Giảm giá voucher: 0đ</p>
+                            <p>Tiết kiệm được: 51.000đ</p>
+                            <p>Phí vận chuyển: Miễn phí</p>
+                            <h2>Tổng cộng: 459.000đ</h2>
+                            <button class="complete">Hoàn tất</button>
+                            <p class="terms">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với điều khoản dịch vụ và
+                                chính sách xử lý dữ liệu cá nhân của Nhà thuốc FPT Long Châu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+            </div>
         </div>
     </div>
-    <!-- implement shopping cart -->
-    <dev id="content-footer"></dev>
+    <div id="content-footer"></div>
 </body>
 
 </html>
