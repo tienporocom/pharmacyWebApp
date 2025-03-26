@@ -5,14 +5,14 @@ const cartSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: false, // Không bắt buộc nếu khách vãng lai
+      required: true, // Không bắt buộc nếu khách vãng lai
     },
-    sessionId: {
-      type: String,
-      required: function () {
-        return !this.user;
-      }, // Bắt buộc nếu không có user (dành cho khách vãng lai)
-    },
+    // sessionId: {
+    //   type: String,
+    //   required: function () {
+    //     return !this.user;
+    //   }, // Bắt buộc nếu không có user (dành cho khách vãng lai)
+    // },
     items: [
       // Danh sách sản phẩm trong giỏ hàng
       {

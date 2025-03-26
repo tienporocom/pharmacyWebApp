@@ -6,7 +6,8 @@ const {
   getCart, 
   updateCartItem, 
   removeFromCart, 
-  clearCart 
+  clearCart ,
+  getCartInfo
 } = require('../controllers/cartController');
 
 // Thêm sản phẩm vào giỏ hàng (hỗ trợ cả user và sessionId)
@@ -15,13 +16,16 @@ router.post('/', addToCart);
 // Lấy thông tin giỏ hàng (hỗ trợ cả user và sessionId)
 router.get('/', getCart);
 
-// Cập nhật số lượng sản phẩm trong giỏ hàng (yêu cầu xác thực hoặc sessionId)
+// Lấy thông tin giỏ hàng (hỗ trợ cả user và sessionId)
+router.get('/info', getCartInfo);
+
+// Cập nhật số lượng sản phẩm trong giỏ hàng 
 router.put('/', authMiddleware, updateCartItem);
 
-// Xóa sản phẩm khỏi giỏ hàng (yêu cầu xác thực hoặc sessionId)
+// Xóa sản phẩm khỏi giỏ hàng 
 router.delete('/item', authMiddleware, removeFromCart);
 
-// Làm trống giỏ hàng (yêu cầu xác thực hoặc sessionId)
+// Làm trống giỏ hàng 
 router.delete('/clear', authMiddleware, clearCart);
 
 module.exports = router;

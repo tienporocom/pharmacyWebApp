@@ -3,12 +3,12 @@ const Cart = require("../models/cart");
 // Thêm sản phẩm vào giỏ hàng
 exports.addToCart = async (req, res) => {
     try {
-        const { user, sessionId, product, unitName, quantity, price } = req.body;
-
-        let cart = await Cart.findOne({ $or: [{ user }, { sessionId }] });
+        const { user, product, unitName, quantity, price } = req.body;
+        console.log(req.body);
+        let cart = await Cart.findOne({ user });
 
         if (!cart) {
-            cart = new Cart({ user, sessionId, items: [] });
+            cart = new Cart({ user, items: [] });
         }
 
         const itemIndex = cart.items.findIndex(item => item.product.toString() === product);
@@ -28,13 +28,25 @@ exports.addToCart = async (req, res) => {
 // Lấy giỏ hàng
 exports.getCart = async (req, res) => {
     try {
-        const { user, sessionId } = req.query;
-        const cart = await Cart.findOne({ $or: [{ user }, { sessionId }] }).populate("items.product");
+        const { user } = req.query;
+        const cart = await Cart.findOne({user}).populate("items.product");
         res.json(cart || { items: [] });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
+//Lấy thông tin giỏ hàng
+exports.getCartInfo = async (req, res) => {
+    try {
+        const { user} = req.query;
+        const cart = await Cart.findOne({user});
+        res.json(cart || { items: [] });
+       } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 // Cập nhật sản phẩm trong giỏ hàng
 exports.updateCartItem = async (req, res) => {
