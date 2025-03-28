@@ -6,6 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Giỏ hàng - Nhà thuốc Tận Tâm</title>
     <style>
+        .icon-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .icon-button i {
+            font-size: 20px;
+            /* Adjust icon size */
+            color: red;
+            /* Change color if needed */
+        }
+
+        .icon-button:hover i {
+            color: darkred;
+            /* Change color on hover */
+        }
+
+        .small-quantity {
+            width: 100px;
+            /* Adjust width */
+        }
+
+        .btn-sm {
+            width: 25px;
+            /* Smaller button width */
+            padding: 2px;
+        }
+
+        .form-control-sm {
+            height: 25px;
+            /* Smaller input height */
+            text-align: center;
+        }
+
         .containerT {
             display: flex;
             max-width: 900px;
@@ -155,6 +191,7 @@
             border-radius: 10px;
             padding: 20px;
         }
+
         .form-check-label {
             display: flex;
             align-items: center;
@@ -162,22 +199,44 @@
             font-size: 16px;
             font-weight: 500;
         }
+
         .form-check-input {
             margin-top: 0;
         }
+
         .icon {
             width: 32px;
             height: 32px;
             object-fit: contain;
         }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-``
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="stylesheet" href="../assets/css/reset.css" />
     <script src="../assets/js/jquery.min.js"></script>
     <script>
+
+        function deleteRow(button) {
+            button.closest("tr").remove(); // 🔹 Remove row when trash button is clicked
+        }
+
+        function handleSelectChange(selectElement) {
+            let selectedValue = selectElement.value;
+            document.getElementById("selectedValue").innerText = selectedValue;
+        }
+        function increment(inputId) {
+            let quantityInput = document.getElementById(inputId);
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        function decrement(inputId) {
+            let quantityInput = document.getElementById(inputId);
+            if (quantityInput.value > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        }
+
         $(function () {
             $("#content-header").load("../components/header.html");
         });
@@ -232,25 +291,97 @@
         <div class="row">
             <div class="col">
             </div>
-            <div class="col-8 container text-center">
+            <div class="col-10 container text-center">
                 <br>
                 <div class="text-start">
                     <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button">← Quay lại giỏ hàng</a>
                 </div>
-                
                 <br>
                 <div class="row">
                     <div class="col-8">
-                        <p>Danh sách sản phẩm</p>
-                        <div style="margin: 5px;">
-                            <div style="margin: 5px;">
-                                <img src="https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG"
-                                    alt="">
-                                    <p>Sữa bột CaloSure gold Vitadairy ít đường, tăng cường sức khỏe tim mạch, hồi phục sức khỏe (900g)</p>
+                        <div class="container mt-4">
+                            <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                                <p class="mb-0 fw-semibold">Danh sách sản phẩm</p>
+                            </div>
+                            <div class="mt-4" style="background-color: #ffffff;">
+                                <div class="product-list-detail" style="padding: 5px;">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th style="display: none;"></th>
+                                                <th style="width: 4%;">
+                                                    <label class="toggle-button">
+                                                        <input type="checkbox" id="checkAll">
+                                                    </label>
+                                                </th>
+                                                <th style="width: auto;font-size: 12px; text-align: left;">Chọn tất cả
+                                                </th>
+                                                <th></th>
+                                                <th style="font-size: 12px; width: 10%;">Giá thành</th>
+                                                <th></th>
+                                                <th style="font-size: 12px; width: 15%;">Số lượng</th>
+                                                <th></th>
+                                                <th style="font-size: 12px; width: 10%;">Đơn vị</th>
+                                                <th></th>
+                                                <th style="font-size: 12px; width: 5%;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="productTableBody">
+                                            <!-- 🔹 Rows will be dynamically added here -->
+                                        </tbody>
+                                    </table>
+
+
+                                    <!-- <tr>
+                                        <td style="display: none;">1</td>
+                                        <td>
+                                            <label class="toggle-button">
+                                                <input type="checkbox" class="item-checkbox">
+                                            </label>
+                                        </td>
+                                        <td style="display: flex; align-items: center; vertical-align: middle;">
+                                            <img style="width: 25%; height: 25%;"
+                                                src="https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG"
+                                                alt="">
+                                            <p style="font-size: 12px; vertical-align: middle; font-style: italic;">
+                                                Sữa bột CaloSure gold Vitadairy ít đường, tăng cường sức khỏe tim
+                                                mạch, hồi phục sức khỏe (900g)</p>
+                                        </td>
+                                        <td></td>
+                                        <td style="font-size: 12px;">
+                                            500.000đ
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group small-quantity mx-auto">
+                                                <button class="btn btn-danger btn-sm"
+                                                    onclick="decrement('quantity')">-</button>
+                                                <input type="text" id="quantity"
+                                                    class="form-control form-control-sm text-center" value="1"
+                                                    readonly>
+                                                <button class="btn btn-success btn-sm"
+                                                    onclick="increment('quantity')">+</button>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <select id="menu" onchange="handleSelectChange(this)">
+                                                <option value="option1">Hộp</option>
+                                                <option value="option2">Gói</option>
+                                                <option value="option3">Vỉ</option>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <button class="icon-button">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr> -->
+                                </div>
                             </div>
                         </div>
                         <br>
-                        
                         <div class="container mt-4">
                             <!-- Chọn hình thức nhận hàng -->
                             <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
@@ -260,9 +391,6 @@
                                     <button class="btn btn-light">Nhận tại nhà thuốc</button>
                                 </div>
                             </div>
-                            
-                            
-                        
                             <!-- Thông tin người đặt -->
                             <div class="mt-4">
                                 <h6 class="text-primary">
@@ -280,7 +408,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <!-- Địa chỉ nhận hàng -->
                             <div class="mt-4">
                                 <h6 class="text-primary">
@@ -312,11 +440,12 @@
                                         <input type="text" class="form-control" placeholder="Nhập địa chỉ cụ thể">
                                     </div>
                                     <div class="col-md-12">
-                                        <textarea class="form-control" rows="2" placeholder="Ghi chú (không bắt buộc)"></textarea>
+                                        <textarea class="form-control" rows="2"
+                                            placeholder="Ghi chú (không bắt buộc)"></textarea>
                                     </div>
                                 </div>
                             </div>
-                        
+
                             <!-- Yêu cầu xuất hóa đơn điện tử -->
                             <div class="d-flex justify-content-between align-items-center p-3 border rounded bg-light">
                                 <span>Yêu cầu xuất hóa đơn điện tử</span>
@@ -324,9 +453,9 @@
                                     <input class="form-check-input" type="checkbox" id="toggleInvoice">
                                 </div>
                             </div>
-                            
+
                         </div>
-                        
+
                         <div class="container mt-5">
                             <div class="payment-method p-3 shadow-sm">
                                 <h5 class="mb-3">Chọn phương thức thanh toán</h5>
@@ -394,6 +523,99 @@
         </div>
     </div>
     <div id="content-footer"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkAll = document.getElementById("checkAll");
+
+            // Debugging: Check if script runs and checkboxes exist
+            console.log("Script Loaded: ", checkAll);
+            console.log("Item Checkboxes Found: ", document.querySelectorAll('.item-checkbox'));
+
+            checkAll.addEventListener("change", function () {
+                let checkboxes = document.querySelectorAll('.item-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = checkAll.checked;
+                });
+            });
+
+            fetchData();
+
+            async function fetchData() {
+                try {
+                    // let response = await fetch("https://api.example.com/products"); // 🔹 Replace with your actual API
+                    // let data = await response.json();
+
+                    let data = [
+                        {
+                            "id": 1,
+                            "name": "Sữa bột CaloSure gold Vitadairy ít đường, tăng cường sức khỏe tim mạch, hồi phục sức khỏe (900g)",
+                            "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG",
+                            "price": "500.000",
+                            "quantity": 2
+                        },
+                        {
+                            "id": 2,
+                            "name": "Sữa bột Vinamilk Dielac Alpha Gold Step 4 (900g)",
+                            "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG",
+                            "price": "450.000",
+                            "quantity": 5
+                        }
+                    ];
+
+                    console.log("API Response:", data); // Debugging
+
+                    let tableBody = document.getElementById("productTableBody"); // 🔹 Ensure <tbody> has this ID
+                    tableBody.innerHTML = ""; // Clear existing content
+
+                    data.forEach((item, index) => {
+                        let row = `
+                        <tr>
+                            <td style="display: none;">${item.id}</td>
+                            <td>
+                                <label class="toggle-button">
+                                    <input type="checkbox" class="item-checkbox">
+                                </label>
+                            </td>
+                            <td style="display: flex; align-items: center; vertical-align: middle;">
+                                <img style="width: 15%; height: 15%;" src="${item.image}" alt="">
+                                <p style="font-size: 12px; vertical-align: middle; font-style: italic;">
+                                    ${item.name}
+                                </p>
+                            </td>
+                            <td></td>
+                            <td style="font-size: 12px;">${item.price}đ</td>
+                            <td></td>
+                            <td>
+                                <div class="input-group small-quantity mx-auto">
+                                    <button class="btn btn-danger btn-sm" onclick="decrement('quantity-${index}')">-</button>
+                                    <input type="text" id="quantity-${index}" class="form-control form-control-sm text-center" value="${item.quantity}" readonly>
+                                    <button class="btn btn-success btn-sm" onclick="increment('quantity-${index}')">+</button>
+                                </div>
+                            </td>
+                            <td></td>
+                            <td>
+                                <select id="menu-${index}" onchange="handleSelectChange(this)">
+                                    <option value="option1">Hộp</option>
+                                    <option value="option2">Gói</option>
+                                    <option value="option3">Vỉ</option>
+                                </select>
+                            </td>
+                            <td></td>
+                            <td>
+                                <button class="icon-button" onclick="deleteRow(this)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                        tableBody.innerHTML += row;
+                    });
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
