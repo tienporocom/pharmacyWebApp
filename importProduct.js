@@ -44,8 +44,11 @@ const readExcelData = (filePath) => {
         packagingUnits: [],
       };
     }
-    if (unitName === "") unitName = "Viên";
-    if (price === 0) price = 10000;
+    if (unitName === "") unitName = "Hộp";
+//lấy số tiền ngẫu nhiên từ 1000 dến 300000 và bước nhảy là 1000 và số chẵn 0 hoặc 500 từ hàng trăm
+
+    if (price === 0) price= Math.floor(Math.random() * 300) * 1000 + (Math.random() < 0.5 ? 0 : 500); 
+
     // ✅ Thêm đơn vị tính và giá vào sản phẩm
     groupedData[productName].packagingUnits.push({
       unitName,
