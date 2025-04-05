@@ -93,6 +93,6 @@ const saveToDatabase = async (data) => {
 const filePath = "C://Users//tienp//Downloads//DBThuoc.xlsx"; // Đường dẫn file Excel đã tải lên
 const excelData = readExcelData(filePath);
 
-console.log("📋 Dữ liệu đã trích xuất:", JSON.stringify(excelData, null, 2));
+// console.log("📋 Dữ liệu đã trích xuất:", JSON.stringify(excelData, null, 2));
 
 saveToDatabase(excelData);
