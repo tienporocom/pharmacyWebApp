@@ -3,16 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      type="image/x-icon"
-      href="../assets/img/logo.png"
-      rel="shortcut icon"
-    />
-    <!-- favicon Logo -->
-
-    <title>Danh sách đơn hàng</title>
+    <link type="image/x-icon" href="../assets/img/logo.png" rel="shortcut icon" />
+    <title>Đơn hàng của tôi</title>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <style>
+      /* Style CSS tùy chỉnh cho trang đơn hàng */
       body {
         font-family: Arial, sans-serif;
         background-color: #f5f5f5;
@@ -20,8 +15,8 @@
         padding: 0;
       }
       .container {
-        width: 80%; /* Hoặc bạn có thể dùng max-width */
-        margin: 20px auto; /* Căn giữa */
+        width: 80%;
+        margin: 20px auto;
       }
       h2 {
         text-align: center;
@@ -34,12 +29,12 @@
         width: 100%;
       }
       .search-bar input {
-        flex: 1; /* Input sẽ giãn theo khoảng trống còn lại */
-        max-width: 400px; /* Giới hạn tối đa */
+        flex: 1;
+        max-width: 400px;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 20px;
-        margin-left: 10px; /* Tạo khoảng cách giữa input và tiêu đề */
+        margin-left: 10px;
       }
       .order-list {
         display: flex;
@@ -57,6 +52,16 @@
         justify-content: space-between;
         font-weight: bold;
         margin-bottom: 10px;
+      }
+      .view-detail {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 5px;
+      }
+      .view-detail:hover {
+        text-decoration: underline;
       }
       .status {
         color: green;
@@ -85,59 +90,106 @@
     <!-- Nhúng Header -->
 
     <div class="container">
-        <h2>Đơn hàng của tôi</h2>
+      <h2>Đơn hàng của tôi</h2>
       <div class="search-bar">
-        
         <input
           type="text"
           placeholder="Tìm theo tên đơn, mã đơn, hoặc tên sản phẩm..."
         />
       </div>
 
-      <div class="order-list">
-        <div class="order">
-          <div class="order-header">
-            <span>Đơn hàng 07/12/2024</span>
-            <span class="status">● Đã giao</span>
-          </div>
-          <div class="order-details">
-            <p><strong>CLEDOMOX 1000MG TENAMYD 2X7</strong> +2 sản phẩm khác</p>
-            <p>7.000đ x4 Viên</p>
-            <p><strong>Thành tiền:</strong> 43.300đ</p>
-          </div>
-          <button class="buy-again">Mua lại</button>
-        </div>
-
-        <div class="order">
-          <div class="order-header">
-            <span>Đơn hàng 04/12/2024</span>
-            <span class="status">● Đã giao</span>
-          </div>
-          <div class="order-details">
-            <p><strong>EFFERALGAN 500MG 4X4</strong></p>
-            <p>11.998đ x2 Vỉ</p>
-            <p><strong>Thành tiền:</strong> 23.996đ</p>
-          </div>
-          <button class="buy-again">Mua lại</button>
-        </div>
-
-        <div class="order">
-          <div class="order-header">
-            <span>Đơn hàng 04/12/2024</span>
-            <span class="status">● Đã giao</span>
-          </div>
-          <div class="order-details">
-            <p><strong>TÚI CHƯỜM LẠNH</strong></p>
-            <p>25.500đ x1 Cái</p>
-            <p><strong>Thành tiền:</strong> 25.500đ</p>
-          </div>
-          <button class="buy-again">Mua lại</button>
-        </div>
+      <div class="order-list" id="order-list">
+        <!-- Dữ liệu đơn hàng sẽ được hiển thị tại đây -->
       </div>
     </div>
 
     <div data-include="../components/footer.html"></div>
     <!-- Nhúng Footer -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const orderList = document.getElementById("order-list");
+
+        // Kiểm tra xem token có tồn tại trong localStorage không
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          orderList.innerHTML = "<p>Vui lòng đăng nhập để xem đơn hàng.</p>";
+          return;
+        }
+
+        try {
+          // Gọi API lấy danh sách đơn hàng
+          const response = await fetch("http://localhost:5000/api/orders", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token, // Token từ localStorage
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Không thể lấy dữ liệu đơn hàng.");
+          }
+
+          const orders = await response.json();
+
+          // Kiểm tra nếu không có đơn hàng
+          if (orders.length === 0) {
+            orderList.innerHTML = "<p>Chưa có đơn hàng nào.</p>";
+            return;
+          }
+
+          // Hiển thị danh sách đơn hàng
+          orderList.innerHTML = orders
+            .map((order) => {
+              const date = new Date(order.createdAt).toLocaleDateString("vi-VN");
+              const orderCode = order._id.slice(-6).toUpperCase();
+              const status = order.status || "pending";
+
+              // Tính tổng tiền đơn hàng từ các orderItems
+              let total = 0;
+              const orderItemHTML = order.orderItems
+                .map((item) => {
+                  const productName = item.product?.name || "Sản phẩm đã bị xóa";
+                  const itemTotal = item.subtotal || 0;
+                  total += itemTotal;
+
+                  const itemUnits = item.items
+                    .map((unit) => {
+                      return `<div>- ${unit.unitName}: ${unit.quantity} x ${unit.price.toLocaleString()}đ</div>`;
+                    })
+                    .join(" ");
+
+                  return `
+                    <p><strong>${productName}</strong> (${itemUnits})</p>
+                    <p><em>Thành tiền: ${itemTotal.toLocaleString()}đ</em></p>
+                  `;
+                })
+                .join(" ");
+
+              return `
+                <div class="order">
+                  <div class="order-header">
+                    <span>Đơn hàng ${date} - Mã: ${orderCode}</span>
+                    <span class="status">● ${status}</span>
+                  </div>
+                  <div class="order-details">
+                    ${orderItemHTML}
+                    <a href="order-detail.html?id=${order._id}" class="view-detail">Xem chi tiết &gt;</a>
+                    <p><strong>Tổng cộng:</strong> ${order.totalAmount.toLocaleString()}đ</p>
+                  </div>
+                  <button class="buy-again">Mua lại</button>
+                </div>
+              `;
+            })
+            .join("");
+        } catch (error) {
+          console.error(error);
+          orderList.innerHTML = "<p>Không thể tải đơn hàng. Vui lòng thử lại.</p>";
+        }
+      });
+    </script>
 
     <script src="../assets/js/main.js"></script>
     <!-- Import file JS -->

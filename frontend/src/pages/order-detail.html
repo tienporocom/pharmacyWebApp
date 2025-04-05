@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="image/x-icon" href="../assets/img/logo.png" rel="shortcut icon"/> <!-- favicon Logo -->
-    <title>Đơn hàng của tôi</title>
+    <link type="image/x-icon" href="../assets/img/logo.png" rel="shortcut icon"/>
+    <title>Chi tiết đơn hàng</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <style>
         body {
@@ -16,10 +16,6 @@
         .container {
             width: 80%;
             margin: 20px auto;
-          
-            
-            
-           
         }
         .order-header {
             display: flex;
@@ -93,57 +89,93 @@
 
     <div data-include="../components/header.html"></div>  <!-- Nhúng Header -->
 
-    <div class="container">
-        <div class="order-header">
-            <span>📅 Đơn hàng 07/12/2024</span>
-            <span class="status">✅ Đã giao</span>
-        </div>
-
-        <div class="order-info">
-            <p><strong>Người nhận:</strong> Nguyễn Văn Tiến - 0334 640 435</p>
-            <p><strong>Nhận hàng tại:</strong> Nhà thuốc Long Châu, 94-96 Nguyễn Văn Nghi, Gò Vấp, HCM</p>
-        </div>
-
-        <div class="order-items">
-            <div class="item">
-                <img src="../assets/img/enervon_c.jpg" alt="Enervon C">
-                <div class="item-info">
-                    <p><strong>ENERVON C UNITED 10X10</strong></p>
-                    <p>2.300đ x 5 Viên</p>
-                </div>
-                <span class="item-price">11.500đ</span>
-            </div>
-
-            <div class="item">
-                <img src="../assets/img/cledomox.jpg" alt="Cledomox">
-                <div class="item-info">
-                    <p><strong>CLEDOMOX 1000MG TENAMYD 2X7</strong></p>
-                    <p>7.000đ x 4 Viên</p>
-                </div>
-                <span class="item-price">28.000đ</span>
-            </div>
-
-            <div class="item">
-                <img src="../assets/img/methylprednisolon.jpg" alt="Methylprednisolon">
-                <div class="item-info">
-                    <p><strong>METHYLPREDNISOLON 16MG KHAPHARCO 10X10</strong></p>
-                    <p>1.900đ x 2 Viên</p>
-                </div>
-                <span class="item-price">3.800đ</span>
-            </div>
-        </div>
-
-        <div class="total">
-            <p><span>Tổng tiền:</span> <span>43.300đ</span></p>
-            <p><span>Phí vận chuyển:</span> <span>Miễn phí</span></p>
-            <p><span>Thành tiền:</span> <span>43.300đ</span></p>
-        </div>
-
-        <button class="buy-again">🛒 Mua lại</button>
+    <div class="container" id="order-detail">
+        <p>Đang tải chi tiết đơn hàng...</p>
     </div>
 
     <div data-include="../components/footer.html"></div>  <!-- Nhúng Footer -->
 
-    <script src="../assets/js/main.js"></script> <!-- Import file JS -->
+    <script src="../assets/js/main.js"></script> <!-- JS chung -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const container = document.getElementById("order-detail");
+
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get("id");
+
+            if (!orderId) {
+                container.innerHTML = "<p>Không tìm thấy mã đơn hàng.</p>";
+                return;
+            }
+
+            try {
+                const res = await fetch(`http://localhost:3000/orders/${orderId}`, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token") // nếu bạn có auth
+                    }
+                });
+
+                if (!res.ok) throw new Error("Lỗi khi tải đơn hàng");
+
+                const order = await res.json();
+
+                const createdAt = new Date(order.createdAt).toLocaleDateString("vi-VN");
+                const status = order.status || "Đang xử lý";
+                const receiver = order.shippingAddress?.receiver || "Không rõ";
+                const phone = order.shippingAddress?.phone || "N/A";
+                const address = order.shippingAddress?.address || "Chưa cập nhật";
+                const total = order.totalPrice || 0;
+
+                const itemsHTML = order.orderItems.map(item => {
+                    const product = item.product || {};
+                    const name = product.name || "Sản phẩm";
+                    const image = product.image || "../assets/img/no_image.png";
+                    const quantity = item.items?.[0]?.quantity || 1;
+                    const price = item.items?.[0]?.price || 0;
+                    const unit = item.items?.[0]?.unitName || "";
+                    const subtotal = item.subtotal || (price * quantity);
+
+                    return `
+                        <div class="item">
+                            <img src="${image}" alt="${name}">
+                            <div class="item-info">
+                                <p><strong>${name}</strong></p>
+                                <p>${price.toLocaleString()}đ x ${quantity} ${unit}</p>
+                            </div>
+                            <span class="item-price">${subtotal.toLocaleString()}đ</span>
+                        </div>
+                    `;
+                }).join("");
+
+                container.innerHTML = `
+                    <div class="order-header">
+                        <span>📅 Đơn hàng ${createdAt}</span>
+                        <span class="status">✅ ${status}</span>
+                    </div>
+
+                    <div class="order-info">
+                        <p><strong>Người nhận:</strong> ${receiver} - ${phone}</p>
+                        <p><strong>Nhận hàng tại:</strong> ${address}</p>
+                    </div>
+
+                    <div class="order-items">
+                        ${itemsHTML}
+                    </div>
+
+                    <div class="total">
+                        <p><span>Tổng tiền:</span> <span>${total.toLocaleString()}đ</span></p>
+                        <p><span>Phí vận chuyển:</span> <span>Miễn phí</span></p>
+                        <p><span>Thành tiền:</span> <span>${total.toLocaleString()}đ</span></p>
+                    </div>
+
+                    <button class="buy-again">🛒 Mua lại</button>
+                `;
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = "<p>Không thể tải chi tiết đơn hàng. Vui lòng thử lại sau.</p>";
+            }
+        });
+    </script>
 </body>
 </html>
