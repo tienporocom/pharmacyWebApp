@@ -2,6 +2,7 @@
 <html lang="vi">
   <head>
     <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/index.js"></script>
     <!-- Import file JS -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,26 +23,45 @@
 
     <!-- Banner quảng cáo -->
     <div class="banner">
-      <div class="container">
-        <img
-          src="https://via.placeholder.com/1200x200"
-          alt="Banner quảng cáo"
-        />
+      <div class="slider">
+        <div class="slide">
+          <a href="https://example.com/link1" target="_blank">
+            <img src="../assets/img/banner1.webp" alt="Banner 1" class="banner-image" />
+          </a>
+        </div>
+        <div class="slide">
+          <a href="https://example.com/link2" target="_blank">
+            <img src="../assets/img/banner2.webp" alt="Banner 2" class="banner-image" />
+          </a>
+        </div>
+        <div class="slide">
+          <a href="https://example.com/link3" target="_blank">
+            <img src="../assets/img/banner3.webp" alt="Banner 3" class="banner-image" />
+          </a>
+        </div>
+      </div>
+      <button class="prev" >&#10094;</button>
+      <button class="next" >&#10095;</button>
+      <div class="dot-container">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
       </div>
     </div>
+    
     <!-- Các chức năng hỗ trợ -->
     <section class="feature-boxes">
       <div class="container">
         <div class="feature-item">
           <div class="feature-icon">
-            <img src="https://via.placeholder.com/50" alt="Cần mua thuốc" />
+            <img src="../assets/img/iconDrug.webp" alt="Cần mua thuốc" />
           </div>
           <p>Cần mua thuốc</p>
         </div>
         <div class="feature-item">
           <div class="feature-icon">
             <img
-              src="https://via.placeholder.com/50"
+              src="../assets/img/iconQues.webp"
               alt="Tư vấn với Dược Sỹ"
             />
           </div>
@@ -49,19 +69,19 @@
         </div>
         <div class="feature-item">
           <div class="feature-icon">
-            <img src="https://via.placeholder.com/50" alt="Tìm nhà thuốc" />
+            <img src="../assets/img/iconFindStore.webp" alt="Tìm nhà thuốc" />
           </div>
           <p>Tìm nhà thuốc</p>
         </div>
         <div class="feature-item">
           <div class="feature-icon">
-            <img src="https://via.placeholder.com/50" alt="Đơn của tôi" />
+            <img src="../assets/img/iconOrder.webp" alt="Đơn của tôi" />
           </div>
           <p>Đơn của tôi</p>
         </div>
         <div class="feature-item">
           <div class="feature-icon">
-            <img src="https://via.placeholder.com/50" alt="Kiểm tra sức khỏe" />
+            <img src="../assets/img/iconHealthCheck.webp" alt="Kiểm tra sức khỏe" />
           </div>
           <p>Kiểm tra sức khỏe</p>
         </div>
@@ -71,7 +91,8 @@
     <!-- Khu vực các sản phẩm bán chạy -->
     <section class="best-sellers">
       <div class="container">
-        <h2>Sản phẩm bán chạy</h2>
+
+        <div class="best-seller-header"><img src="../assets/img/hotIcon.png" alt="" srcset=""><span>Sản phẩm bán chạy</span></div>
         <div class="product-grid" id="productGrid"></div>
         <button class="load-more" id="loadMoreBtn">Xem thêm</button>
       </div>
@@ -132,56 +153,7 @@
     </script>
 
     <!-- Footer -->
-    <footer class="footer">
-      <div class="container footer-flex">
-        <div class="footer-col">
-          <h4>Về Chúng Tôi</h4>
-          <ul>
-            <li><a href="#">Giới thiệu</a></li>
-            <li><a href="#">Hệ thống cửa hàng</a></li>
-            <li><a href="#">Giấy phép kinh doanh</a></li>
-            <li><a href="#">Kiểm tra hóa đơn điện tử</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Danh Mục</h4>
-          <ul>
-            <li><a href="#">Thuốc</a></li>
-            <li><a href="#">Thực phẩm chức năng</a></li>
-            <li><a href="#">Dược mỹ phẩm</a></li>
-            <li><a href="#">Chăm sóc cá nhân</a></li>
-            <li><a href="#">Thiết bị y tế</a></li>
-            <li><a href="#">Đặt thuốc online</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Thông Tin Khác</h4>
-          <ul>
-            <li><a href="#">Góc sức khỏe</a></li>
-            <li><a href="#">Tra cứu thuốc</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Kết Nối</h4>
-          <ul>
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Zalo</a></li>
-            <li><a href="#">Ứng dụng </a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>
-          &copy; 2000 - 2025 Công ty Cổ phần Dược phẩm Tận Tâm. Địa chỉ: 12
-          Nguyễn Văn Bảo, Phường 1, Quận Gò Vấp, TP. HCM
-        </p>
-        <p>
-          Chăm sóc khách hàng:
-          <a href="mailto:sale@nhathuoctantam.com.vn"
-            >sale@nhathuoctantam.com.vn</a
-          >
-        </p>
-      </div>
-    </footer>
+    <div data-include="../components/footer.html"></div>
+    
   </body>
 </html>

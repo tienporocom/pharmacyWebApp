@@ -35,7 +35,7 @@ body {
 }
 
 /* Header Main */
-#link-logo{
+#link-logo {
   text-decoration: none;
   display: flex;
 }
@@ -151,7 +151,6 @@ body {
 .main-nav a:hover {
   text-decoration: underline;
 }
-
 
 .account-info {
   height: 40px;
@@ -357,7 +356,7 @@ body {
 
 /* Footer */
 .footer {
-  background-color: #eaeffb;
+  background-color: #fff;
   padding: 40px 0;
   font-family: Arial, sans-serif;
   color: #333;
@@ -365,15 +364,15 @@ body {
 
 .footer-flex {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 30px;
+  flex-wrap: nowrap;
+  gap: 10px;
 }
 
 .footer-col {
   flex: 1;
-  min-width: 200px;
+  width:  150px;
 }
+
 
 .footer-col h4 {
   font-size: 18px;
@@ -418,3 +417,58 @@ body {
 }
 
 /* footer */
+
+#back2top {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #fff;
+  z-index: 1000; /* Đảm bảo nút luôn nằm trên cùng */
+}
+
+#back2top img {
+  width: 50px;
+  height: 50px;
+}
+
+.footer-banner {
+  background-color: #276ddf;
+  padding: 15px 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-banner span {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 200px;
+}
+.footer-banner a {
+  display: block;
+  color: #4188eb;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 20px;
+  background-color: #fff;
+  border-radius: 25px;
+}
+.QRimg {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #0074d9;
+
+  border-radius: 10px;
+}

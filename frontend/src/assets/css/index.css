@@ -1,130 +1,217 @@
-
 /* Banner */
 .banner {
-    margin: 10px 0;
-  }
-  .banner img {
-    width: 100%;
-    border-radius: 4px;
-  }
-  /* Các chức năng hỗ trợ */
-  .feature-boxes {
-    background-color: #eaeffb;
-    padding: 20px 0;
-  }
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
   
-  .feature-boxes .container {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-  
-  .feature-item {
-    display: flex;
-    align-items: center;
-    text-align: left;
-    background-color: #fff;
-    padding: 15px;
-    width: 18%;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .feature-icon {
-    margin-right: 10px; /* Khoảng cách giữa icon và text */
-  }
-  
-  .feature-item img {
-    max-width: 50px;
-    height: 50px;
-  }
-  
-  .feature-item p {
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .feature-item:hover {
-    background-color: #eaf1ff;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .feature-item a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  /* Best Sellers */
-  .product-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .product-card {
-    border-radius: 15px;
-    padding: 10px;
-    width: 180px;
-    background-color: #fff;
-  }
-  
-  .product-image img {
-    width: 100%;
-    height: auto;
-  }
-  
-  .product-info h3 {
-    font-size: 16px;
-    margin: 10px 0 5px;
-    font-weight: 500;
-    /* display: -webkit-box;
-    -webkit-line-clamp: 4; /* Giới hạn tối đa 3 dòng */
-    /* -webkit-box-orient: vertical; */ 
-    line-clamp: 4;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.5em; /* Điều chỉnh tùy thuộc vào thiết kế */
-    height: 6em; /* 1.5em * 3 dòng */
-  }
-  
-  
-  .price {
-    color: #1250e2;
-    font-weight: bold;
-    text-align: end;
-  
-  }
-  
-  .add-to-cart {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    width: 100%;
-    border-radius: 20px;
-    cursor: pointer;
-    display: block;
-    margin-top: 10px;
-    text-align: center;
-    text-decoration: none;
-  }
-  .load-more {
-    color: #007bff;
-  font-weight: 700;
-    margin-top: 40px;
-    padding: 10px 20px;
-    cursor: pointer;
-    background-color: #eaeffb;
-    border: NONE;
-    display: block;
-    margin: auto;
-  }
+}
+.banner img {
+  border-radius: 15px;
+  width: 1200px;
+}
 
-  .product-link {
-    text-decoration: none;
-    color: inherit;
-  }
+button.prev,
+button.next {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fff;
+  color: #1250e2;
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button.prev {
+  left: 300px;
+}
+
+button.next {
+  right: 300px;
+}
+
+button:hover {
+  border: 1px solid #1250e2;
+}
+
+
+.dot-container {
+  position: absolute;
+  bottom: 10px; 
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 10px;
+  padding: 5px;
+  width: auto;
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+.dot.active {
+  background-color: #007bff;
+}
+/* Các chức năng hỗ trợ */
+.feature-boxes {
+  background-color: #eaeffb;
+  padding: 20px 0;
+}
+
+.feature-boxes .container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  background-color: #fff;
+  padding: 15px;
+  width: 18%;
+  border-radius: 8px;
+}
+
+.feature-icon {
+  margin-right: 10px; /* Khoảng cách giữa icon và text */
+}
+
+.feature-item img {
+  max-width: 50px;
+  height: 50px;
+}
+
+.feature-item p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.feature-item:hover {
+  background-color: #eaf1ff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Best Sellers */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.product-card {
+  border-radius: 15px;
+  padding: 10px;
+  width: 180px;
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+
+.product-card:hover {
+  border: 1px solid #007bff;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+}
+
+.product-info h3 {
+  font-size: 16px;
+  margin: 10px 0 5px;
+  font-weight: 500;
+  /* display: -webkit-box;
+    -webkit-line-clamp: 4; /* Giới hạn tối đa 3 dòng */
+  /* -webkit-box-orient: vertical; */
+  line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5em; /* Điều chỉnh tùy thuộc vào thiết kế */
+  height: 6em; /* 1.5em * 3 dòng */
+}
+
+.price {
+  color: #1250e2;
+  font-weight: bold;
+  text-align: end;
+}
+
+.add-to-cart {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  width: 100%;
+  border-radius: 20px;
+  cursor: pointer;
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+  text-decoration: none;
+}
+.load-more {
+  color: #007bff;
+  font-weight: 700;
+  margin-top: 40px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #eaeffb;
+  border: NONE;
+  display: block;
+  margin: auto;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.feature-icon img {
+  width: 30px;
+  height: 30px;
+}
+
+.best-seller-header {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.best-seller-header img {
+  width: 30px;
+  height: 30px;
+}
+.best-seller-header span{
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+  font-size: 24px;
+  border-radius: 20px;
+  padding: 10px;
+}

@@ -18,6 +18,7 @@ function setupUserAccount() {
     // Khi tất cả nội dung đã được tải xong, gọi hàm xử lý tài khoản
     Promise.all(promises).then(() => {
         initializeUser();
+        scrollToTop(); // Gọi hàm cuộn lên đầu trang
     });
 }
 
@@ -95,4 +96,10 @@ function initializeUser() {
 // Gọi function sau khi DOM đã tải xong
 document.addEventListener("DOMContentLoaded", setupUserAccount);
 
-  
+  //sự kiện back to top
+  function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
