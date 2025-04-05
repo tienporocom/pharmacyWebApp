@@ -4,18 +4,13 @@
     <meta charset="UTF-8" />
     <title>Chi tiết sản phẩm</title>
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <link
-      rel="shortcut icon"
-      href="../assets/img/logo.png"
-      type="image/x-icon"
-    />
     <style>
       /* -------------------- KHUNG NGOÀI -------------------- */
       .product-detail-container {
         display: flex;
         gap: 130px;
         max-width: 1200px;
-        margin: 20px auto;
+        margin: 0 auto;
         background-color: #fff;
         padding: 30px; /* tăng padding cho thoáng hơn */
         border-radius: 10px;
@@ -66,7 +61,7 @@
       .current-price {
         font-size: 26px;
         font-weight: bold;
-        color: #4080ff;
+        color: #d0021b;
       }
 
       /* Đơn vị tính */
@@ -85,10 +80,8 @@
 
       /* Mô tả ngắn */
       .short-desc {
-        text-align: justify;
-        font-weight: 400;
         font-size: 15px;
-        color: #000;
+        color: #444;
         margin: 15px 0;
         line-height: 1.5;
       }
@@ -121,25 +114,24 @@
       /* Nút mua */
       .buy-button {
         display: inline-block;
-        margin: 20px 0 0 50px; /* căn phải */
+        margin-top: 20px;
         padding: 12px 20px;
-        background-color: #4080ff;
+        background-color: #d0021b;
         color: #fff;
         border: none;
-        border-radius: 20px;
+        border-radius: 6px;
         font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s;
-        font-weight: 700;
       }
       .buy-button:hover {
-        background-color: #1c67fd;
+        background-color: #b10016;
       }
 
       /* Thông tin bổ sung */
       .additional-info {
         background-color: #f3f3f3;
-        border-left: 4px solid #4080ff;
+        border-left: 4px solid #d0021b;
         padding: 10px 15px;
         margin-top: 20px;
         border-radius: 6px;
@@ -153,7 +145,7 @@
       /* Mô tả chi tiết */
       .product-detail-content {
         max-width: 1200px;
-        margin: 10px auto 20px auto;
+        margin: 30px auto 0 auto;
         background-color: #fff;
         padding: 20px;
         border-radius: 8px;
@@ -164,11 +156,10 @@
         font-size: 18px;
         margin-bottom: 10px;
         color: #333;
-        border-bottom: 2px solid #4080ff;
+        border-bottom: 2px solid #d0021b;
         display: inline-block;
         padding-bottom: 5px;
       }
-
 
       .full-description {
         font-size: 15px;
@@ -180,61 +171,6 @@
         margin-bottom: 10px;
       }
 
-      .unit-select{
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-      }
-      .unit-radio-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-       
-      }
-
-      
-      .unit-radio-wrapper input[type="radio"] {
-        display: none;
-      }
-
-      .unit-radio-wrapper label {
-        display: block;
-        text-align: center;
-        margin: 0 10px;
-        border: 1px solid #4080ff;
-        background-color: #fff;
-        color: #4080ff;
-        border-radius: 20px;
-        padding: 10px 15px;
-      }
-
-      .unit-radio-wrapper label:hover {
-        background-color: #4080ff;
-        color: #fff;
-        cursor: pointer;
-      }
-
-      .unit-radio-wrapper input[type="radio"]:checked + label {
-        background-color: #4080ff;
-        color: #fff;
-        border-radius: 20px;
-        padding: 10px 15px;
-      }
-
-      .unit-title {
-        font-size: 14px;
-        font-weight: 500;
-        color: #555;
-        margin-bottom: 5px;
-        margin-right: 15px;
-      }
-
-      a{
-        text-decoration: none;
-        color: inherit;
-      }
-
-      
       /* Responsive */
       @media (max-width: 768px) {
         .product-detail-container {
@@ -249,8 +185,6 @@
         .info-list {
           grid-template-columns: 1fr;
         }
-
-        
       }
     </style>
   </head>
@@ -258,7 +192,6 @@
     <!-- Header -->
     <div data-include="../components/header.html"></div>
     <!-- Nhúng Header -->
-
     <!-- KHUNG CHÍNH 2 CỘT (ẢNH - THÔNG TIN) -->
     <div class="product-detail-container">
       <!-- CỘT TRÁI: ẢNH SẢN PHẨM -->
@@ -291,22 +224,26 @@
             <strong>Số đăng ký:</strong> <span id="registrationNumber"></span>
           </p>
           <p>
-            <strong>Thành phần:</strong>
+            <strong>Thành phần (ingredient):</strong>
             <span id="ingredient"></span>
           </p>
           <p><strong>Dạng bào chế:</strong> <span id="dosageForm"></span></p>
-          <p><strong>Mã sản phẩm:</strong> <span id="productID"></span></p>
+        </div>
+
+        <!-- Nếu cần nút mua -->
+        <button class="buy-button">Chọn mua</button>
+
+        <!-- Thông tin kê đơn -->
+        <div class="additional-info">
+          <p><strong>Mã sản phẩm (iD):</strong> <span id="productID"></span></p>
           <p>
-            <strong>Có kê đơn:</strong>
+            <strong>Có kê đơn (isPrescribe?):</strong>
             <span id="isPrescribe"></span>
           </p>
           <p>
             <strong>Nơi sản xuất:</strong> <span id="placeOfManufacture"></span>
           </p>
         </div>
-
-        <!-- Nếu cần nút mua -->
-        <button class="buy-button">Chọn mua</button>
       </div>
     </div>
 
@@ -362,48 +299,32 @@
           // 5. Nếu có nhiều packagingUnits, hiển thị chọn đơn vị
           const unitSelectDiv = document.getElementById("unitSelect");
           if (product.packagingUnits && product.packagingUnits.length > 1) {
-            // Thêm tiêu đề "Đơn vị tính:"
-            const unitTitle = document.createElement("div");
-            unitTitle.textContent = "Đơn vị tính:";
-            unitTitle.className = "unit-title"; // thêm class nếu muốn custom CSS
-            unitSelectDiv.appendChild(unitTitle);
-          
             // Tạo radio buttons cho từng đơn vị
             product.packagingUnits.forEach((unit, index) => {
               const radioId = `unit-${index}`;
-          
-              // Tạo thẻ input radio
               const radio = document.createElement("input");
               radio.type = "radio";
               radio.name = "unitRadio";
               radio.id = radioId;
               radio.value = unit.price;
+              // Mặc định chọn radio đầu tiên
               if (index === 0) radio.checked = true;
-          
-              // Gắn sự kiện thay đổi giá khi chọn đơn vị khác
+
+              // Khi đổi radio -> cập nhật giá hiển thị
               radio.addEventListener("change", () => {
                 document.getElementById("productPrice").textContent =
                   Number(radio.value).toLocaleString("vi-VN") + "đ";
               });
-          
-              // Tạo label tương ứng
+
               const label = document.createElement("label");
               label.htmlFor = radioId;
+              label.style.marginRight = "10px";
               label.textContent = unit.unitName;
-          
-              // Tạo div wrapper
-              const wrapperDiv = document.createElement("div");
-              wrapperDiv.className = "unit-radio-wrapper"; // thêm class nếu muốn custom CSS
-          
-              // Gắn radio và label vào wrapper
-              wrapperDiv.appendChild(radio);
-              wrapperDiv.appendChild(label);
-          
-              // Thêm wrapper vào unitSelectDiv
-              unitSelectDiv.appendChild(wrapperDiv);
+
+              unitSelectDiv.appendChild(radio);
+              unitSelectDiv.appendChild(label);
             });
-          }
-           else if (
+          } else if (
             product.packagingUnits &&
             product.packagingUnits.length === 1
           ) {
