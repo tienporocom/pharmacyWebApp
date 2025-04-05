@@ -308,6 +308,68 @@ body {
   margin-top: 10px;
 }
 
+.has-submenu {
+  position: relative;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 350px;
+  z-index: 1000;
+}
+
+.submenu a {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+}
+
+.submenu a:hover {
+  background-color: #f0f0f0;
+  color: #0074d9;
+}
+
+.has-submenu:hover .submenu {
+  display: block;
+}
+
+.submenu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.submenu a img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  padding: 4px;
+}
+
+.submenu a:hover {
+  background-color: #f1f5f9;
+  color: #007bff;
+}
+
+
 /* .best-sellers {
   background-color: #fff;
   padding: 20px 0;
