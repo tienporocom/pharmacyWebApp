@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
   shortDescription: { type: String }, // Mô tả ngắn
   images: { type: String }, // URL ảnh sản phẩm
   isPrescribe: { type: Boolean, default: false }, // Thuốc kê đơn, mặc định false
-  drugGroupID: { type: Number, default: 0 }, // Nhóm thuốc
+  drugGroup: { type: String }, // Nhóm thuốc
   iD: { type: String, required: true }, // Mã định danh, bắt buộc
   packaging: { type: String }, // Thông tin đóng gói
   manufacturer: { type: String }, // Nhà sản xuất
