@@ -8,68 +8,110 @@
       /* -------------------- KHUNG NGOÀI -------------------- */
       .product-detail-container {
         display: flex;
-        gap: 30px;
+        gap: 130px;
         max-width: 1200px;
         margin: 0 auto;
         background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
+        padding: 30px; /* tăng padding cho thoáng hơn */
+        border-radius: 10px;
+        border: 1px solid #ddd; /* ✅ thêm viền */
+        align-items: center;
       }
 
       /* -------------------- CỘT TRÁI: ẢNH SẢN PHẨM -------------------- */
       .product-images {
-        flex: 0 0 300px; /* Chiều rộng cột trái */
+        flex: 0 0 330px; /* ✅ to hơn chút */
         text-align: center;
-      }
-      .product-images img {
-        max-width: 100%;
-        border: 1px solid #ddd;
-        border-radius: 8px;
+        position: relative;
       }
 
-      /* -------------------- CỘT PHẢI: THÔNG TIN SẢN PHẨM -------------------- */
+      .product-images img {
+        max-width: 100%;
+        border: none;
+        border-radius: 6px;
+      }
+
+      /* -------------------- THÔNG TIN SẢN PHẨM -------------------- */
       .product-info {
         flex: 1;
       }
+
       .product-info h1 {
-        font-size: 22px;
-        margin-bottom: 8px;
-        color: #333;
-      }
-      .product-info .drug-group {
-        font-size: 14px;
-        color: #888;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.4;
+        color: #222;
         margin-bottom: 10px;
       }
 
-      /* Giá & Đơn vị tính */
+      .product-info .drug-group {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 15px;
+      }
+
+      /* Giá & đơn vị tính */
       .price-box {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
         margin-bottom: 10px;
       }
+
       .current-price {
-        font-size: 20px;
+        font-size: 26px;
         font-weight: bold;
-        color: #d0021b; /* Màu đỏ */
-        margin-bottom: 5px;
+        color: #d0021b;
       }
+
+      /* Đơn vị tính */
       .unit-select {
-        margin-top: 10px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      .unit-select input[type="radio"] {
+        margin-right: 5px;
+      }
+      .unit-select label {
+        margin-right: 15px;
+        font-size: 14px;
+        cursor: pointer;
       }
 
       /* Mô tả ngắn */
       .short-desc {
-        margin: 15px 0;
         font-size: 15px;
-        color: #555;
+        color: #444;
+        margin: 15px 0;
+        line-height: 1.5;
       }
 
-      /* Các thông tin khác (Hãng, Quy cách, Số đăng ký, ...) */
-      .info-list p {
-        margin: 5px 0;
+      /* Info list - canh chỉnh dạng 2 cột */
+      .info-list {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        row-gap: 10px;
+        column-gap: 15px;
+        margin-top: 10px;
+        margin-bottom: 20px;
         font-size: 14px;
+        color: #333;
       }
 
-      /* Nút chọn mua (nếu cần) */
+      .info-list p {
+        margin: 0;
+        display: contents;
+      }
+      .info-list strong {
+        color: #555;
+        font-weight: 500;
+        justify-self: start;
+      }
+      .info-list span {
+        justify-self: start;
+      }
+
+      /* Nút mua */
       .buy-button {
         display: inline-block;
         margin-top: 20px;
@@ -86,14 +128,30 @@
         background-color: #b10016;
       }
 
-      /* -------------------- KHU VỰC MÔ TẢ CHI TIẾT -------------------- */
+      /* Thông tin bổ sung */
+      .additional-info {
+        background-color: #f3f3f3;
+        border-left: 4px solid #d0021b;
+        padding: 10px 15px;
+        margin-top: 20px;
+        border-radius: 6px;
+      }
+      .additional-info p {
+        font-size: 13.5px;
+        margin: 5px 0;
+        color: #444;
+      }
+
+      /* Mô tả chi tiết */
       .product-detail-content {
         max-width: 1200px;
-        margin: 20px auto 0 auto;
+        margin: 30px auto 0 auto;
         background-color: #fff;
         padding: 20px;
         border-radius: 8px;
+        font-weight: 600;
       }
+
       .product-detail-content h2 {
         font-size: 18px;
         margin-bottom: 10px;
@@ -102,23 +160,31 @@
         display: inline-block;
         padding-bottom: 5px;
       }
+
       .full-description {
-        margin-top: 15px;
+        font-size: 15px;
+        color: #333;
         line-height: 1.6;
+        margin-top: 15px;
       }
       .full-description p {
-        margin: 8px 0;
+        margin-bottom: 10px;
       }
 
-      /* Nhóm hiển thị (isPrescribe, iD, placeOfManufacture, ...) */
-      .additional-info {
-        margin-top: 15px;
-        background: #fafafa;
-        padding: 10px;
-        border-radius: 6px;
-      }
-      .additional-info p {
-        margin: 5px 0;
+      /* Responsive */
+      @media (max-width: 768px) {
+        .product-detail-container {
+          flex-direction: column;
+        }
+
+        .product-images,
+        .product-info {
+          width: 100%;
+        }
+
+        .info-list {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
