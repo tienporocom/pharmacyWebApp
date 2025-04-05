@@ -217,63 +217,12 @@
     <script src="../assets/js/jquery.min.js"></script>
     <script>
 
-        function deleteRow(button) {
-            button.closest("tr").remove(); // 🔹 Remove row when trash button is clicked
-        }
-
-        function handleSelectChange(selectElement) {
-            let selectedValue = selectElement.value;
-            document.getElementById("selectedValue").innerText = selectedValue;
-        }
-        function increment(inputId) {
-            let quantityInput = document.getElementById(inputId);
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-        }
-
-        function decrement(inputId) {
-            let quantityInput = document.getElementById(inputId);
-            if (quantityInput.value > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
-            }
-        }
 
         $(function () {
             $("#content-header").load("../components/header.html");
         });
         $(function () {
             $("#content-footer").load("../components/footer.html");
-        });
-
-
-        $(document).ready(function () {
-            $.get("http://localhost:5000/cart", function (data) {
-                let productList = $(".product-list");
-                let totalAmount = 0;
-                productList.empty();
-
-                data.forEach(product => {
-                    let price = product.price || Math.floor(Math.random() * 500000 + 100000);
-                    let quantity = product.quantity || 1;
-                    totalAmount += price * quantity;
-
-                    productList.append(`
-            <div class="product">
-              <img src="${product.image || 'default.jpg'}" alt="${product.name}">
-              <div>
-                <div>${product.name}</div>
-                <div class="price">${price.toLocaleString("vi-VN")}đ x${quantity}</div>
-              </div>
-            </div>`);
-                });
-
-                $(".summary").html(`
-          <h3>Thanh toán</h3>
-          <div><span>Tổng tiền:</span><span>${totalAmount.toLocaleString("vi-VN")}đ</span></div>
-          <div><span>Giảm giá trực tiếp:</span><span>-100.000đ</span></div>
-          <div><span>Phí vận chuyển:</span><span>Miễn phí</span></div>
-          <div><strong>Thành tiền:</strong><strong>${(totalAmount - 100000).toLocaleString("vi-VN")}đ</strong></div>
-          <a href="#" class="btn-complete">Hoàn tất</a>`);
-            });
         });
 
     </script>
@@ -284,8 +233,83 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <div class="header-top">
+        <div class="container">
+            <div class="top-left">
+                <p>Hệ thống nhà thuốc trên toàn quốc</p>
+            </div>
+            <div class="top-right">
+                <p>Hotline: 1800 6928</p>
+            </div>
+        </div>
+    </div>
+    <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
+    <header class="header-main">
+        <div class="container header-flex">
+            <a href="../pages/index.html" id="link-logo">
+                <img class="logo" src="../assets/img/logo.png" alt="logo" />
+                <div class="text">
+                    <h1>NHÀ THUỐC</h1>
+                    <h1>TẬN TÂM</h1>
+                </div>
+            </a>
 
-    <div id="content-header"></div>
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm tên thuốc, bệnh lý, thực phẩm chức năng..." />
+                <div class="search-icons">
+                    <span class="scan-icon">🔍</span>
+                </div>
+            </div>
+
+            <div class="account-info">
+                <a href="../pages/login.html" id="login-btn" class="login-button">Đăng nhập</a>
+
+                <div id="user-info" style="display: none;">
+                    <a href="../pages/userInfo.html" id="account-link">
+                        <img id="user-avatar" src="" alt="">
+                        <span id="user-name"></span>
+                    </a>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                        <button id="logout-btn">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart">
+                <a href="cart.html" class="cart-icon">
+                    <img src="../assets/img/cart.png" alt="Giỏ hàng" />
+                    <span class="cart-label">Giỏ hàng</span>
+                    <span id="cart-count">3</span>
+                </a>
+                <div class="cart-dropdown">
+                    <h3>Giỏ hàng</h3>
+                    <ul id="cart-items">
+                        <!-- Sản phẩm sẽ được thêm vào đây bằng JS -->
+                    </ul>
+                    <p id="cart-total"></p>
+                    <button id="view-cart">Xem giỏ hàng</button>
+                </div>
+            </div>
+
+
+
+    </header>
+
+    <!-- Thanh menu điều hướng -->
+    <nav class="main-nav">
+        <div class="container nav-flex">
+            <ul>
+                <li><a href="#">Thuốc</a></li>
+                <li><a href="#">Thực phẩm chức năng</a></li>
+                <li><a href="#">Chăm sóc cá nhân</a></li>
+                <li><a href="#">Thiết bị y tế</a></li>
+                <li><a href="#">Bệnh & sức khỏe</a></li>
+                <li><a href="#">Kiểm tra đơn thuốc</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- <div id="content-header"></div> -->
 
     <div class="container text-center">
         <div class="row">
@@ -308,7 +332,6 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th style="display: none;"></th>
                                                 <th style="width: 4%;">
                                                     <label class="toggle-button">
                                                         <input type="checkbox" id="checkAll">
@@ -504,16 +527,6 @@
                     </div>
                     <div class="col-4">
                         <div class="summary">
-                            <h3>Thành tiền</h3>
-                            <p>Tổng tiền: 510.000đ</p>
-                            <p>Giảm giá trực tiếp: -51.000đ</p>
-                            <p>Giảm giá voucher: 0đ</p>
-                            <p>Tiết kiệm được: 51.000đ</p>
-                            <p>Phí vận chuyển: Miễn phí</p>
-                            <h2>Tổng cộng: 459.000đ</h2>
-                            <button class="complete">Hoàn tất</button>
-                            <p class="terms">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với điều khoản dịch vụ và
-                                chính sách xử lý dữ liệu cá nhân của Nhà thuốc FPT Long Châu</p>
                         </div>
                     </div>
                 </div>
@@ -524,7 +537,15 @@
     </div>
     <div id="content-footer"></div>
     <script>
+        const requestHeader = {
+            "Authorization": "Bearer YOUR_ACCESS_TOKEN",
+            "Content-Type": "application/json"
+        }
+
+        const host = "http://localhost:3000"
+
         document.addEventListener("DOMContentLoaded", function () {
+
             const checkAll = document.getElementById("checkAll");
 
             // Debugging: Check if script runs and checkboxes exist
@@ -542,7 +563,10 @@
 
             async function fetchData() {
                 try {
-                    // let response = await fetch("https://api.example.com/products"); // 🔹 Replace with your actual API
+                    // let response = await fetch(`${host}/api/cart`, {
+                    //     method: "GET", // Optional here, since GET is default
+                    //     headers: requestHeader
+                    // });
                     // let data = await response.json();
 
                     let data = [
@@ -550,14 +574,14 @@
                             "id": 1,
                             "name": "Sữa bột CaloSure gold Vitadairy ít đường, tăng cường sức khỏe tim mạch, hồi phục sức khỏe (900g)",
                             "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG",
-                            "price": "500.000",
+                            "price": "500000",
                             "quantity": 2
                         },
                         {
                             "id": 2,
                             "name": "Sữa bột Vinamilk Dielac Alpha Gold Step 4 (900g)",
                             "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG",
-                            "price": "450.000",
+                            "price": "450000",
                             "quantity": 5
                         }
                     ];
@@ -569,8 +593,7 @@
 
                     data.forEach((item, index) => {
                         let row = `
-                        <tr>
-                            <td style="display: none;">${item.id}</td>
+                        <tr data-id="${item.id}">
                             <td>
                                 <label class="toggle-button">
                                     <input type="checkbox" class="item-checkbox">
@@ -587,9 +610,9 @@
                             <td></td>
                             <td>
                                 <div class="input-group small-quantity mx-auto">
-                                    <button class="btn btn-danger btn-sm" onclick="decrement('quantity-${index}')">-</button>
+                                    <button class="btn btn-danger btn-sm" onclick="decrement('quantity-${index}', ${item.id})">-</button>
                                     <input type="text" id="quantity-${index}" class="form-control form-control-sm text-center" value="${item.quantity}" readonly>
-                                    <button class="btn btn-success btn-sm" onclick="increment('quantity-${index}')">+</button>
+                                    <button class="btn btn-success btn-sm" onclick="increment('quantity-${index}', ${item.id})">+</button>
                                 </div>
                             </td>
                             <td></td>
@@ -610,11 +633,215 @@
                     `;
                         tableBody.innerHTML += row;
                     });
+
+                    let totalAmount = data.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+
+                    $(".summary").html(`
+                            <h3>Thành tiền</h3>
+                            <p>Tổng tiền: ${totalAmount.toLocaleString("vi-VN")}đ</p>
+                            <p>Giảm giá trực tiếp: 0đ</p>
+                            <p>Giảm giá voucher: 0đ</p>
+                            <p>Tiết kiệm được: 0đ</p>
+                            <p>Phí vận chuyển: Miễn phí</p>
+                            <h2>Tổng cộng: ${totalAmount.toLocaleString("vi-VN")}đ</h2>
+                            <button class="submitOrderButton">Hoàn tất</button>
+                            <p class="terms">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với điều khoản dịch vụ và
+                                chính sách xử lý dữ liệu cá nhân của Nhà thuốc FPT Long Châu</p>`);
+
+                    let productList = [];  // Initialize an empty array to hold product HTML
+
+                    data.forEach(product => {
+                        const price = product.price;
+                        const quantity = product.quantity;
+
+                        // Push the HTML string for the product into the array
+                        productList.push(`
+                            <div class="row">
+                                <div class="column-1"></div>
+                                <div class="column-2">
+                                    <img src="${product.image}">
+                                </div>
+                                <div class="column-4" style="font-size: 12px; color: Black;">
+                                    <div>${product.name}</div>
+                                </div>
+                                <div class="column-2">
+                                    <div class="price">${price.toLocaleString("vi-VN")}đ x ${quantity}</div>
+                                </div>
+                                <div class="column-1">
+                                </div>
+                            </div>`);
+                    });
+
+                    // Join the array into a single string and inject it into the .summary element
+                    $("#cart-items").html(productList.join(''));
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 }
             }
+
+
         });
+
+        // DELETE SAN PHAM TRONG GIO HANG
+        function deleteRow(button) {
+            const row = button.closest("tr");
+            const itemId = row.dataset.id; // Get item ID from data-id attribute
+
+            console.log("Delete Item ID:", itemId);
+
+            // Optional: Delete on server
+            fetch(`${host}/api/cart/item/${itemId}`, {
+                method: 'DELETE',
+                headers: requestHeader
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Failed to delete item");
+                    console.log(`Deleted item ${itemId}`);
+                    // Remove row from UI
+                    row.remove();
+                })
+                .catch(err => console.error("Error deleting item:", err));
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const submitButton = document.querySelector('.submitOrderButton');
+            if (submitButton) {
+                submitButton.addEventListener('click', submitOrder);
+            } else {
+                console.error('Submit button not found');
+            }
+        });
+
+        // SUBMIT TAO DON HANG
+        // Function to handle form submission and create an order
+        function submitOrder() {
+            // Collect form data
+            const deliveryMethod = document.querySelector('.btn-primary').classList.contains('active') ? 'Giao hàng tận nơi' : 'Nhận tại nhà thuốc';
+            const fullName = document.querySelector('input[placeholder="Họ và tên người đặt"]').value;
+            const phone = document.querySelector('input[placeholder="Số điện thoại"]').value;
+            const email = document.querySelector('input[placeholder="Email (không bắt buộc)"]').value;
+
+            const recipientName = document.querySelector('input[placeholder="Họ và tên người nhận"]').value;
+            const recipientPhone = document.querySelector('input[placeholder="Số điện thoại"]').value;
+            const city = document.querySelector('select[placeholder="Chọn tỉnh/thành phố"]').value;
+            const district = document.querySelector('select[placeholder="Chọn quận/huyện"]').value;
+            const ward = document.querySelector('select[placeholder="Chọn phường/xã"]').value;
+            const specificAddress = document.querySelector('input[placeholder="Nhập địa chỉ cụ thể"]').value;
+            const notes = document.querySelector('textarea[placeholder="Ghi chú (không bắt buộc)"]').value;
+
+            const requiresInvoice = document.getElementById('toggleInvoice').checked;
+
+            // Get the selected payment method
+            const paymentMethods = document.querySelectorAll('input[name="payment"]:checked');
+            const paymentMethod = paymentMethods.length > 0 ? paymentMethods[0].nextElementSibling.textContent.trim() : '';
+
+            // Prepare data to send to the API
+            const orderData = {
+                deliveryMethod,
+                fullName,
+                phone,
+                email,
+                recipient: {
+                    name: recipientName,
+                    phone: recipientPhone,
+                    address: {
+                        city,
+                        district,
+                        ward,
+                        specificAddress,
+                        notes
+                    }
+                },
+                requiresInvoice,
+                paymentMethod
+            };
+
+            // Send a POST request to create the order
+            fetch(`${host}/api/oders`, { // Replace with your API endpoint
+                method: 'POST',
+                headers: requestHeader,
+                body: JSON.stringify(orderData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Đơn hàng đã được tạo thành công!');
+                    } else {
+                        alert('Có lỗi xảy ra khi tạo đơn hàng!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi tạo đơn hàng!');
+                });
+        }
+
+
+        function handleSelectChange(selectElement) {
+            let selectedValue = selectElement.value;
+            document.getElementById("selectedValue").innerText = selectedValue;
+        }
+
+        function increment(inputId, itemId) {
+            let quantityInput = document.getElementById(inputId);
+            const updatedQuantity = parseInt(quantityInput.value) + 1;
+
+            fetch(`${host}/api/orders`, { // Replace with your API endpoint
+                method: 'PUT',
+                headers: requestHeader,
+                body: JSON.stringify({
+                    productId: itemId,
+                    quantity: updatedQuantity
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        quantityInput.value = updatedQuantity
+                        console.log("update thanh cong")
+                    } else {
+                        console.log("update failure")
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi cap nhat don hang!');
+                });
+
+        }
+
+        function decrement(inputId, itemId) {
+            let quantityInput = document.getElementById(inputId);
+            const updatedQuantity = parseInt(quantityInput.value) + 1;
+            if (quantityInput.value > 1) {
+                const updatedQuantity = parseInt(quantityInput.value) - 1;
+
+                fetch(`${host}/api/orders`, { // Replace with your API endpoint
+                    method: 'PUT',
+                    headers: requestHeader,
+                    body: JSON.stringify({
+                        productId: itemId,
+                        quantity: updatedQuantity
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            quantityInput.value = updatedQuantity
+                            console.log("update thanh cong")
+                        } else {
+                            console.log("update failure")
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Có lỗi xảy ra khi cap nhat don hang!');
+                    });
+            }
+
+
+        }
+
     </script>
 </body>
 
