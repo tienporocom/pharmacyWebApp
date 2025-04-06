@@ -14,7 +14,8 @@ exports.createOrder = async (req, res) => {
 // Lấy danh sách đơn hàng của người dùng
 exports.getOrders = async (req, res) => {
     try {
-        const orders = await Order.find({ user: req.user.userId }).populate("orderItems.product");
+        console.log(req.user);
+        const orders = await Order.find({ user: req.user }).populate("orderItems.product");
         res.json(orders);
     } catch (error) {
         res.status(500).json({ error: error.message });

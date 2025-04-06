@@ -59,3 +59,52 @@ const orderSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Order", orderSchema);
+
+//sample data
+// {
+//   "user": "646f8c9e2f8b1c0d4b3e4e7a",
+//   "orderItems": [
+//     {
+//       "product": "646f8c9e2f8b1c0d4b3e4e7b",
+//       "items": [
+//         {
+//           "unitName": "hộp",
+//           "quantity": 2,
+//           "price": 50000
+//         },
+//         {
+//           "unitName": "vỉ",
+//           "quantity": 1,
+//           "price": 20000
+//         }
+//       ],
+//       "subtotal": 120000
+//     },
+//     {
+//       "product": "646f8c9e2f8b1c0d4b3e4e7c",
+//       "items": [
+//         {
+//           "unitName": "hộp",
+//           "quantity": 1,
+//           "price": 30000     
+//         }
+//       ],
+//       "subtotal": 30000
+//     }
+//   ],
+//   "shippingAddress": {
+
+//       "address": "123 Đường ABC, Quận 1, TP.HCM",
+//       "phone": "0901234567"
+//     },
+//     "totalAmountBeforeDiscount": 150000,
+//     "totalAmount": 150000,
+//     "discount": {
+//       "amount": 0,
+//       "percentage": 0
+//     },
+//     "status": "pending",
+//     "paymentMethod": "cash",
+//     "paymentStatus": "unpaid"
+// }
+//
