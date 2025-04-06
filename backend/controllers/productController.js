@@ -147,3 +147,13 @@ exports.updateProductQuantity = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//Lấy tổng số lượng sản phẩm
+exports.getTotalProducts = async (req, res) => {
+  try {
+    const total = await Product.countDocuments();
+    res.json({ total });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

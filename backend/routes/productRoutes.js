@@ -11,6 +11,8 @@ const {
   updateProductQuantity,
     getProductsByPage,
     searchProducts,
+    getTotalProducts,
+
 } = require("../controllers/productController");
 
 //lấy danh sách nhóm sản phẩm
@@ -24,10 +26,10 @@ router.get("/page", getProductsByPage); // Lấy danh sách sản phẩm theo ph
 router.get("/groups", getGroups); // Lấy danh sách nhóm sản phẩm
 router.get("/groups/:group", getProductsByGroup); // Lấy danh sách sản phẩm theo nhóm
 router.get("/search", searchProducts); // Tìm kiếm sản phẩm
+router.get("/total", getTotalProducts); // Lấy tổng số sản phẩm
 router.get("/:id", getProduct); // Lấy chi tiết sản phẩm
 router.post("/", createProduct); // Thêm sản phẩm mới
 router.put("/:id", updateProduct); // Cập nhật sản phẩm
 router.patch("/:id", updateProductQuantity); // Cập nhật sản phẩm
 router.delete("/:id", deleteProduct); // Xóa sản phẩm
-
 module.exports = router;

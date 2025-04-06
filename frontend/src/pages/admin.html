@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Quản lý bán thuốc</title>
+    <link rel="stylesheet" href="../assets/css/admin.css" />
+    <script src="../assets/js/admin.js"></script>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <img class="logo-img" src="../assets/img/logo.png" alt="logo" />
+        <div class="text">
+          <h1>NHÀ THUỐC</h1>
+          <h1>TẬN TÂM</h1>
+        </div>
+        <div class="adminName">Admin: ...</div>
+      </div>
+      <ul class="nav-menu">
+        <li id="nav-overview" class="active" onclick="showSection('overview')">
+          <i>📊</i> Tổng quan
+        </li>
+        <li id="nav-medicines" onclick="showSection('medicines')">
+          <i>💊</i> Quản lý thuốc
+        </li>
+        <li id="nav-prescriptions" onclick="showSection('prescriptions')">
+          <i>📋</i> Đơn thuốc
+        </li>
+        <li id="nav-customers" onclick="showSection('customers')">
+          <i>👥</i> Khách hàng
+        </li>
+        <li id="nav-posts" onclick="showSection('posts')">
+          <i>📝</i> Bài viết
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <!-- Tổng quan -->
+      <div class="content-section active" id="overview">
+        <h1>
+          Tổng quan
+          <button id="resetBtn">
+            <img
+              src="../assets/img/reload.png"
+              alt=""
+              onclick="resetBtnClick()"
+            />
+          </button>
+        </h1>
+        <div class="overview-container">
+          <div class="overview-card card-medicines">
+            <h3>Tổng số thuốc</h3>
+            <span id="totalMedicines">...</span>
+          </div>
+          <div class="overview-card card-prescriptions">
+            <h3>Tổng số đơn thuốc</h3>
+            <span id="totalPrescriptions">...</span>
+          </div>
+          <div class="overview-card card-customers">
+            <h3>Tổng số khách hàng</h3>
+            <span id="totalCustomers">...</span>
+          </div>
+          <div class="overview-card card-posts">
+            <h3>Tổng số bài viết</h3>
+            <span id="totalPosts">...</span>
+          </div>
+          <div class="overview-card card-revenue">
+            <h3>Doanh thu hôm nay</h3>
+            <span id="todayRevenue">... VNĐ</span>
+          </div>
+          <div class="overview-card card-pending">
+            <h3>Đơn thuốc đang chờ</h3>
+            <span id="pendingPrescriptions">...</span>
+          </div>
+          <div class="overview-card card-low-stock">
+            <h3>Thuốc sắp hết hàng</h3>
+            <span id="lowStockMedicines">...</span>
+          </div>
+          <div class="overview-card card-new-customers">
+            <h3>Khách hàng mới hôm nay</h3>
+            <span id="newCustomersToday">...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quản lý thuốc -->
+      <div class="content-section" id="medicines">
+        <h1>Quản lý thuốc</h1>
+        <button class="addBtn" onclick="openAddMedicineModal()">
+          Thêm thuốc
+        </button>
+        <table id="medicineTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên thuốc</th>
+              <th>Kê đơn</th>
+              <th>Đóng gói</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Đơn thuốc -->
+      <div class="content-section" id="prescriptions">
+        <h1>Đơn thuốc</h1>
+        <button class="addBtn" onclick="openAddPrescriptionModal()">
+          Thêm đơn thuốc
+        </button>
+        <table id="prescriptionTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Khách hàng</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Khách hàng -->
+      <div class="content-section" id="customers">
+        <h1>Khách hàng</h1>
+        <button class="addBtn" onclick="openAddCustomerModal()">
+          Thêm khách hàng
+        </button>
+        <table id="customerTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên</th>
+              <th>Email</th>
+              <th>SĐT</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Bài viết -->
+      <div class="content-section" id="posts">
+        <h1>Bài viết</h1>
+        <button class="addBtn" onclick="openAddPostModal()">
+          Thêm bài viết
+        </button>
+        <table id="postTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tiêu đề</th>
+              <th>Nội dung</th>
+              <th>Ngày đăng</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Medicine Modals -->
+    <div class="modal" id="medicineAddModal">
+      <div class="modal-content">
+        <h2>Thêm thuốc</h2>
+        <label>ID:</label><input type="text" id="medicineAddId" />
+        <label>Tên thuốc:</label><input type="text" id="medicineAddName" />
+        <label>Mô tả:</label><input type="text" id="medicineAddDescription" />
+        <label>Giá:</label><input type="number" id="medicineAddPrice" />
+        <label>Số lượng:</label><input type="number" id="medicineAddQuantity" />
+        <button class="save-btn" onclick="addMedicine()">Thêm</button>
+        <button class="cancel-btn" onclick="closeModal('medicineAddModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="medicineViewModal">
+      <div class="modal-content">
+        <h2>Thông tin thuốc</h2>
+        <p id="medicineViewContent"></p>
+        <button class="cancel-btn" onclick="closeModal('medicineViewModal')">
+          Đóng
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="medicineEditModal">
+      <div class="modal-content">
+        <h2>Sửa thuốc</h2>
+        <input type="hidden" id="medicineEditId" />
+        <label>Tên thuốc:</label><input type="text" id="medicineEditName" />
+        <label>Mô tả:</label><input type="text" id="medicineEditDescription" />
+        <label>Giá:</label><input type="number" id="medicineEditPrice" />
+        <label>Số lượng:</label
+        ><input type="number" id="medicineEditQuantity" />
+        <button class="save-btn" onclick="saveMedicine()">Lưu</button>
+        <button class="cancel-btn" onclick="closeModal('medicineEditModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="medicineDeleteModal">
+      <div class="modal-content">
+        <h2>Xác nhận xóa</h2>
+        <p>Bạn có chắc chắn muốn xóa thuốc này không?</p>
+        <button class="confirm-btn" onclick="deleteMedicine()">Xác nhận</button>
+        <button class="cancel-btn" onclick="closeModal('medicineDeleteModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+
+    <!-- Prescription Modals -->
+    <div class="modal" id="prescriptionAddModal">
+      <div class="modal-content">
+        <h2>Thêm đơn thuốc</h2>
+        <label>ID:</label><input type="text" id="prescriptionAddId" />
+        <label>Khách hàng:</label
+        ><input type="text" id="prescriptionAddCustomer" />
+        <label>Tổng tiền:</label
+        ><input type="number" id="prescriptionAddTotal" />
+        <label>Trạng thái:</label>
+        <select id="prescriptionAddStatus">
+          <option value="pending">Chờ xử lý</option>
+          <option value="processing">Đang xử lý</option>
+          <option value="shipped">Đã giao</option>
+          <option value="delivered">Hoàn thành</option>
+          <option value="cancelled">Hủy</option>
+        </select>
+        <button class="save-btn" onclick="addPrescription()">Thêm</button>
+        <button class="cancel-btn" onclick="closeModal('prescriptionAddModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="prescriptionViewModal">
+      <div class="modal-content">
+        <h2>Thông tin đơn thuốc</h2>
+        <p id="prescriptionViewContent"></p>
+        <button
+          class="cancel-btn"
+          onclick="closeModal('prescriptionViewModal')"
+        >
+          Đóng
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="prescriptionEditModal">
+      <div class="modal-content">
+        <h2>Sửa đơn thuốc</h2>
+        <input type="hidden" id="prescriptionEditId" />
+        <label>Khách hàng:</label
+        ><input type="text" id="prescriptionEditCustomer" />
+        <label>Tổng tiền:</label
+        ><input type="number" id="prescriptionEditTotal" />
+        <label>Trạng thái:</label>
+        <select id="prescriptionEditStatus">
+          <option value="pending">Chờ xử lý</option>
+          <option value="processing">Đang xử lý</option>
+          <option value="shipped">Đã giao</option>
+          <option value="delivered">Hoàn thành</option>
+          <option value="cancelled">Hủy</option>
+        </select>
+        <button class="save-btn" onclick="savePrescription()">Lưu</button>
+        <button
+          class="cancel-btn"
+          onclick="closeModal('prescriptionEditModal')"
+        >
+          Hủy
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="prescriptionDeleteModal">
+      <div class="modal-content">
+        <h2>Xác nhận xóa</h2>
+        <p>Bạn có chắc chắn muốn xóa đơn thuốc này không?</p>
+        <button class="confirm-btn" onclick="deletePrescription()">
+          Xác nhận
+        </button>
+        <button
+          class="cancel-btn"
+          onclick="closeModal('prescriptionDeleteModal')"
+        >
+          Hủy
+        </button>
+      </div>
+    </div>
+
+    <!-- Customer Modals -->
+    <div class="modal" id="customerAddModal">
+      <div class="modal-content">
+        <h2>Thêm khách hàng</h2>
+        <label>ID:</label><input type="text" id="customerAddId" />
+        <label>Tên:</label><input type="text" id="customerAddName" />
+        <label>Email:</label><input type="email" id="customerAddEmail" />
+        <label>SĐT:</label><input type="text" id="customerAddPhone" />
+        <button class="save-btn" onclick="addCustomer()">Thêm</button>
+        <button class="cancel-btn" onclick="closeModal('customerAddModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="customerViewModal">
+      <div class="modal-content">
+        <h2>Thông tin khách hàng</h2>
+        <p id="customerViewContent"></p>
+        <button class="cancel-btn" onclick="closeModal('customerViewModal')">
+          Đóng
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="customerEditModal">
+      <div class="modal-content">
+        <h2>Sửa khách hàng</h2>
+        <input type="hidden" id="customerEditId" />
+        <label>Tên:</label><input type="text" id="customerEditName" />
+        <label>Email:</label><input type="email" id="customerEditEmail" />
+        <label>SĐT:</label><input type="text" id="customerEditPhone" />
+        <button class="save-btn" onclick="saveCustomer()">Lưu</button>
+        <button class="cancel-btn" onclick="closeModal('customerEditModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="customerDeleteModal">
+      <div class="modal-content">
+        <h2>Xác nhận xóa</h2>
+        <p>Bạn có chắc chắn muốn xóa khách hàng này không?</p>
+        <button class="confirm-btn" onclick="deleteCustomer()">Xác nhận</button>
+        <button class="cancel-btn" onclick="closeModal('customerDeleteModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+
+    <!-- Post Modals -->
+    <div class="modal" id="postAddModal">
+      <div class="modal-content">
+        <h2>Thêm bài viết</h2>
+        <label>ID:</label><input type="text" id="postAddId" />
+        <label>Tiêu đề:</label><input type="text" id="postAddTitle" />
+        <label>Nội dung:</label><textarea id="postAddContent"></textarea>
+        <label>Ngày đăng:</label><input type="date" id="postAddDate" />
+        <button class="save-btn" onclick="addPost()">Thêm</button>
+        <button class="cancel-btn" onclick="closeModal('postAddModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="postViewModal">
+      <div class="modal-content">
+        <h2>Thông tin bài viết</h2>
+        <p id="postViewContent"></p>
+        <button class="cancel-btn" onclick="closeModal('postViewModal')">
+          Đóng
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="postEditModal">
+      <div class="modal-content">
+        <h2>Sửa bài viết</h2>
+        <input type="hidden" id="postEditId" />
+        <label>Tiêu đề:</label><input type="text" id="postEditTitle" />
+        <label>Nội dung:</label><textarea id="postEditContent"></textarea>
+        <label>Ngày đăng:</label><input type="date" id="postEditDate" />
+        <button class="save-btn" onclick="savePost()">Lưu</button>
+        <button class="cancel-btn" onclick="closeModal('postEditModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+    <div class="modal" id="postDeleteModal">
+      <div class="modal-content">
+        <h2>Xác nhận xóa</h2>
+        <p>Bạn có chắc chắn muốn xóa bài viết này không?</p>
+        <button class="confirm-btn" onclick="deletePost()">Xác nhận</button>
+        <button class="cancel-btn" onclick="closeModal('postDeleteModal')">
+          Hủy
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

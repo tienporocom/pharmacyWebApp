@@ -8,7 +8,8 @@ const {
   updateUserProfile,
   deleteUser,
   getAddress,
-  updateAddress
+  updateAddress, 
+  getAllUsers,
 } = require("../controllers/userController");
 
 // Đăng ký người dùng mới
@@ -26,6 +27,8 @@ router.put("/profile", authMiddleware, updateUserProfile);
 // Xóa tài khoản người dùng (yêu cầu xác thực)
 router.delete("/profile", authMiddleware, deleteUser);
 
+// Lấy danh sách tất cả người dùng (dành cho admin, yêu cầu xác thực và quyền admin)
+router.get("/all", authMiddleware, getAllUsers);
 
 router.get("/address", authMiddleware, getAddress);
 router.put("/address", authMiddleware, updateAddress);
