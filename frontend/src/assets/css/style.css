@@ -255,8 +255,8 @@ body {
   padding: 4px 8px;
   font-size: 12px;
   position: absolute;
-  top: -5px;
-  right: -10px;
+  top: -12px;
+  right: -20px;
 }
 
 .cart-dropdown {
@@ -369,7 +369,6 @@ body {
   color: #007bff;
 }
 
-
 /* .best-sellers {
   background-color: #fff;
   padding: 20px 0;
@@ -432,9 +431,8 @@ body {
 
 .footer-col {
   flex: 1;
-  width:  150px;
+  width: 150px;
 }
-
 
 .footer-col h4 {
   font-size: 18px;
