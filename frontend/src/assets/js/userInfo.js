@@ -23,7 +23,16 @@ function fetchUserProfile() {
         user.dOB
       ).toLocaleDateString("vi-VN");
 
-      generateBarcode(user.phone);
+      var QR_CODE = new QRCode("qrcode", {
+        width: 220,
+        height: 220,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+
+      QR_CODE.makeCode("ID_TANTAM:"+user._id+"---N:"+user.name+"---P:"+user.phone); // Thay đổi ở đây, sử dụng user._id
+
     })
     .catch((error) => console.error("Lỗi khi lấy dữ liệu:", error));
 }
@@ -302,22 +311,5 @@ function fetchUserProfile() {
             });
         }
 
-        function generateBarcode(number) {
-            const barcodeElement = document.getElementById("barcode");
-            barcodeElement.innerHTML = ""; // Xóa nội dung cũ
-        
-            // Chuyển mỗi chữ số thành các vạch
-            for (let char of number) {
-              let bars = parseInt(char) + 1; // Số lớn hơn tạo vạch to hơn
-              for (let i = 0; i < bars; i++) {
-                let bar = document.createElement("div");
-                bar.classList.add("bar");
-                barcodeElement.appendChild(bar);
-              }
-              let space = document.createElement("div");
-              space.style.width = "6px"; // Khoảng cách giữa các số
-              barcodeElement.appendChild(space);
-            }
-          }
               
     

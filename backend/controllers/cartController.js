@@ -29,14 +29,37 @@ exports.addToCart = async (req, res) => {
 };
 
 // Lấy giỏ hàng
+// exports.getCart = async (req, res) => {
+//   try {
+//     let userId = req.user;
+//     // console.log(userId);
+//     const user = await User.findById(req.user);
+//     // console.log(user);
+//     const cart = await Cart.findOne({ user }).populate("items.product");
+//     res.json(cart || { items: [] });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 exports.getCart = async (req, res) => {
   try {
-    let userId = req.user;
-    // console.log(userId);
-    const user = await User.findById(req.user);
-    // console.log(user);
+    const  user  = req.user;
+    console.log(user);
     const cart = await Cart.findOne({ user }).populate("items.product");
-    res.json(cart || { items: [] });
+    if (!cart) return res.status(404).json({ message: "Cart not found" });
+
+    const cartDetails = cart.items.map((item) => ({
+      productId: item.product._id,
+      productName: item.product.name,
+      units: item.units.map((unit) => ({
+        unitName: unit.unitName,
+        quantity: unit.quantity,
+        price: unit.price,
+      })),
+    }));
+
+    res.json(cartDetails);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
