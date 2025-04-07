@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
   {
+
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -9,22 +10,34 @@ const orderSchema = new mongoose.Schema(
     },
     orderItems: [
       // Danh sách sản phẩm trong đơn hàng
+      // {
+      //   product: {
+      //     type: mongoose.Schema.Types.ObjectId,
+      //     ref: "Product",
+      //     required: true,
+      //   },
+      //   items: [
+      //     // Chi tiết số lượng theo từng đơn vị
+      //     {
+      //       unitName: { type: String, required: true }, // Tên đơn vị (hộp, vỉ, viên,...)
+      //       quantity: { type: Number, required: true }, // Số lượng theo đơn vị
+      //       price: { type: Number, required: true }, // Giá tại thời điểm đặt hàng
+      //     },
+      //   ],
+      //   subtotal: { type: Number, required: true }, // Tổng tiền cho sản phẩm này
+      // }
       {
+        _id: mongoose.Schema.Types.ObjectId,
         product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
           required: true,
         },
-        items: [
-          // Chi tiết số lượng theo từng đơn vị
-          {
-            unitName: { type: String, required: true }, // Tên đơn vị (hộp, vỉ, viên,...)
-            quantity: { type: Number, required: true }, // Số lượng theo đơn vị
-            price: { type: Number, required: true }, // Giá tại thời điểm đặt hàng
-          },
-        ],
+        unitName: { type: String, required: true }, // Tên đơn vị (hộp, vỉ, viên,...)
+        quantity: { type: Number, required: true }, // Số lượng theo đơn vị
+        price: { type: Number, required: true }, // Giá tại thời điểm đặt hàng
         subtotal: { type: Number, required: true }, // Tổng tiền cho sản phẩm này
-      },
+      }
     ],
     shippingAddress: {
       address: { type: String, required: true },
@@ -39,8 +52,8 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
-      default: "pending",
+      enum: ["new", "pending", "processing", "shipped", "delivered", "cancelled"],
+      default: "new",
     },
     paymentMethod: {
       type: String,
@@ -86,7 +99,7 @@ module.exports = mongoose.model("Order", orderSchema);
 //         {
 //           "unitName": "hộp",
 //           "quantity": 1,
-//           "price": 30000     
+//           "price": 30000
 //         }
 //       ],
 //       "subtotal": 30000

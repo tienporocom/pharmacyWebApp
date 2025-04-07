@@ -22,7 +22,7 @@
 
         .icon-button:hover i {
             color: darkred;
-            /* Change color on hover */ 
+            /* Change color on hover */
         }
 
         .small-quantity {
@@ -539,8 +539,7 @@
     <script>
         const requestHeader = {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-
+            Authorization: `Bearer ${localStorage.getItem("token")}`
         }
 
         const host = "http://localhost:5000"
@@ -564,32 +563,30 @@
 
             async function fetchData() {
                 try {
-                     let response = await fetch(`${host}/api/cart`, {
-                         method: "GET", // Optional here, since GET is default
-                         headers: requestHeader,
-                         
-                     });
-                     let data = await response.json();
+                    let response = await fetch(`${host}/api/cart/info`, {
+                        method: "GET", // Optional here, since GET is default
+                        headers: requestHeader,
 
-                    
+                    });
+                    let data = await response.json();
 
                     console.log("API Response:", data); // Debugging
 
                     let tableBody = document.getElementById("productTableBody"); // 🔹 Ensure <tbody> has this ID
                     tableBody.innerHTML = ""; // Clear existing content
-                        
-                    data.forEach((item, index) => {
+
+                    data.orderItems.forEach((item, index) => {
                         let row = `
-                        <tr data-id="${item.id}">
+                        <tr data-id="${item.product._id}">
                             <td>
                                 <label class="toggle-button">
                                     <input type="checkbox" class="item-checkbox">
                                 </label>
                             </td>
                             <td style="display: flex; align-items: center; vertical-align: middle;">
-                                <img style="width: 15%; height: 15%;" src="${item.image}" alt="">
+                                <img style="width: 15%; height: 15%;" src="${item.product.images}" alt="">
                                 <p style="font-size: 12px; vertical-align: middle; font-style: italic;">
-                                    ${item.name}
+                                    ${item.product.name}
                                 </p>
                             </td>
                             <td></td>
@@ -597,9 +594,9 @@
                             <td></td>
                             <td>
                                 <div class="input-group small-quantity mx-auto">
-                                    <button class="btn btn-danger btn-sm" onclick="decrement('quantity-${index}', ${item.id})">-</button>
+                                    <button class="btn btn-danger btn-sm" onclick="decrement('quantity-${index}', '${item._id}')">-</button>
                                     <input type="text" id="quantity-${index}" class="form-control form-control-sm text-center" value="${item.quantity}" readonly>
-                                    <button class="btn btn-success btn-sm" onclick="increment('quantity-${index}', ${item.id})">+</button>
+                                    <button class="btn btn-success btn-sm" onclick="increment('quantity-${index}', '${item._id}')">+</button>
                                 </div>
                             </td>
                             <td></td>
@@ -637,7 +634,7 @@
 
                     let productList = [];  // Initialize an empty array to hold product HTML
 
-                    data.forEach(product => {
+                    data.orderItems.forEach(product => {
                         const price = product.price;
                         const quantity = product.quantity;
 
@@ -665,9 +662,7 @@
                     console.error("Error fetching data:", error);
                 }
             }
-
-
-        });
+        })
 
         // DELETE SAN PHAM TRONG GIO HANG
         function deleteRow(button) {
@@ -773,22 +768,27 @@
             let quantityInput = document.getElementById(inputId);
             const updatedQuantity = parseInt(quantityInput.value) + 1;
 
-            fetch(`${host}/api/orders`, { // Replace with your API endpoint
+
+            fetch(`${host}/api/cart/${itemId}`, { // Replace with your API endpoint
                 method: 'PUT',
                 headers: requestHeader,
                 body: JSON.stringify({
-                    productId: itemId,
                     quantity: updatedQuantity
                 })
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        quantityInput.value = updatedQuantity
-                        console.log("update thanh cong")
+                .then(response => {
+                    // Check if the response status code is 200 (OK) for success
+                    if (response.status === 200) {
+                        return response.json(); // Parse JSON if the response was successful
                     } else {
-                        console.log("update failure")
+                        throw new Error(`HTTP error! Status: ${response.status}`); // Handle non-200 responses
                     }
+                })
+                .then(data => {
+                    console.log(`data response ${data}`);
+                    // Handle successful update here
+                    quantityInput.value = updatedQuantity;
+                    console.log("update thanh cong");
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -803,32 +803,33 @@
             if (quantityInput.value > 1) {
                 const updatedQuantity = parseInt(quantityInput.value) - 1;
 
-                fetch(`${host}/api/orders`, { // Replace with your API endpoint
+                fetch(`${host}/api/cart/${itemId}`, { // Replace with your API endpoint
                     method: 'PUT',
                     headers: requestHeader,
                     body: JSON.stringify({
-                        productId: itemId,
                         quantity: updatedQuantity
                     })
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            quantityInput.value = updatedQuantity
-                            console.log("update thanh cong")
+                    .then(response => {
+                        // Check if the response status code is 200 (OK) for success
+                        if (response.status === 200) {
+                            return response.json(); // Parse JSON if the response was successful
                         } else {
-                            console.log("update failure")
+                            throw new Error(`HTTP error! Status: ${response.status}`); // Handle non-200 responses
                         }
+                    })
+                    .then(data => {
+                        console.log(`data response ${data}`);
+                        // Handle successful update here
+                        quantityInput.value = updatedQuantity;
+                        console.log("update thanh cong");
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         alert('Có lỗi xảy ra khi cap nhat don hang!');
                     });
             }
-
-
         }
-
     </script>
 </body>
 

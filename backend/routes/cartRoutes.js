@@ -20,7 +20,7 @@ router.get('/', authMiddleware, getCart);
 router.get('/info', authMiddleware, getCartInfo);
 
 // Cập nhật số lượng sản phẩm trong giỏ hàng 
-router.put('/', authMiddleware, updateCartItem);
+router.put('/:itemId', authMiddleware, updateCartItem);
 
 // Xóa sản phẩm khỏi giỏ hàng 
 router.delete('/item', authMiddleware, removeFromCart);
