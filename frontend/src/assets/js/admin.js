@@ -45,6 +45,9 @@ const loadData = async () => {
     const adminNamefield = document.querySelector(".adminName");
     adminNamefield.innerText = "Admin:" + JSON.parse(localStorage.getItem("user"))?.name;
     } catch (error) {
+    //Hiện cửa sổ thông báo lỗi
+    alert("Lỗi tải dữ liệu: " + error.message);
+
     console.error("Error loading data:", error);
   }
 };

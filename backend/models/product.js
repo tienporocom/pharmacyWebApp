@@ -24,6 +24,7 @@ const productSchema = new mongoose.Schema({
       price: { type: Number, default: 10000 }, // Giá theo đơn vị
     },
   ],
+  sales:{type:Number,default:0}, // Số lượng đã bán
 });
 
 module.exports = mongoose.model("Product", productSchema);

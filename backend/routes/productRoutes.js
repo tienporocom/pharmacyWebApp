@@ -12,6 +12,7 @@ const {
     getProductsByPage,
     searchProducts,
     getTotalProducts,
+    getBestSellingProducts
 
 } = require("../controllers/productController");
 
@@ -27,6 +28,7 @@ router.get("/groups", getGroups); // Lấy danh sách nhóm sản phẩm
 router.get("/groups/:group", getProductsByGroup); // Lấy danh sách sản phẩm theo nhóm
 router.get("/search", searchProducts); // Tìm kiếm sản phẩm
 router.get("/total", getTotalProducts); // Lấy tổng số sản phẩm
+router.get("/bestselling", getBestSellingProducts); // Lấy danh sách sản phẩm bán chạy
 router.get("/:id", getProduct); // Lấy chi tiết sản phẩm
 router.post("/", createProduct); // Thêm sản phẩm mới
 router.put("/:id", updateProduct); // Cập nhật sản phẩm

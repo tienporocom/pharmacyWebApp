@@ -157,3 +157,22 @@ exports.getTotalProducts = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+//Lấy danh sách sản phẩm bán chạy theo nhóm sản phẩm và phân trang (có thể lấy theo tất cả nhóm sản phẩm)
+exports.getBestSellingProducts = async (req, res) => {
+  try {
+    const { page = 1, limit = 12, group } = req.query; // Mặc định page=1, limit=10 nếu không nhập
+    const query = group ? { drugGroup: group } : {}; // Nếu có group thì lọc, không thì lấy tất cả
+
+    const products = await Product.find(query)
+      .sort({ sales: -1 }) // Sắp xếp theo số lượng bán
+      .limit(Number(limit)) // Chuyển limit thành số
+      .skip((Number(page) - 1) * Number(limit)) // Skip theo phân trang
+      .exec();
+
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
