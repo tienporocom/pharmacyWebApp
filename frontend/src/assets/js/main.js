@@ -103,3 +103,23 @@ document.addEventListener("DOMContentLoaded", setupUserAccount);
         behavior: 'smooth'
     });
 }
+
+
+//hàm tìm kiếm sản phẩm
+function searchProducts() {
+    const searchInput = document.getElementById("search-input");
+    const searchButton = document.getElementById("search-button");
+    console.log("Tìm kiếm sản phẩm");
+    if (searchInput && searchButton) {
+        const keyword = searchInput.value.trim();
+        if (keyword) {
+            // Lưu từ khóa tìm kiếm vào localStorage
+            localStorage.setItem("searchKeyword", keyword);
+            // Chuyển hướng đến trang tìm kiếm
+            window.location.href = `search.html?keyword=${encodeURIComponent(keyword)}`;
+        } else {
+            alert("Vui lòng nhập từ khóa tìm kiếm.");
+        }
+    }
+}
+

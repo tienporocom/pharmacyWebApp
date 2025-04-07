@@ -77,7 +77,7 @@ body {
   align-items: center;
   background: white;
   border-radius: 30px;
-  padding: 10px;
+  padding: 10px 0 10px 10px;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -528,7 +528,20 @@ body {
 .QRimg {
   width: 150px;
   height: 150px;
-  border: 2px solid #0074d9;
 
   border-radius: 10px;
+}
+.scan-icon{
+  height: 40px;
+  padding: 0 10px;
+  background-color: #fff;
+  border: none;
+  border-radius: 0 30px 30px 0;
+}
+.scan-icon:hover{
+  /* di chuyển lắc lắc */
+  animation: shake 0.5s;
+  background-color: #ddd;
+  border: none;
+
 }
