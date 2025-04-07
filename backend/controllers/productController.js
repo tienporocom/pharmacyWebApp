@@ -10,15 +10,51 @@ exports.getGroups = async (req, res) => {
   }
 };
 
-//lấy danh sách sản phẩm theo nhóm
 exports.getProductsByGroup = async (req, res) => {
   try {
-    const products = await Product.find({ drugGroup: req.params.group });
+    const { medicineType, priceRange, countries, sort } = req.query;
+    const group = req.params.group;
+
+    const filter = { drugGroup: group };
+
+    // Lọc theo loại thuốc
+    if (medicineType === 'prescription') {
+      filter.isPrescribe = true;
+    } else if (medicineType === 'non-prescription') {
+      filter.isPrescribe = false;
+    }
+
+    // Lọc theo khoảng giá
+    if (priceRange && priceRange !== 'all') {
+      const [min, max] = priceRange.split('-');
+      filter['packagingUnits.0.price'] = {};
+      if (min) filter['packagingUnits.0.price'].$gte = parseInt(min);
+      if (max) filter['packagingUnits.0.price'].$lte = parseInt(max);
+    }
+
+    // Lọc theo nước sản xuất
+    if (countries) {
+      const countryArray = countries.split(',');
+      filter.placeOfManufacture = { $in: countryArray };
+    }
+
+    // Sắp xếp
+    let sortOption = {};
+    if (sort === 'price-low') {
+      sortOption['packagingUnits.0.price'] = 1;
+    } else if (sort === 'price-high') {
+      sortOption['packagingUnits.0.price'] = -1;
+    } else {
+      sortOption = { createdAt: -1 }; // Giả định là sắp theo thời gian thêm sản phẩm
+    }
+
+    const products = await Product.find(filter).sort(sortOption);
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Lấy danh sách sản phẩm
 exports.getProducts = async (req, res) => {
@@ -48,16 +84,6 @@ exports.getProductsByPage = async (req, res) => {
   }
 };
 
-
-// Lấy danh sách sản phẩm theo nhóm
-exports.getProductsByGroup = async (req, res) => {
-  try {
-    const products = await Product.find({ drugGroup: req.params.group });
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
 // Tim kiếm sản phẩm theo tên, nhóm, thành phần, mô tả ngắn, id, nhà sản xuất
 exports.searchProducts = async (req, res) => {
@@ -176,3 +202,15 @@ exports.getBestSellingProducts = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//lấy danh sách nước sản xuất theo nhóm sản phẩm
+exports.getManufacturers = async (req, res) => {
+  try {
+    const group = req.params.group;
+    console.log(group);
+    const manufacturers = await Product.distinct("placeOfManufacture", { drugGroup: group });
+    res.json(manufacturers);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
