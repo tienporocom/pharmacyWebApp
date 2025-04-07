@@ -538,11 +538,12 @@
     <div id="content-footer"></div>
     <script>
         const requestHeader = {
-            "Authorization": "Bearer YOUR_ACCESS_TOKEN",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+
         }
 
-        const host = "http://localhost:3000"
+        const host = "http://localhost:5000"
 
         document.addEventListener("DOMContentLoaded", function () {
 
@@ -563,28 +564,14 @@
 
             async function fetchData() {
                 try {
-                    // let response = await fetch(`${host}/api/cart`, {
-                    //     method: "GET", // Optional here, since GET is default
-                    //     headers: requestHeader
-                    // });
-                    // let data = await response.json();
+                     let response = await fetch(`${host}/api/cart`, {
+                         method: "GET", // Optional here, since GET is default
+                         headers: requestHeader,
+                         
+                     });
+                     let data = await response.json();
 
-                    let data = [
-                        {
-                            "id": 1,
-                            "name": "Sữa bột CaloSure gold Vitadairy ít đường, tăng cường sức khỏe tim mạch, hồi phục sức khỏe (900g)",
-                            "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG",
-                            "price": "500000",
-                            "quantity": 2
-                        },
-                        {
-                            "id": 2,
-                            "name": "Sữa bột Vinamilk Dielac Alpha Gold Step 4 (900g)",
-                            "image": "https://cdn.nhathuoclongchau.com.vn/unsafe/96x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00032894_sua_vitadairy_calosure_gold_it_duong_900g_8685_61a0_large_bc8203bbff.JPG",
-                            "price": "450000",
-                            "quantity": 5
-                        }
-                    ];
+                    
 
                     console.log("API Response:", data); // Debugging
 
