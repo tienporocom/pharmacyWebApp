@@ -110,7 +110,7 @@
             }
 
             try {
-                const res = await fetch(`http://localhost:3000/orders/${orderId}`, {
+                const res = await fetch(`http://localhost:5000/orders/${orderId}`, {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token") // nếu bạn có auth
                     }

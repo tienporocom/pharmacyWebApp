@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
   {
-
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -33,11 +32,15 @@ const orderSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
-        unitName: { type: String, required: true }, // Tên đơn vị (hộp, vỉ, viên,...)
-        quantity: { type: Number, required: true }, // Số lượng theo đơn vị
-        price: { type: Number, required: true }, // Giá tại thời điểm đặt hàng
+        items: [
+          {
+            unitName: { type: String, required: true }, // Tên đơn vị (hộp, vỉ, viên,...)
+            quantity: { type: Number, required: true }, // Số lượng theo đơn vị
+            price: { type: Number, required: true }, // Giá tại thời điểm đặt hàng
+          }
+        ], 
         subtotal: { type: Number, required: true }, // Tổng tiền cho sản phẩm này
-      }
+      },
     ],
     shippingAddress: {
       address: { type: String, required: true },
@@ -52,7 +55,14 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["new", "pending", "processing", "shipped", "delivered", "cancelled"],
+      enum: [
+        "new",
+        "pending",
+        "processing",
+        "shipped",
+        "delivered",
+        "cancelled",
+      ],
       default: "new",
     },
     paymentMethod: {
