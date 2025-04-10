@@ -52,13 +52,13 @@
     <!-- Các chức năng hỗ trợ -->
     <section class="feature-boxes">
       <div class="container">
-        <div class="feature-item">
+        <button class="feature-item">
           <div class="feature-icon">
             <img src="../assets/img/iconDrug.webp" alt="Cần mua thuốc" />
           </div>
           <p>Cần mua thuốc</p>
-        </div>
-        <div class="feature-item">
+        </button >
+        <button class="feature-item">
           <div class="feature-icon">
             <img
               src="../assets/img/iconQues.webp"
@@ -66,25 +66,25 @@
             />
           </div>
           <p>Tư vấn với Dược Sỹ</p>
-        </div>
-        <div class="feature-item">
+        </button >
+        <button class="feature-item">
           <div class="feature-icon">
             <img src="../assets/img/iconFindStore.webp" alt="Tìm nhà thuốc" />
           </div>
           <p>Tìm nhà thuốc</p>
-        </div>
-        <div class="feature-item">
+        </button >
+        <button class="feature-item" onclick="location.href = '../pages/order.html'">
           <div class="feature-icon">
             <img src="../assets/img/iconOrder.webp" alt="Đơn của tôi" />
           </div>
           <p>Đơn của tôi</p>
-        </div>
-        <div class="feature-item">
+        </button >
+        <button class="feature-item">
           <div class="feature-icon">
             <img src="../assets/img/iconHealthCheck.webp" alt="Kiểm tra sức khỏe" />
           </div>
           <p>Kiểm tra sức khỏe</p>
-        </div>
+        </button >
       </div>
     </section>
 
@@ -175,6 +175,8 @@
           });
           const product = await res.json();
           console.log("Sản phẩm đã chọn:", product);
+
+          loadCartInfoFromAPIToHeader(); // Cập nhật giỏ hàng trên header
         }
       });
     </script>

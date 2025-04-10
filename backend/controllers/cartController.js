@@ -160,7 +160,6 @@ exports.getCartInfo = async (req, res) => {
     }
 
     const order = orders[0];
-    console.log(`response cart info ${order}`);
     res.json(order);
   } catch (error) {
     console.log(`get cart info error ${error.message}`);
@@ -210,7 +209,9 @@ async function updateOrderItemQuantity(itemId, newQuantity) {
     throw new Error("Item not found in any order item");
   }
 
+
   await order.save();
+   
   return updatedUnit;
 }
 
@@ -219,10 +220,20 @@ async function updateOrderItemQuantity(itemId, newQuantity) {
 exports.updateCartItem = async (req, res) => {
   const { itemId } = req.params;
   const { quantity } = req.body;
-  console.log(`itemId: ${itemId}, quantity: ${quantity}`);
 
   try {
     const updatedItem = await updateOrderItemQuantity(itemId, quantity);
+
+    if (updatedItem){
+      //Cap nhat lại tổng tiền đơn hàng
+      const order = await Order.findOne({ status: "new", user: req.user });
+      order.totalAmountBeforeDiscount = order.orderItems.reduce(
+        (sum, item) => sum + item.subtotal,
+        0
+      );
+      order.totalAmount = order.totalAmountBeforeDiscount - order.discount.amount;
+      await order.save();
+    }
     res.status(200).json({
       message: "Quantity updated successfully",
       item: updatedItem,
@@ -247,10 +258,21 @@ exports.removeFromCart = async (req, res) => {
           // Cập nhật subtotal trước khi xóa
           cart.orderItems[index].subtotal -= unit.price * unit.quantity;
           cart.orderItems[index].items.splice(unitIndex, 1); // Xóa đơn vị
+
+          // Nếu không còn đơn vị nào trong orderItem, xóa orderItem
+          if (cart.orderItems[index].items.length === 0) {
+            cart.orderItems.splice(index, 1); // Xóa orderItem
+          }
         }
       });
     });
 
+    // Cập nhật tổng tiền đơn hàng
+    cart.totalAmountBeforeDiscount = cart.orderItems.reduce(
+      (sum, item) => sum + item.subtotal,
+      0
+    );
+    cart.totalAmount = cart.totalAmountBeforeDiscount - cart.discount.amount;
     await cart.save();
 
     res.json({ message: "Item removed from cart!", cart });

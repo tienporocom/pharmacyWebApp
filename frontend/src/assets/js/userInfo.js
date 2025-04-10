@@ -92,6 +92,7 @@ function fetchUserProfile() {
         if (editAddressBtn && addressModal) {
           editAddressBtn.addEventListener("click", () => {
             addressModal.style.display = "flex";
+
             fetchAddressModal();
             
           });
@@ -180,6 +181,9 @@ function fetchUserProfile() {
             })
               .then((response) => response.json())
               .then((address) => {
+                // Xoá các dòng trước khi thêm dòng mới
+                addressItems.innerHTML = ""; // Xoá các dòng trước khi thêm dòng mới
+                
                 for (let i = 0; i < address.length; i++) {
                   const tr = document.createElement("tr");
                   tr.innerHTML = `
@@ -216,6 +220,8 @@ function fetchUserProfile() {
                 <button class="btn-delete">Xóa</button>
                 </td>
             `;
+            //Xoá các dòng trước khi thêm dòng mới
+           
             addressItems.appendChild(tr);
 
             if (addressT.default) {

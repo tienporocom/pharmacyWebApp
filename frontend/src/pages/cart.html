@@ -201,6 +201,7 @@
             background: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
+            margin-bottom: 20px;
         }
 
         .form-check-label {
@@ -223,7 +224,7 @@
 
         body > div.container.text-center > div > div.col-10.container.text-center > div.row > div.col-8{
             background-color: #ffffff;
-            border-radius: 20px;
+            border-radius: 8px;
             margin-bottom: 20px;
         }
         /* Style cho modal */
@@ -304,11 +305,147 @@ tr {
     border-top: 1px solid #ccc !important;
     border-bottom: 1px solid #ccc !important;
   }
+  .summary {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+.summary-row span:first-child {
+    color: #666;
+}
+
+.discount {
+    color: #0056b3;
+}
+
+.saving {
+    color: #0056b3;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.final-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.new-price {
+    color: #0056b3;
+    font-size: 18px;
+}
+
+.submit-order-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-order-btn:hover {
+    background-color: #b30000;
+}
+
+.terms-notice {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+}
+
+.terms-notice a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.terms-notice a:hover {
+    text-decoration: underline;
+}
+body > div.container.text-center > div > div.col-10.container.text-center > div.row > div.col-8 > div.container.mt-5 > div > div > label > img{
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+}
+/* Ẩn checkbox mặc định */
+.item-checkbox , #checkAll {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    vertical-align: middle;
+  }
+  
+  /* Style khi checkbox được chọn */
+  .item-checkbox:checked, #checkAll:checked {
+    background-color: #007bff; /* Màu xanh lá */
+    border-color: #007bff;
+  }
+  
+  /* Tạo dấu tích trắng khi được chọn */
+  .item-checkbox:checked::after, #checkAll:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -60%) rotate(45deg);
+  }
+  
+  /* Hiệu ứng hover */
+  .item-checkbox:hover , #checkAll:hover {
+    border-color: #0d6efd;
+  }
+  
+  /* Hiệu ứng focus */
+  .item-checkbox:focus {
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="stylesheet" href="../assets/css/reset.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/main.js"></script>
     <script>
@@ -330,81 +467,12 @@ tr {
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <div class="header-top">
-        <div class="container">
-            <div class="top-left">
-                <p>Hệ thống nhà thuốc trên toàn quốc</p>
-            </div>
-            <div class="top-right">
-                <p>Hotline: 1800 6928</p>
-            </div>
-        </div>
-    </div>
+   
     <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
-    <header class="header-main">
-        <div class="container header-flex">
-            <a href="../pages/index.html" id="link-logo">
-                <img class="logo" src="../assets/img/logo.png" alt="logo" />
-                <div class="text">
-                    <h1>NHÀ THUỐC</h1>
-                    <h1>TẬN TÂM</h1>
-                </div>
-            </a>
-
-            <div class="search-bar">
-                <input type="text" placeholder="Tìm tên thuốc, bệnh lý, thực phẩm chức năng..." />
-                <div class="search-icons">
-                    <span class="scan-icon">🔍</span>
-                </div>
-            </div>
-
-            <div class="account-info">
-                <a href="../pages/login.html" id="login-btn" class="login-button">Đăng nhập</a>
-
-                <div id="user-info" style="display: none;">
-                    <a href="../pages/userInfo.html" id="account-link">
-                        <img id="user-avatar" src="" alt="">
-                        <span id="user-name"></span>
-                    </a>
-                    <div class="dropdown-menu" id="dropdown-menu">
-                        <button id="logout-btn">Đăng xuất</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cart">
-                <a href="cart.html" class="cart-icon">
-                    <img src="../assets/img/cart.png" alt="Giỏ hàng" />
-                    <span class="cart-label">Giỏ hàng</span>
-                    <span id="cart-count">3</span>
-                </a>
-                <div class="cart-dropdown">
-                    <h3>Giỏ hàng</h3>
-                    <ul id="cart-items">
-                        <!-- Sản phẩm sẽ được thêm vào đây bằng JS -->
-                    </ul>
-                    <p id="cart-total"></p>
-                    <button id="view-cart">Xem giỏ hàng</button>
-                </div>
-            </div>
+    <div data-include="../components/header.html"></div>
 
 
 
-    </header>
-
-    <!-- Thanh menu điều hướng -->
-    <nav class="main-nav">
-        <div class="container nav-flex">
-            <ul>
-                <li><a href="#">Thuốc</a></li>
-                <li><a href="#">Thực phẩm chức năng</a></li>
-                <li><a href="#">Chăm sóc cá nhân</a></li>
-                <li><a href="#">Thiết bị y tế</a></li>
-                <li><a href="#">Bệnh & sức khỏe</a></li>
-                <li><a href="#">Kiểm tra đơn thuốc</a></li>
-            </ul>
-        </div>
-    </nav>
     <!-- <div id="content-header"></div> -->
 
     <div class="container text-center">
@@ -414,7 +482,7 @@ tr {
             <div class="col-10 container text-center">
                 <br>
                 <div class="text-start">
-                    <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button">← Quay lại giỏ hàng</a>
+                    <a href="../pages/index.html" class="btn btn-primary" role="button" >← Quay lại trang chủ</a>
                 </div>
                 <br>
                 <div class="row">
@@ -507,7 +575,7 @@ tr {
                                 <p class="mb-0 fw-semibold">Chọn hình thức nhận hàng</p>
                                 <div>
                                     <button class="btn btn-primary me-2">Giao hàng tận nơi</button>
-                                    <button class="btn btn-light">Nhận tại nhà thuốc</button>
+                                    <button class="btn btn-light" onclick="alert('Chức năng đang được phát triển')">Nhận tại nhà thuốc</button>
                                 </div>
                             </div>
                             <!-- Thông tin người đặt -->
@@ -601,13 +669,7 @@ tr {
         </div>
     </div>
 </div>
-                            <!-- Yêu cầu xuất hóa đơn điện tử -->
-                            <div class="d-flex justify-content-between align-items-center p-3 border rounded bg-light" style="margin-top: 20px;">
-                                <span>Yêu cầu xuất hóa đơn điện tử</span>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="toggleInvoice">
-                                </div>
-                            </div>
+                           
 
                         </div>
 
@@ -617,37 +679,29 @@ tr {
                                 <div class="list-group">
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/1179/1179233.png" class="icon">
+                                        <img src="../assets/img/COD.png" class="icon">
                                         Thanh toán tiền mặt khi nhận hàng
                                     </label>
+                                    
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/3063/3063788.png" class="icon">
-                                        Thanh toán bằng chuyển khoản (QR Code)
+                                        <img src="../assets/img/card.png" class="icon">
+                                        Thanh toán thẻ ATM, thẻ (Napas, Visa, MasterCard, JCB,...) 
                                     </label>
+                                    
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/2331/2331966.png" class="icon">
-                                        Thanh toán bằng thẻ ATM nội địa và tài khoản ngân hàng
-                                    </label>
-                                    <label class="list-group-item d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/196/196578.png" class="icon">
-                                        Thanh toán bằng thẻ quốc tế Visa, Master, JCB, AMEX
-                                    </label>
-                                    <label class="list-group-item d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/5968/5968756.png" class="icon">
+                                        <img src="../assets/img/zalopay.png" class="icon">
                                         Thanh toán bằng ví ZaloPay
                                     </label>
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/6137/6137644.png" class="icon">
+                                        <img src="../assets/img/momo.png" class="icon">
                                         Thanh toán bằng ví MoMo
                                     </label>
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/8253/8253307.png" class="icon">
+                                        <img src="../assets/img/vnpay.jpg" class="icon">
                                         Thanh toán bằng VNPAY
                                     </label>
                                 </div>
@@ -682,27 +736,32 @@ tr {
             const fieldPhoneOrder = document.querySelector(".field-phone-order");
             const fieldEmailOrder = document.querySelector(".field-email-order");
             const fieldNameReceiver = document.querySelector("#receiver-name");
-
+            
             fieldNameorder.value = JSON.parse(localStorage.getItem("user"))?.name;
             fieldPhoneOrder.value = JSON.parse(localStorage.getItem("user"))?.phone;
             fieldEmailOrder.value = JSON.parse(localStorage.getItem("user"))?.email;
             fieldNameReceiver.value = JSON.parse(localStorage.getItem("user"))?.name;
 
+
             const checkAll = document.getElementById("checkAll");
 
             // Debugging: Check if script runs and checkboxes exist
-            console.log("Script Loaded: ", checkAll);
-            console.log("Item Checkboxes Found: ", document.querySelectorAll('.item-checkbox'));
-
+            //console.log("Script Loaded: ", checkAll);
+            //console.log("Item Checkboxes Found: ", document.querySelectorAll('.item-checkbox'));
+            
             checkAll.addEventListener("change", function () {
                 let checkboxes = document.querySelectorAll('.item-checkbox');
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = checkAll.checked;
                 });
+                
+                updateTotalPrice();
             });
-
+            
+            
             fetchData();
-
+            
+            
             async function fetchData() {
                 try {
                     let response = await fetch(`${host}/api/cart/info`, {
@@ -715,7 +774,7 @@ tr {
                     }
             
                     let data = await response.json();
-                    console.log("API Response:", data);
+                    //console.log("API Response:", data);
             
 
             
@@ -729,9 +788,9 @@ tr {
                     // Duyệt qua từng orderItem
                     data.orderItems.forEach((orderItem, index) => {
             
-                        console.log("Order Item:", orderItem);
+                        //console.log("Order Item:", orderItem);
                         orderItem.items.forEach((item, itemIndex) => {
-                            console.log("Item:", item);
+                            //console.log("Item:", item);
 
                             // Tạo một hàng mới cho mỗi sản phẩm
                             let row = document.createElement("tr");
@@ -741,7 +800,7 @@ tr {
     <td style="display: none;">${index + 1}</td>
     <td>
         <label class="toggle-button">
-            <input type="checkbox" class="item-checkbox">
+            <input type="checkbox" class="item-checkbox" checked onChange ="updateTotalPrice()">
         </label>
     </td>
     <td style="display: flex; align-items: center; vertical-align: middle;">
@@ -750,7 +809,7 @@ tr {
     font-weight: 400;">${orderItem.product.name || 'Tên sản phẩm'}</p>
     </td>
     <td></td>
-    <td style="font-size: 12px; color :#0d6efd ">${item.price.toLocaleString("vi-VN")}đ</td>
+    <td style="font-size: 12px; color :#0d6efd " class ="item-price">${item.price.toLocaleString("vi-VN")}đ</td>
     <td></td>
     <td>
         <div class="input-group small-quantity mx-auto ">
@@ -775,17 +834,32 @@ tr {
                     const discountAmount = data.discount?.amount || 0;
             
                     $(".summary").html(`
-                        <h3>Thành tiền</h3>
-                        <p>Tổng tiền: ${totalAmountBeforeDiscount.toLocaleString("vi-VN")}đ</p>
-                        <p>Giảm giá trực tiếp: ${discountAmount.toLocaleString("vi-VN")}đ</p>
-                        <p>Giảm giá voucher: 0đ</p>
-                        <p>Tiết kiệm được: ${(totalAmountBeforeDiscount - totalAmount).toLocaleString("vi-VN")}đ</p>
-                        <p>Phí vận chuyển: Miễn phí</p>
-                        <h2>Tổng cộng: ${totalAmount.toLocaleString("vi-VN")}đ</h2>
-                        <button class="submitOrderButton">Hoàn tất</button>
-                        <p class="terms">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với điều khoản dịch vụ và
-                            chính sách xử lý dữ liệu cá nhân của Nhà thuốc FPT Long Châu</p>
-                    `);
+    <div class="summary-row">
+        <span>Tổng tiền</span>
+        <span id = "tongTien">${totalAmountBeforeDiscount.toLocaleString("vi-VN")}đ</span>
+    </div>
+    <div class="summary-row">
+        <span>Giảm giá trực tiếp</span>
+        <span class="discount">-${discountAmount.toLocaleString("vi-VN")}đ</span>
+    </div>
+    <div class="summary-row">
+        <span>Giảm giá voucher</span>
+        <span class="discount">-0đ</span>
+    </div>
+    <div class="summary-row">
+        <span>Tiết kiệm được</span>
+        <span class="saving">${(totalAmountBeforeDiscount - totalAmount).toLocaleString("vi-VN")}đ</span>
+    </div>
+    <div class="summary-total">
+        <span>Thành tiền</span>
+        <div class="final-price">
+            <span class="old-price">${totalAmountBeforeDiscount.toLocaleString("vi-VN")}đ</span>
+            <span class="new-price">${totalAmount.toLocaleString("vi-VN")}đ</span>
+        </div>
+    </div>
+    <button class="submit-order-btn">Mua hàng</button>
+    <p class="terms-notice">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách xử lý dữ liệu cá nhân</a> của Nhà thuốc Tận Tâm</p>
+`);
             
                     // Hiển thị danh sách sản phẩm trong cart-items
                     let productList = [];
@@ -816,10 +890,12 @@ tr {
             
                     $("#cart-items").html(productList.join(''));
             
+                    
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 }
             }
+
         })
 
         // DELETE SAN PHAM TRONG GIO HANG
@@ -827,7 +903,6 @@ tr {
             const row = button.closest("tr");
             const itemId = row.dataset.id; // Get item ID from data-id attribute
 
-            console.log("Delete Item ID:", itemId);
 
             // Optional: Delete on server
             fetch(`${host}/api/cart/item/${itemId}`, {
@@ -836,11 +911,12 @@ tr {
             })
                 .then(res => {
                     if (!res.ok) throw new Error("Failed to delete item");
-                    console.log(`Deleted item ${itemId}`);
+                   // console.log(`Deleted item ${itemId}`);
                     // Remove row from UI
                     row.remove();
                 })
                 .catch(err => console.error("Error deleting item:", err));
+                    updateTotalPrice();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -943,16 +1019,16 @@ tr {
                     }
                 })
                 .then(data => {
-                    console.log(`data response ${data}`);
+                   // console.log(`data response ${data}`);
                     // Handle successful update here
                     quantityInput.value = updatedQuantity;
-                    console.log("update thanh cong");
+                    //console.log("update thanh cong");
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     alert('Có lỗi xảy ra khi cap nhat don hang!');
                 });
-
+                updateTotalPrice();
         }
 
         function decrement(inputId, itemId) {
@@ -977,16 +1053,17 @@ tr {
                         }
                     })
                     .then(data => {
-                        console.log(`data response ${data}`);
+                       // console.log(`data response ${data}`);
                         // Handle successful update here
                         quantityInput.value = updatedQuantity;
-                        console.log("update thanh cong");
+                       // console.log("update thanh cong");
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         alert('Có lỗi xảy ra khi cap nhat don hang!');
                     });
             }
+            updateTotalPrice();
         }
 
         // new a
@@ -1185,6 +1262,34 @@ tr {
                 alert("Có lỗi xảy ra khi cập nhật địa chỉ");
             });
         }
+
+        //Cập nhật Thành tiền
+        function updateTotalPrice() {
+            const totalPriceElement = document.querySelector("#tongTien");
+            const amountPriceElement = document.querySelector(".new-price");
+            const oldPriceElement = document.querySelector(".old-price");
+            const itemCheckboxes = document.querySelectorAll(".item-checkbox");
+            const itemPrices = document.querySelectorAll(".item-price");
+            
+            let total = 0;
+            itemCheckboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    //lấy giá tiền từ cột VD định dạng 182.500đ
+                    const price = parseFloat(itemPrices[index].textContent.replace(/\./g, "").replace("đ", ""));
+                    
+                    const quantity = parseInt(checkbox.closest("tr").querySelector(".form-control").value);
+                    total += price * quantity;
+                }
+            });
+
+            totalPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+            amountPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+            oldPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+
+            loadCartInfoFromAPIToHeader(); // Cập nhật giỏ hàng trên header
+        }
+
+
     </script>
 
 </body>

@@ -87,6 +87,7 @@ button:hover {
   padding: 15px;
   width: 18%;
   border-radius: 8px;
+  border: 1px solid #fff;
 }
 
 .feature-icon {
