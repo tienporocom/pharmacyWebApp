@@ -4,32 +4,108 @@ const Order = require("../models/order");
 const mongoose = require("mongoose");
 
 const status = {
-  NEW: "new"
-}
+  NEW: "new",
+};
 
 // Thêm sản phẩm vào giỏ hàng
 exports.addToCart = async (req, res) => {
   try {
-    const { user, product, unitName, quantity, price } = req.body;
-    console.log(req.body);
-    let cart = await Order.findOne({ user });
+    const { product, unitName, quantity } = req.body;
+    const user = req.user;
+
+    // Gọi API để lấy giá theo đơn vị
+    const response = await fetch(
+      `http://localhost:5000/api/products/${product}`
+    );
+    const productData = await response.json();
+
+    const unit = productData.packagingUnits.find(
+      (u) => u.unitName === unitName
+    );
+    if (!unit) {
+      return res.status(400).json({ error: "Đơn vị không hợp lệ" });
+    }
+
+    const price = unit.price;
+
+    // Tìm giỏ hàng hiện tại của user có trạng thái "new"
+    let cart = await Order.findOne({ user: user, status: "new" });
 
     if (!cart) {
-      cart = new Cart({ user, items: [] });
+      cart = new Order({
+        user: user,
+        orderItems: [],
+        shippingAddress: {
+          address: "not set",
+          phone: "not set",
+        },
+        totalAmountBeforeDiscount: 0,
+        totalAmount: 0,
+        discount: {
+          amount: 0,
+          percentage: 0,
+        },
+        status: "new",
+        paymentMethod: "cash",
+        paymentStatus: "unpaid",
+      });
     }
+    await cart.save();
 
-    const itemIndex = cart.items.findIndex(
+    // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
+    const existingProduct = cart.orderItems.find(
       (item) => item.product.toString() === product
     );
-    if (itemIndex > -1) {
-      cart.items[itemIndex].units.push({ unitName, quantity, price });
+
+    const subtotalToAdd = price * quantity;
+
+    if (existingProduct) {
+      // Tìm trong mảng items xem đã có đơn vị đó chưa
+      const existingUnit = existingProduct.items.find(
+        (i) => i.unitName === unitName
+      );
+
+      if (existingUnit) {
+        existingUnit.quantity += quantity;
+        existingUnit.price = price; // cập nhật giá nếu cần
+      } else {
+        existingProduct.items.push({
+          unitName,
+          quantity,
+          price,
+        });
+      }
+
+      // Cập nhật lại subtotal
+      existingProduct.subtotal += subtotalToAdd;
     } else {
-      cart.items.push({ product, units: [{ unitName, quantity, price }] });
+      // Thêm sản phẩm mới vào giỏ hàng
+      cart.orderItems.push({
+        _id: new mongoose.Types.ObjectId(),
+        product,
+        items: [
+          {
+            unitName,
+            quantity,
+            price,
+          },
+        ],
+        subtotal: subtotalToAdd,
+      });
     }
 
+    // Cập nhật tổng tiền đơn hàng
+    cart.totalAmountBeforeDiscount = cart.orderItems.reduce(
+      (sum, item) => sum + item.subtotal,
+      0
+    );
+    cart.totalAmount = cart.totalAmountBeforeDiscount - cart.discount.amount;
+
     await cart.save();
-    res.json({ message: "Item added to cart!", cart });
+
+    res.json({ message: "Thêm sản phẩm vào giỏ hàng thành công!", cart });
   } catch (error) {
+    console.error("Add to cart error:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -48,29 +124,29 @@ exports.addToCart = async (req, res) => {
 //   }
 // };
 
-exports.getCart = async (req, res) => {
-  try {
-    const  user  = req.user;
-    console.log(user);
-    const cart = await Cart.findOne({ user }).populate("items.product");
-    if (!cart) return res.status(404).json({ message: "Cart not found" });
+// exports.getCart = async (req, res) => {
+//   try {
+//     const  user  = req.user;
+//     console.log(user);
+//     const cart = await cart.findOne({ user }).populate("items.product");
+//     if (!cart) return res.status(404).json({ message: "Cart not found" });
 
-    const cartDetails = cart.items.map((item) => ({
-      productId: item.product._id,
-      productName: item.product.name,
-      units: item.units.map((unit) => ({
-        unitName: unit.unitName,
-        quantity: unit.quantity,
-        price: unit.price,
-      })),
-    }));
+//     const cartDetails = cart.items.map((item) => ({
+//       productId: item.product._id,
+//       productName: item.product.name,
+//       units: item.units.map((unit) => ({
+//         unitName: unit.unitName,
+//         quantity: unit.quantity,
+//         price: unit.price,
+//       })),
+//     }));
 
-    res.json(cartDetails);
-  } catch (error) {
-    console.log("errrrrrrrr")
-    res.status(500).json({ error: error.message });
-  }
-};
+//     res.json(cartDetails);
+//   } catch (error) {
+//     console.log("errrrrrrrr")
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 //Lấy thông tin giỏ hàng
 exports.getCartInfo = async (req, res) => {
@@ -82,12 +158,12 @@ exports.getCartInfo = async (req, res) => {
     if (orders === undefined || orders.length == 0) {
       throw new Error("Order item not found");
     }
-  
-    const order = orders[0]
-    console.log(`response cart info ${order}`)
+
+    const order = orders[0];
+    console.log(`response cart info ${order}`);
     res.json(order);
   } catch (error) {
-    console.log(`get cart info error ${error.message}`)
+    console.log(`get cart info error ${error.message}`);
     res.status(500).json({ error: error.message });
   }
 };
@@ -104,32 +180,46 @@ async function updateOrderItemQuantity(itemId, newQuantity) {
     throw new Error("Invalid order item ID");
   }
 
-  // Step 1: Find the order that contains the orderItem
-  const order = await Order.findOne({ "orderItems._id": itemId });
+  // Tìm giỏ hàng có trạng thái "new" chứa item cần cập nhật
+  const order = await Order.findOne({ status: "new", "orderItems.items._id": itemId });
 
   if (!order) {
     throw new Error("Order not found");
   }
 
-  // Step 2: Get the specific item
-  const item = order.orderItems.id(itemId);
-  if (!item) {
-    throw new Error("Order item not found");
+  // Duyệt qua từng orderItem và các unit bên trong để tìm đúng itemId
+  let updatedUnit = null;
+
+  for (const orderItem of order.orderItems) {
+    for (const unit of orderItem.items) {
+      if (unit._id.toString() === itemId) {
+        // Cập nhật số lượng và tính lại subtotal
+        const oldSubtotal = unit.price * unit.quantity;
+        unit.quantity = newQuantity;
+
+        const newSubtotal = unit.price * newQuantity;
+        orderItem.subtotal += newSubtotal - oldSubtotal;
+
+        updatedUnit = unit;
+        break;
+      }
+    }
   }
 
-  // Step 3: Update fields
-  item.quantity = newQuantity;
-  item.subtotal = item.price * newQuantity;
+  if (!updatedUnit) {
+    throw new Error("Item not found in any order item");
+  }
 
-  // Step 4: Save and return the updated item
   await order.save();
-  return item;
+  return updatedUnit;
 }
+
 
 // Cập nhật sản phẩm trong giỏ hàng
 exports.updateCartItem = async (req, res) => {
   const { itemId } = req.params;
   const { quantity } = req.body;
+  console.log(`itemId: ${itemId}, quantity: ${quantity}`);
 
   try {
     const updatedItem = await updateOrderItemQuantity(itemId, quantity);
@@ -138,20 +228,29 @@ exports.updateCartItem = async (req, res) => {
       item: updatedItem,
     });
   } catch (error) {
-    console.log(`error when udpate quantity ${error}`)
+    console.log(`error when udpate quantity ${error}`);
     res.status(400).json({ message: error.message });
   }
 };
 
 // Xóa sản phẩm khỏi giỏ hàng
+// VD:http://localhost:5000/api/cart/item/67f798f0743b087f405ce73b?
 exports.removeFromCart = async (req, res) => {
   try {
-    const cart = await Order.findOne({ user: req.user.userId });
+    const cart = await Order.findOne({ user: req.user, status: "new" });
     if (!cart) return res.status(404).json({ message: "Cart not found" });
 
-    cart.items = cart.items.filter(
-      (item) => item.product.toString() !== req.body.product
-    );
+    const itemId = req.params.itemId;
+    cart.orderItems.forEach((item, index) => {
+      item.items.forEach((unit, unitIndex) => {
+        if (unit._id.toString() === itemId) {
+          // Cập nhật subtotal trước khi xóa
+          cart.orderItems[index].subtotal -= unit.price * unit.quantity;
+          cart.orderItems[index].items.splice(unitIndex, 1); // Xóa đơn vị
+        }
+      });
+    });
+
     await cart.save();
 
     res.json({ message: "Item removed from cart!", cart });
