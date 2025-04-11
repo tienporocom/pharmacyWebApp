@@ -36,8 +36,9 @@ exports.createOrder = async (req, res) => {
       shippingAddress,
       paymentMethod,
       phoneNumber,
+      totalAmountBeforeDiscount: totalAmount,
       totalAmount,
-      status: "Chờ xử lý", // Trạng thái mặc định khi tạo đơn hàng
+      status: "pending", // Trạng thái mặc định khi tạo đơn hàng
     });
 
     await newOrder.save();
@@ -65,7 +66,9 @@ exports.getOrders = async (req, res) => {
 // Lấy chi tiết đơn hàng theo ID
 exports.getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).populate("user", "name");
+    const order = await Order.findById(req.params.id)
+    .populate("user", "name")
+    .populate("orderItems.product");;
 
     if (!order) {
       return res.status(404).json({ message: "Không tìm thấy đơn hàng" });
@@ -81,7 +84,7 @@ exports.getOrderById = async (req, res) => {
 // Cập nhật trạng thái đơn hàng
 exports.updateOrderStatus = async (req, res) => {
   try {
-    const validStatuses = ["Chờ xử lý", "Đang giao", "Hoàn tất", "Đã hủy"];
+    const validStatuses = ["new", "pending", "processing", "shipped", "delivered", "cancelled"];
     const { status } = req.body;
 
     if (!validStatuses.includes(status)) {
