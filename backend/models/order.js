@@ -39,8 +39,8 @@ const orderSchema = new mongoose.Schema(
             price: { type: Number, required: true }, // Giá tại thời điểm đặt hàng
           }
         ], 
-        subtotal: { type: Number, required: true }, // Tổng tiền cho sản phẩm này
-      },
+        subtotal: { type: Number, required: true } // Tổng tiền cho sản phẩm này
+      }
     ],
     shippingAddress: {
       address: { type: String, required: true },
