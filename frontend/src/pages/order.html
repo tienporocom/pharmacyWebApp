@@ -7,7 +7,6 @@
     <title>Đơn hàng của tôi</title>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <style>
-      /* Style CSS tùy chỉnh cho trang đơn hàng */
       body {
         font-family: Arial, sans-serif;
         background-color: #f5f5f5;
@@ -87,15 +86,11 @@
   </head>
   <body>
     <div data-include="../components/header.html"></div>
-    <!-- Nhúng Header -->
 
     <div class="container">
       <h2>Đơn hàng của tôi</h2>
       <div class="search-bar">
-        <input
-          type="text"
-          placeholder="Tìm theo tên đơn, mã đơn, hoặc tên sản phẩm..."
-        />
+        <input type="text" placeholder="Tìm theo tên đơn, mã đơn, hoặc tên sản phẩm..." />
       </div>
 
       <div class="order-list" id="order-list">
@@ -104,13 +99,10 @@
     </div>
 
     <div data-include="../components/footer.html"></div>
-    <!-- Nhúng Footer -->
 
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
         const orderList = document.getElementById("order-list");
-
-        // Kiểm tra xem token có tồn tại trong localStorage không
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -119,12 +111,11 @@
         }
 
         try {
-          // Gọi API lấy danh sách đơn hàng
           const response = await fetch("http://localhost:5000/api/orders", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + token, // Token từ localStorage
+              Authorization: "Bearer " + token,
             },
           });
 
@@ -134,56 +125,58 @@
 
           const orders = await response.json();
 
-          // Kiểm tra nếu không có đơn hàng
           if (orders.length === 0) {
             orderList.innerHTML = "<p>Chưa có đơn hàng nào.</p>";
             return;
           }
 
-          // Hiển thị danh sách đơn hàng
-          orderList.innerHTML = orders
-            .map((order) => {
-              const date = new Date(order.createdAt).toLocaleDateString("vi-VN");
-              const orderCode = order._id.slice(-6).toUpperCase();
-              const status = order.status || "pending";
+          orderList.innerHTML = orders.map((order) => {
+            const date = new Date(order.createdAt).toLocaleDateString("vi-VN");
+            const orderCode = order._id.slice(-6).toUpperCase();
+            const status = order.status || "pending";
+            let total = 0;
 
-              // Tính tổng tiền đơn hàng từ các orderItems
-              let total = 0;
-              const orderItemHTML = order.orderItems
-                .map((item) => {
-                  const productName = item.product?.name || "Sản phẩm đã bị xóa";
-                  const itemTotal = item.subtotal || 0;
-                  total += itemTotal;
+            // Lấy sản phẩm đầu tiên
+            let orderItemHTML = "";
+            if (order.orderItems.length > 0) {
+              const firstItem = order.orderItems[0];
+              const productName = firstItem.product?.name || "Sản phẩm đã bị xóa";
+              const itemTotal = firstItem.subtotal || 0;
+              total += itemTotal;
 
-                  const itemUnits = item.items
-                    .map((unit) => {
-                      return `<div>- ${unit.unitName}: ${unit.quantity} x ${unit.price.toLocaleString()}đ</div>`;
-                    })
-                    .join(" ");
-
-                  return `
-                    <p><strong>${productName}</strong> (${itemUnits})</p>
-                    <p><em>Thành tiền: ${itemTotal.toLocaleString()}đ</em></p>
-                  `;
+              const itemUnits = firstItem.items
+                .map((unit) => {
+                  return `${unit.price.toLocaleString()}đ x${unit.quantity} ${unit.unitName}`;
                 })
                 .join(" ");
 
-              return `
-                <div class="order">
-                  <div class="order-header">
-                    <span>Đơn hàng ${date} - Mã: ${orderCode}</span>
-                    <span class="status">● ${status}</span>
-                  </div>
-                  <div class="order-details">
-                    ${orderItemHTML}
-                    <a href="order-detail.html?id=${order._id}" class="view-detail">Xem chi tiết &gt;</a>
-                    <p><strong>Tổng cộng:</strong> ${order.totalAmount.toLocaleString()}đ</p>
-                  </div>
-                  <button class="buy-again">Mua lại</button>
-                </div>
+              orderItemHTML += `
+                <p><strong>${productName}</strong></p>
+                <p>${itemUnits}</p>
               `;
-            })
-            .join("");
+
+              if (order.orderItems.length > 1) {
+                orderItemHTML += `<p style="color:#666;">+${order.orderItems.length - 1} sản phẩm khác</p>`;
+              }
+
+              orderItemHTML += `<p><em>Thành tiền: ${itemTotal.toLocaleString()}đ</em></p>`;
+            }
+
+            return `
+              <div class="order">
+                <div class="order-header">
+                  <span>Đơn hàng ${date} - Mã: ${orderCode}</span>
+                  <span class="status">● ${status}</span>
+                </div>
+                <div class="order-details">
+                  ${orderItemHTML}
+                  <a href="order-detail.html?id=${order._id}" class="view-detail">Xem chi tiết &gt;</a>
+                  <p><strong>Tổng cộng:</strong> ${order.totalAmount.toLocaleString()}đ</p>
+                </div>
+                <button class="buy-again">Mua lại</button>
+              </div>
+            `;
+          }).join("");
         } catch (error) {
           console.error(error);
           orderList.innerHTML = "<p>Không thể tải đơn hàng. Vui lòng thử lại.</p>";
@@ -192,6 +185,5 @@
     </script>
 
     <script src="../assets/js/main.js"></script>
-    <!-- Import file JS -->
   </body>
 </html>
