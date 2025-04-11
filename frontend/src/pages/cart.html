@@ -16,20 +16,31 @@
         .icon-button i {
             font-size: 20px;
             /* Adjust icon size */
-            color: red;
+            color: #616161;
             /* Change color if needed */
         }
 
         .icon-button:hover i {
-            color: darkred;
+            color: red;
             /* Change color on hover */
         }
 
         .small-quantity {
+            
             width: 100px;
-            /* Adjust width */
         }
 
+        
+        .small-quantity button {
+            border-radius: 20px;
+            background-color: #fff;
+            color: #0d6efd;
+            border: 1px solid #0d6efd;
+        }
+        .small-quantity input {
+            text-align: center;
+            border:1px solid #0d6efd;
+        }
         .btn-sm {
             width: 25px;
             /* Smaller button width */
@@ -58,7 +69,7 @@
 
         .summary {
             flex: 1;
-            background: #f0f0f0;
+            background: #fff;
             padding: 20px;
             border-radius: 10px;
             margin-left: 20px;
@@ -190,6 +201,7 @@
             background: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
+            margin-bottom: 20px;
         }
 
         .form-check-label {
@@ -209,12 +221,233 @@
             height: 32px;
             object-fit: contain;
         }
+
+        body > div.container.text-center > div > div.col-10.container.text-center > div.row > div.col-8{
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        /* Style cho modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modal-footer {
+    border-top: 1px solid #dee2e6;
+    padding-top: 15px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.close-address {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-address:hover {
+    color: black;
+}
+
+.btn-edit, .btn-delete, .btn-select {
+    padding: 3px 8px;
+    margin: 0 3px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-select {
+    background-color: #0d6efd;
+    color: #fff;
+}
+tr {
+    border-top: 1px solid #ccc !important;
+    border-bottom: 1px solid #ccc !important;
+  }
+  .summary {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+.summary-row span:first-child {
+    color: #666;
+}
+
+.discount {
+    color: #0056b3;
+}
+
+.saving {
+    color: #0056b3;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.final-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.new-price {
+    color: #0056b3;
+    font-size: 18px;
+}
+
+.submit-order-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-order-btn:hover {
+    background-color: #b30000;
+}
+
+.terms-notice {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+}
+
+.terms-notice a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.terms-notice a:hover {
+    text-decoration: underline;
+}
+body > div.container.text-center > div > div.col-10.container.text-center > div.row > div.col-8 > div.container.mt-5 > div > div > label > img{
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+}
+/* Ẩn checkbox mặc định */
+.item-checkbox , #checkAll {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    vertical-align: middle;
+  }
+  
+  /* Style khi checkbox được chọn */
+  .item-checkbox:checked, #checkAll:checked {
+    background-color: #007bff; /* Màu xanh lá */
+    border-color: #007bff;
+  }
+  
+  /* Tạo dấu tích trắng khi được chọn */
+  .item-checkbox:checked::after, #checkAll:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -60%) rotate(45deg);
+  }
+  
+  /* Hiệu ứng hover */
+  .item-checkbox:hover , #checkAll:hover {
+    border-color: #0d6efd;
+  }
+  
+  /* Hiệu ứng focus */
+  .item-checkbox:focus {
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="stylesheet" href="../assets/css/reset.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
 
 
@@ -234,81 +467,12 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <div class="header-top">
-        <div class="container">
-            <div class="top-left">
-                <p>Hệ thống nhà thuốc trên toàn quốc</p>
-            </div>
-            <div class="top-right">
-                <p>Hotline: 1800 6928</p>
-            </div>
-        </div>
-    </div>
+   
     <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
-    <header class="header-main">
-        <div class="container header-flex">
-            <a href="../pages/index.html" id="link-logo">
-                <img class="logo" src="../assets/img/logo.png" alt="logo" />
-                <div class="text">
-                    <h1>NHÀ THUỐC</h1>
-                    <h1>TẬN TÂM</h1>
-                </div>
-            </a>
-
-            <div class="search-bar">
-                <input type="text" placeholder="Tìm tên thuốc, bệnh lý, thực phẩm chức năng..." />
-                <div class="search-icons">
-                    <span class="scan-icon">🔍</span>
-                </div>
-            </div>
-
-            <div class="account-info">
-                <a href="../pages/login.html" id="login-btn" class="login-button">Đăng nhập</a>
-
-                <div id="user-info" style="display: none;">
-                    <a href="../pages/userInfo.html" id="account-link">
-                        <img id="user-avatar" src="" alt="">
-                        <span id="user-name"></span>
-                    </a>
-                    <div class="dropdown-menu" id="dropdown-menu">
-                        <button id="logout-btn">Đăng xuất</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cart">
-                <a href="cart.html" class="cart-icon">
-                    <img src="../assets/img/cart.png" alt="Giỏ hàng" />
-                    <span class="cart-label">Giỏ hàng</span>
-                    <span id="cart-count">3</span>
-                </a>
-                <div class="cart-dropdown">
-                    <h3>Giỏ hàng</h3>
-                    <ul id="cart-items">
-                        <!-- Sản phẩm sẽ được thêm vào đây bằng JS -->
-                    </ul>
-                    <p id="cart-total"></p>
-                    <button id="view-cart">Xem giỏ hàng</button>
-                </div>
-            </div>
+    <div data-include="../components/header.html"></div>
 
 
 
-    </header>
-
-    <!-- Thanh menu điều hướng -->
-    <nav class="main-nav">
-        <div class="container nav-flex">
-            <ul>
-                <li><a href="#">Thuốc</a></li>
-                <li><a href="#">Thực phẩm chức năng</a></li>
-                <li><a href="#">Chăm sóc cá nhân</a></li>
-                <li><a href="#">Thiết bị y tế</a></li>
-                <li><a href="#">Bệnh & sức khỏe</a></li>
-                <li><a href="#">Kiểm tra đơn thuốc</a></li>
-            </ul>
-        </div>
-    </nav>
     <!-- <div id="content-header"></div> -->
 
     <div class="container text-center">
@@ -318,7 +482,7 @@
             <div class="col-10 container text-center">
                 <br>
                 <div class="text-start">
-                    <a href="#" class="btn btn-primary" role="button" data-bs-toggle="button">← Quay lại giỏ hàng</a>
+                    <a href="../pages/index.html" class="btn btn-primary" role="button" >← Quay lại trang chủ</a>
                 </div>
                 <br>
                 <div class="row">
@@ -411,7 +575,7 @@
                                 <p class="mb-0 fw-semibold">Chọn hình thức nhận hàng</p>
                                 <div>
                                     <button class="btn btn-primary me-2">Giao hàng tận nơi</button>
-                                    <button class="btn btn-light">Nhận tại nhà thuốc</button>
+                                    <button class="btn btn-light" onclick="alert('Chức năng đang được phát triển')">Nhận tại nhà thuốc</button>
                                 </div>
                             </div>
                             <!-- Thông tin người đặt -->
@@ -421,61 +585,91 @@
                                 </h6>
                                 <div class="row g-2">
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="Họ và tên người đặt">
+                                        <input type="text" class="form-control field-name-order" placeholder="Họ và tên người đặt" disabled>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="Số điện thoại">
+                                        <input type="text" class="form-control field-phone-order" placeholder="Số điện thoại" disabled>
                                     </div>
                                     <div class="col-md-12">
-                                        <input type="email" class="form-control" placeholder="Email (không bắt buộc)">
+                                        <input type="email" class="form-control field-email-order" placeholder="Email (không bắt buộc)" disabled>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Địa chỉ nhận hàng -->
-                            <div class="mt-4">
-                                <h6 class="text-primary">
-                                    <i class="bi bi-geo-alt"></i> Địa chỉ nhận hàng
-                                </h6>
-                                <div class="row g-2">
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="Họ và tên người nhận">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" placeholder="Số điện thoại">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <select class="form-select">
-                                            <option selected>Chọn tỉnh/thành phố</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <select class="form-select">
-                                            <option selected>Chọn quận/huyện</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <select class="form-select" disabled>
-                                            <option selected>Chọn phường/xã</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="Nhập địa chỉ cụ thể">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <textarea class="form-control" rows="2"
-                                            placeholder="Ghi chú (không bắt buộc)"></textarea>
-                                    </div>
-                                </div>
-                            </div>
+<!-- Địa chỉ nhận hàng -->
+<div class="mt-4">
+    <h6 class="text-primary">
+        <i class="bi bi-geo-alt"></i> Địa chỉ nhận hàng
+    </h6>
+    <div class="row g-2">
+        <div class="col-md-4">
+            <input type="text" id="receiver-name" class="form-control" placeholder="Họ và tên người nhận">
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="receiver-phone" class="form-control" placeholder="Số điện thoại">
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-outline-primary w-100" id="view-address-list">
+                <i class="bi bi-list-ul"></i> Danh sách địa chỉ
+            </button>
+        </div>
+        <div class="col-md-12">
+            <input type="text" id="receiver-address" class="form-control" placeholder="Nhập địa chỉ cụ thể">
+        </div>
+        <div class="col-md-12">
+            <textarea class="form-control" rows="2" id="order-note"
+                placeholder="Ghi chú (không bắt buộc)"></textarea>
+        </div>
+    </div>
+</div>
 
-                            <!-- Yêu cầu xuất hóa đơn điện tử -->
-                            <div class="d-flex justify-content-between align-items-center p-3 border rounded bg-light">
-                                <span>Yêu cầu xuất hóa đơn điện tử</span>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="toggleInvoice">
-                                </div>
-                            </div>
+<!-- Modal quản lý địa chỉ (cập nhật thêm nút chọn) -->
+<div id="addressModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Quản lý Địa Chỉ</h5>
+            <span class="close-address">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Địa chỉ</th>
+                            <th>Số điện thoại</th>
+                            <th>Mặc định</th>
+                            <th>Chức năng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="address-items">
+                        <!-- Danh sách địa chỉ sẽ được load ở đây -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-3">
+                <h6>Chỉnh sửa/Thêm địa chỉ</h6>
+                <div class="mb-3">
+                    <input type="text" id="edit-address-inp" class="form-control" placeholder="Nhập địa chỉ">
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="edit-phoneToDelivery" class="form-control" placeholder="Số điện thoại nhận hàng">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="edit-default-address" class="form-check-input">
+                    <label class="form-check-label" for="edit-default-address">Đặt làm địa chỉ mặc định</label>
+                </div>
+                <button id="add-address" class="btn btn-primary">Thêm địa chỉ</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary close-address">Đóng</button>
+            <button class="btn btn-primary save">Lưu thay đổi</button>
+        </div>
+    </div>
+</div>
+                           
 
                         </div>
 
@@ -485,37 +679,29 @@
                                 <div class="list-group">
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/1179/1179233.png" class="icon">
+                                        <img src="../assets/img/COD.png" class="icon">
                                         Thanh toán tiền mặt khi nhận hàng
                                     </label>
+                                    
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/3063/3063788.png" class="icon">
-                                        Thanh toán bằng chuyển khoản (QR Code)
+                                        <img src="../assets/img/card.png" class="icon">
+                                        Thanh toán thẻ ATM, thẻ (Napas, Visa, MasterCard, JCB,...) 
                                     </label>
+                                    
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/2331/2331966.png" class="icon">
-                                        Thanh toán bằng thẻ ATM nội địa và tài khoản ngân hàng
-                                    </label>
-                                    <label class="list-group-item d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/196/196578.png" class="icon">
-                                        Thanh toán bằng thẻ quốc tế Visa, Master, JCB, AMEX
-                                    </label>
-                                    <label class="list-group-item d-flex align-items-center">
-                                        <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/5968/5968756.png" class="icon">
+                                        <img src="../assets/img/zalopay.png" class="icon">
                                         Thanh toán bằng ví ZaloPay
                                     </label>
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/6137/6137644.png" class="icon">
+                                        <img src="../assets/img/momo.png" class="icon">
                                         Thanh toán bằng ví MoMo
                                     </label>
                                     <label class="list-group-item d-flex align-items-center">
                                         <input class="form-check-input me-2" type="radio" name="payment">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/8253/8253307.png" class="icon">
+                                        <img src="../assets/img/vnpay.jpg" class="icon">
                                         Thanh toán bằng VNPAY
                                     </label>
                                 </div>
@@ -546,122 +732,170 @@
 
         document.addEventListener("DOMContentLoaded", function () {
 
+            const fieldNameorder = document.querySelector(".field-name-order");
+            const fieldPhoneOrder = document.querySelector(".field-phone-order");
+            const fieldEmailOrder = document.querySelector(".field-email-order");
+            const fieldNameReceiver = document.querySelector("#receiver-name");
+            
+            fieldNameorder.value = JSON.parse(localStorage.getItem("user"))?.name;
+            fieldPhoneOrder.value = JSON.parse(localStorage.getItem("user"))?.phone;
+            fieldEmailOrder.value = JSON.parse(localStorage.getItem("user"))?.email;
+            fieldNameReceiver.value = JSON.parse(localStorage.getItem("user"))?.name;
+
+
             const checkAll = document.getElementById("checkAll");
 
             // Debugging: Check if script runs and checkboxes exist
-            console.log("Script Loaded: ", checkAll);
-            console.log("Item Checkboxes Found: ", document.querySelectorAll('.item-checkbox'));
-
+            //console.log("Script Loaded: ", checkAll);
+            //console.log("Item Checkboxes Found: ", document.querySelectorAll('.item-checkbox'));
+            
             checkAll.addEventListener("change", function () {
                 let checkboxes = document.querySelectorAll('.item-checkbox');
                 checkboxes.forEach(checkbox => {
                     checkbox.checked = checkAll.checked;
                 });
+                
+                updateTotalPrice();
             });
-
+            
+            
             fetchData();
-
+            
+            
             async function fetchData() {
                 try {
                     let response = await fetch(`${host}/api/cart/info`, {
-                        method: "GET", // Optional here, since GET is default
+                        method: "GET",
                         headers: requestHeader,
-
                     });
+            
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status: ${response.status}`);
+                    }
+            
                     let data = await response.json();
+                    //console.log("API Response:", data);
+            
 
-                    console.log("API Response:", data); // Debugging
+            
+                    let tableBody = document.getElementById("productTableBody");
+                    if (!tableBody) {
+                        console.error("Error: productTableBody element not found");
+                        return;
+                    }
+                    tableBody.innerHTML = "";
+            
+                    // Duyệt qua từng orderItem
+                    data.orderItems.forEach((orderItem, index) => {
+            
+                        //console.log("Order Item:", orderItem);
+                        orderItem.items.forEach((item, itemIndex) => {
+                            //console.log("Item:", item);
 
-                    let tableBody = document.getElementById("productTableBody"); // 🔹 Ensure <tbody> has this ID
-                    tableBody.innerHTML = ""; // Clear existing content
+                            // Tạo một hàng mới cho mỗi sản phẩm
+                            let row = document.createElement("tr");
+                            row.setAttribute("data-id", item._id); // Set data-id attribute
 
-                    data.orderItems.forEach((item, index) => {
-                        let row = `
-                        <tr data-id="${item.product._id}">
-                            <td>
-                                <label class="toggle-button">
-                                    <input type="checkbox" class="item-checkbox">
-                                </label>
-                            </td>
-                            <td style="display: flex; align-items: center; vertical-align: middle;">
-                                <img style="width: 15%; height: 15%;" src="${item.product.images}" alt="">
-                                <p style="font-size: 12px; vertical-align: middle; font-style: italic;">
-                                    ${item.product.name}
-                                </p>
-                            </td>
-                            <td></td>
-                            <td style="font-size: 12px;">${item.price}đ</td>
-                            <td></td>
-                            <td>
-                                <div class="input-group small-quantity mx-auto">
-                                    <button class="btn btn-danger btn-sm" onclick="decrement('quantity-${index}', '${item._id}')">-</button>
-                                    <input type="text" id="quantity-${index}" class="form-control form-control-sm text-center" value="${item.quantity}" readonly>
-                                    <button class="btn btn-success btn-sm" onclick="increment('quantity-${index}', '${item._id}')">+</button>
-                                </div>
-                            </td>
-                            <td></td>
-                            <td>
-                                <select id="menu-${index}" onchange="handleSelectChange(this)">
-                                    <option value="option1">Hộp</option>
-                                    <option value="option2">Gói</option>
-                                    <option value="option3">Vỉ</option>
-                                </select>
-                            </td>
-                            <td></td>
-                            <td>
-                                <button class="icon-button" onclick="deleteRow(this)">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                        tableBody.innerHTML += row;
+                            row.innerHTML = `
+    <td style="display: none;">${index + 1}</td>
+    <td>
+        <label class="toggle-button">
+            <input type="checkbox" class="item-checkbox" checked onChange ="updateTotalPrice()">
+        </label>
+    </td>
+    <td style="display: flex; align-items: center; vertical-align: middle;">
+        <img style="width: 15%; height: 15%; margin: 5px" src="${orderItem.product.images || 'default-image.jpg'}" alt="">
+        <p style="font-size: 12px;text-align: justify;
+    font-weight: 400;">${orderItem.product.name || 'Tên sản phẩm'}</p>
+    </td>
+    <td></td>
+    <td style="font-size: 12px; color :#0d6efd " class ="item-price">${item.price.toLocaleString("vi-VN")}đ</td>
+    <td></td>
+    <td>
+        <div class="input-group small-quantity mx-auto ">
+            <button class="btn btn-danger btn-sm" onclick="decrement('${item._id}', '${item._id}')">-</button>
+            <input type="text" id="${item._id}" class="form-control form-control-sm text-center" value="${item.quantity}" readonly>
+            <button class="btn btn-success btn-sm" onclick="increment('${item._id}', '${item._id}')">+</button>
+        </div>
+    </td>
+    <td></td>
+    <td style="font-size:12px" >${item.unitName}</td>
+    <td></td>
+    <td><button class="icon-button" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button></td>
+`;
+                            tableBody.appendChild(row);
+
+                        });
                     });
-
-                    let totalAmount = data.reduce((sum, item) => sum + (item.quantity * item.price), 0);
-
+            
+                    // Tính toán và hiển thị summary
+                    const totalAmountBeforeDiscount = data.totalAmountBeforeDiscount || 0;
+                    const totalAmount = data.totalAmount || 0;
+                    const discountAmount = data.discount?.amount || 0;
+            
                     $(".summary").html(`
-                            <h3>Thành tiền</h3>
-                            <p>Tổng tiền: ${totalAmount.toLocaleString("vi-VN")}đ</p>
-                            <p>Giảm giá trực tiếp: 0đ</p>
-                            <p>Giảm giá voucher: 0đ</p>
-                            <p>Tiết kiệm được: 0đ</p>
-                            <p>Phí vận chuyển: Miễn phí</p>
-                            <h2>Tổng cộng: ${totalAmount.toLocaleString("vi-VN")}đ</h2>
-                            <button class="submitOrderButton">Hoàn tất</button>
-                            <p class="terms">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với điều khoản dịch vụ và
-                                chính sách xử lý dữ liệu cá nhân của Nhà thuốc FPT Long Châu</p>`);
-
-                    let productList = [];  // Initialize an empty array to hold product HTML
-
-                    data.orderItems.forEach(product => {
-                        const price = product.price;
-                        const quantity = product.quantity;
-
-                        // Push the HTML string for the product into the array
-                        productList.push(`
-                            <div class="row">
-                                <div class="column-1"></div>
-                                <div class="column-2">
-                                    <img src="${product.image}">
+    <div class="summary-row">
+        <span>Tổng tiền</span>
+        <span id = "tongTien">${totalAmountBeforeDiscount.toLocaleString("vi-VN")}đ</span>
+    </div>
+    <div class="summary-row">
+        <span>Giảm giá trực tiếp</span>
+        <span class="discount">-${discountAmount.toLocaleString("vi-VN")}đ</span>
+    </div>
+    <div class="summary-row">
+        <span>Giảm giá voucher</span>
+        <span class="discount">-0đ</span>
+    </div>
+    <div class="summary-row">
+        <span>Tiết kiệm được</span>
+        <span class="saving">${(totalAmountBeforeDiscount - totalAmount).toLocaleString("vi-VN")}đ</span>
+    </div>
+    <div class="summary-total">
+        <span>Thành tiền</span>
+        <div class="final-price">
+            <span class="old-price">${totalAmountBeforeDiscount.toLocaleString("vi-VN")}đ</span>
+            <span class="new-price">${totalAmount.toLocaleString("vi-VN")}đ</span>
+        </div>
+    </div>
+    <button class="submit-order-btn">Mua hàng</button>
+    <p class="terms-notice">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách xử lý dữ liệu cá nhân</a> của Nhà thuốc Tận Tâm</p>
+`);
+            
+                    // Hiển thị danh sách sản phẩm trong cart-items
+                    let productList = [];
+                    data.cart.orderItems.forEach((orderItem, index) => {
+                        if (!orderItem || !Array.isArray(orderItem.items)) return;
+                        const product = orderItem.product || {};
+            
+                        orderItem.items.forEach(item => {
+                            if (!item || !item.price || !item.quantity) return;
+            
+                            productList.push(`
+                                <div class="row">
+                                    <div class="column-1"></div>
+                                    <div class="column-2">
+                                        <img src="${product.images || 'default-image.jpg'}">
+                                    </div>
+                                    <div class="column-4" style="font-size: 12px; color: Black;">
+                                        <div>${product.name || 'Tên sản phẩm'} (${item.unitName})</div>
+                                    </div>
+                                    <div class="column-2">
+                                        <div class="price">${item.price.toLocaleString("vi-VN")}đ x ${item.quantity}</div>
+                                    </div>
+                                    <div class="column-1"></div>
                                 </div>
-                                <div class="column-4" style="font-size: 12px; color: Black;">
-                                    <div>${product.name}</div>
-                                </div>
-                                <div class="column-2">
-                                    <div class="price">${price.toLocaleString("vi-VN")}đ x ${quantity}</div>
-                                </div>
-                                <div class="column-1">
-                                </div>
-                            </div>`);
+                            `);
+                        });
                     });
-
-                    // Join the array into a single string and inject it into the .summary element
+            
                     $("#cart-items").html(productList.join(''));
+            
+                    
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 }
             }
+
         })
 
         // DELETE SAN PHAM TRONG GIO HANG
@@ -669,7 +903,6 @@
             const row = button.closest("tr");
             const itemId = row.dataset.id; // Get item ID from data-id attribute
 
-            console.log("Delete Item ID:", itemId);
 
             // Optional: Delete on server
             fetch(`${host}/api/cart/item/${itemId}`, {
@@ -678,11 +911,12 @@
             })
                 .then(res => {
                     if (!res.ok) throw new Error("Failed to delete item");
-                    console.log(`Deleted item ${itemId}`);
+                   // console.log(`Deleted item ${itemId}`);
                     // Remove row from UI
                     row.remove();
                 })
                 .catch(err => console.error("Error deleting item:", err));
+                    updateTotalPrice();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -785,16 +1019,16 @@
                     }
                 })
                 .then(data => {
-                    console.log(`data response ${data}`);
+                   // console.log(`data response ${data}`);
                     // Handle successful update here
                     quantityInput.value = updatedQuantity;
-                    console.log("update thanh cong");
+                    //console.log("update thanh cong");
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     alert('Có lỗi xảy ra khi cap nhat don hang!');
                 });
-
+                updateTotalPrice();
         }
 
         function decrement(inputId, itemId) {
@@ -819,18 +1053,245 @@
                         }
                     })
                     .then(data => {
-                        console.log(`data response ${data}`);
+                       // console.log(`data response ${data}`);
                         // Handle successful update here
                         quantityInput.value = updatedQuantity;
-                        console.log("update thanh cong");
+                       // console.log("update thanh cong");
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         alert('Có lỗi xảy ra khi cap nhat don hang!');
                     });
             }
+            updateTotalPrice();
         }
+
+        // new a
+        document.addEventListener("DOMContentLoaded", () => {
+            // Khởi tạo các biến
+            const addressModal = document.getElementById("addressModal");
+            const viewAddressBtn = document.getElementById("view-address-list");
+            const closeAddressModal = document.querySelector(".close-address");
+            const addNewAddressBtn = document.getElementById("add-address");
+            const saveAddressBtn = document.querySelector(".btn.save");
+        
+            // Mở modal khi nhấn nút xem địa chỉ
+            if (viewAddressBtn) {
+                viewAddressBtn.addEventListener("click", () => {
+                    addressModal.style.display = "flex";
+                    fetchAddressList();
+                });
+            }
+        
+            // Đóng modal
+            if (closeAddressModal) {
+                closeAddressModal.addEventListener("click", () => {
+                    addressModal.style.display = "none";
+                });
+            }
+        
+            // Thêm địa chỉ mới
+            if (addNewAddressBtn) {
+                addNewAddressBtn.addEventListener("click", addAddressToTable);
+            }
+        
+            // Lưu thay đổi địa chỉ
+            if (saveAddressBtn) {
+                saveAddressBtn.addEventListener("click", saveAddressChanges);
+            }
+        
+            // Đóng modal khi click ra ngoài
+            window.addEventListener("click", (event) => {
+                if (event.target === addressModal) {
+                    addressModal.style.display = "none";
+                }
+            });
+        });
+        
+        // Lấy danh sách địa chỉ từ API
+        function fetchAddressList() {
+            const addressItems = document.getElementById("address-items");
+            addressItems.innerHTML = ""; // Xóa nội dung cũ
+        
+            fetch(`http://localhost:5000/api/users/address`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            })
+            .then((response) => response.json())
+            .then((addresses) => {
+                if (addresses && addresses.length > 0) {
+                    addresses.forEach((address) => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${address.address || ""}</td>
+                            <td>${address.phoneToDelivery || ""}</td>
+                            <td>${address.default ? "✅" : ""}</td>
+                            <td>
+                                <button class="btn-select">Chọn</button>
+                                <button class="btn-edit">Sửa</button>
+                                <button class="btn-delete">Xóa</button>
+                            </td>
+                        `;
+                        // Thêm sự kiện khi nhấn chọn địa chỉ
+                        tr.querySelector('.btn-select').addEventListener('click', () => {
+                            selectAddress(address);
+                        });
+                        addressItems.appendChild(tr);
+                    });
+                    setupEditDeleteButtons();
+                } else {
+                    addressItems.innerHTML = `<tr><td colspan="4" class="text-center">Chưa có địa chỉ nào</td></tr>`;
+                }
+            })
+            .catch((error) => {
+                console.error("Lỗi khi lấy danh sách địa chỉ:", error);
+                addressItems.innerHTML = `<tr><td colspan="4" class="text-center">Lỗi khi tải danh sách địa chỉ</td></tr>`;
+            });
+        }
+        
+        // Thêm địa chỉ mới vào bảng
+        function addAddressToTable() {
+            const addressInput = document.getElementById("edit-address-inp");
+            const phoneInput = document.getElementById("edit-phoneToDelivery");
+            const defaultCheckbox = document.getElementById("edit-default-address");
+        
+            if (!addressInput.value.trim()) {
+                alert("Vui lòng nhập địa chỉ");
+                return;
+            }
+        
+            const addressItems = document.getElementById("address-items");
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${addressInput.value}</td>
+                <td>${phoneInput.value}</td>
+                <td>${defaultCheckbox.checked ? "✅" : ""}</td>
+                <td>
+                    <button class="btn-edit">Sửa</button>
+                    <button class="btn-delete">Xóa</button>
+                </td>
+            `;
+            
+            // Nếu đây là địa chỉ mặc định, bỏ chọn các địa chỉ khác
+            if (defaultCheckbox.checked) {
+                const rows = addressItems.querySelectorAll("tr");
+                rows.forEach(row => {
+                    row.cells[2].textContent = "";
+                });
+            }
+            
+            addressItems.appendChild(tr);
+            setupEditDeleteButtons();
+            
+            // Xóa nội dung ô nhập
+            addressInput.value = "";
+            phoneInput.value = "";
+            defaultCheckbox.checked = false;
+        }
+        
+        // Thiết lập sự kiện cho các nút Sửa/Xóa
+        function setupEditDeleteButtons() {
+            // Xử lý nút Sửa
+            document.querySelectorAll(".btn-edit").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    const row = this.closest("tr");
+                    const cells = row.cells;
+                    
+                    document.getElementById("edit-address-inp").value = cells[0].textContent;
+                    document.getElementById("edit-phoneToDelivery").value = cells[1].textContent;
+                    document.getElementById("edit-default-address").checked = cells[2].textContent === "✅";
+                    
+                    row.remove();
+                });
+            });
+            
+            // Xử lý nút Xóa
+            document.querySelectorAll(".btn-delete").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    if (confirm("Bạn có chắc chắn muốn xóa địa chỉ này?")) {
+                        this.closest("tr").remove();
+                    }
+                });
+            });
+        }
+        
+        function selectAddress(address) {
+            document.getElementById("receiver-phone").value = address.phoneToDelivery || "";
+            document.getElementById("receiver-address").value = address.address || "";
+            
+            // Đóng modal sau khi chọn
+            document.getElementById("addressModal").style.display = "none";
+            
+            // Focus vào trường ghi chú để người dùng có thể nhập tiếp
+            document.getElementById("order-note").focus();
+        }
+
+        // Lưu thay đổi địa chỉ lên server
+        function saveAddressChanges() {
+            const addressItems = document.getElementById("address-items");
+            const rows = addressItems.querySelectorAll("tr");
+            const addresses = [];
+            
+            rows.forEach(row => {
+                const cells = row.cells;
+                addresses.push({
+                    address: cells[0].textContent,
+                    phoneToDelivery: cells[1].textContent,
+                    default: cells[2].textContent === "✅"
+                });
+            });
+            
+            fetch("http://localhost:5000/api/users/address", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify(addresses),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Cập nhật địa chỉ thành công!");
+                document.getElementById("addressModal").style.display = "none";
+            })
+            .catch(error => {
+                console.error("Lỗi khi cập nhật địa chỉ:", error);
+                alert("Có lỗi xảy ra khi cập nhật địa chỉ");
+            });
+        }
+
+        //Cập nhật Thành tiền
+        function updateTotalPrice() {
+            const totalPriceElement = document.querySelector("#tongTien");
+            const amountPriceElement = document.querySelector(".new-price");
+            const oldPriceElement = document.querySelector(".old-price");
+            const itemCheckboxes = document.querySelectorAll(".item-checkbox");
+            const itemPrices = document.querySelectorAll(".item-price");
+            
+            let total = 0;
+            itemCheckboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    //lấy giá tiền từ cột VD định dạng 182.500đ
+                    const price = parseFloat(itemPrices[index].textContent.replace(/\./g, "").replace("đ", ""));
+                    
+                    const quantity = parseInt(checkbox.closest("tr").querySelector(".form-control").value);
+                    total += price * quantity;
+                }
+            });
+
+            totalPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+            amountPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+            oldPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+
+            loadCartInfoFromAPIToHeader(); // Cập nhật giỏ hàng trên header
+        }
+
+
     </script>
+
 </body>
 
 </html>

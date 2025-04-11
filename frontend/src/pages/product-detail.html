@@ -306,7 +306,7 @@
         </div>
 
         <!-- Nếu cần nút mua -->
-        <button class="buy-button">Chọn mua</button>
+        <button class="buy-button" onclick="addToCart()">Chọn mua</button>
       </div>
     </div>
 
@@ -408,6 +408,7 @@
             product.packagingUnits.length === 1
           ) {
             // Chỉ có 1 đơn vị -> hiển thị text
+            unitSelectDiv.value = product.packagingUnits[0].unitName;
             unitSelectDiv.textContent =
               "Đơn vị tính: " + product.packagingUnits[0].unitName;
           } else {
@@ -478,6 +479,35 @@
 
       // Gọi hàm khi load trang
       loadProductDetail();
+
+      // Hàm thêm sản phẩm vào giỏ hàng
+      async function addToCart() {
+        const userId = JSON.parse(localStorage.getItem("user"))?._id;
+        let unitName = document.querySelector('input[name="unitRadio"]:checked + label')?.textContent|| null;
+        if (unitName == null) {
+          unitName = document.querySelector("#unitSelect").value;
+        }
+        const quantity = 1; // Số lượng mặc định là 1
+        
+        if (!userId) {
+          alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
+          return;
+        }
+
+        //POST dữ liệu lên API
+        const res = await fetch("http://localhost:5000/api/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ user:userId, product:productId, unitName, quantity }),
+        });
+        const product = await res.json();
+        console.log("Sản phẩm đã chọn:", product);
+
+        loadCartInfoFromAPIToHeader(); // Cập nhật giỏ hàng trên header
+      }
     </script>
     <div data-include="../components/footer.html"></div>
     <!-- Nhúng Footer -->

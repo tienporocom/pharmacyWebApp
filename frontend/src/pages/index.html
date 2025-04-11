@@ -52,13 +52,13 @@
     <!-- Các chức năng hỗ trợ -->
     <section class="feature-boxes">
       <div class="container">
-        <div class="feature-item">
+        <button class="feature-item">
           <div class="feature-icon">
             <img src="../assets/img/iconDrug.webp" alt="Cần mua thuốc" />
           </div>
           <p>Cần mua thuốc</p>
-        </div>
-        <div class="feature-item">
+        </button >
+        <button class="feature-item">
           <div class="feature-icon">
             <img
               src="../assets/img/iconQues.webp"
@@ -66,25 +66,25 @@
             />
           </div>
           <p>Tư vấn với Dược Sỹ</p>
-        </div>
-        <div class="feature-item">
+        </button >
+        <button class="feature-item">
           <div class="feature-icon">
             <img src="../assets/img/iconFindStore.webp" alt="Tìm nhà thuốc" />
           </div>
           <p>Tìm nhà thuốc</p>
-        </div>
-        <div class="feature-item">
+        </button >
+        <button class="feature-item" onclick="location.href = '../pages/order.html'">
           <div class="feature-icon">
             <img src="../assets/img/iconOrder.webp" alt="Đơn của tôi" />
           </div>
           <p>Đơn của tôi</p>
-        </div>
-        <div class="feature-item">
+        </button >
+        <button class="feature-item">
           <div class="feature-icon">
             <img src="../assets/img/iconHealthCheck.webp" alt="Kiểm tra sức khỏe" />
           </div>
           <p>Kiểm tra sức khỏe</p>
-        </div>
+        </button >
       </div>
     </section>
 
@@ -155,18 +155,28 @@
       productGrid.addEventListener("click", async (event) => {
         if (event.target.classList.contains("add-to-cart")) {
           const productId = event.target.getAttribute("data-product-id");
-          const userId = localStorage.getItem("userId"); // Lấy userId từ localStorage
+          const userId = JSON.parse(localStorage.getItem("user"))?._id
+          const unitName = event.target.closest(".product-card").querySelector(".product-info span").textContent;
+          const quantity = 1; // Số lượng mặc định là 1
+
+          if (!userId) {
+            alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
+            return;
+          }
           
           //POST dữ liệu lên API
           const res = await fetch("http://localhost:5000/api/cart", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-            body: JSON.stringify({ productId }),
+            body: JSON.stringify({ user:userId, product:productId, unitName, quantity }),
           });
           const product = await res.json();
           console.log("Sản phẩm đã chọn:", product);
+
+          loadCartInfoFromAPIToHeader(); // Cập nhật giỏ hàng trên header
         }
       });
     </script>
