@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/auth"); // Middleware xác thực JWT
+const roleMiddleware = require("../middleware/role");
+
 const {
   registerUser,
   loginUser,
@@ -28,7 +30,7 @@ router.put("/profile", authMiddleware, updateUserProfile);
 router.delete("/profile", authMiddleware, deleteUser);
 
 // Lấy danh sách tất cả người dùng (dành cho admin, yêu cầu xác thực và quyền admin)
-router.get("/all", authMiddleware, getAllUsers);
+router.get("/all", authMiddleware, roleMiddleware(["admin"]), getAllUsers);
 
 router.get("/address", authMiddleware, getAddress);
 router.put("/address", authMiddleware, updateAddress);
