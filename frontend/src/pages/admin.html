@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="../assets/css/admin.css" />
     <script src="../assets/js/admin.js"></script>
   </head>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const res = await fetch("/api/users/profile", {
+          headers: { Authorization: "Bearer " + token },
+        });
+        const user = await res.json();
+        document.querySelector(".adminName").textContent = "Admin: " + user.name;
+      }
+    });
+  </script>
+  
   <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -16,7 +29,7 @@
           <h1>NHÀ THUỐC</h1>
           <h1>TẬN TÂM</h1>
         </div>
-        <div class="adminName">Admin: ...</div>
+        <div class="adminName">Admin: </div>
       </div>
       <ul class="nav-menu">
         <li id="nav-overview" class="active" onclick="showSection('overview')">

@@ -41,8 +41,8 @@ exports.loginUser = async (req, res) => {
 
     // console.log(user.password);
     // console.log(password);
-    console.log(await bcrypt.compare(password, user.password));
-    if (!(await bcrypt.compare(password, user.password))) {
+    //console.log(await bcrypt.compare(password, user.password));
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Sai email hoặc mật khẩu" });
     }
     console.log(user);
@@ -89,7 +89,7 @@ exports.updateUserProfile = async (req, res) => {
     user.phone = phone || user.phone;
     user.avatar = avatar || user.avatar;
     user.dOB = dOB || user.dOB;
-    user.sex = sex || user.dOB;
+    user.sex = sex || user.sex;
 
     await user.save();
     res.json({ message: "Cập nhật thành công", user });
@@ -126,12 +126,15 @@ exports.updateAddress = async (req, res) => {
   try {
     console.log(req.user);
     console.log(req.body);
-    const user = await User.findById(req.user); 
-  
+    const user = await User.findById(req.user);
+
     if (!user) {
       return res.status(404).json({ message: "Người dùng không tồn tại" });
     }
 
+    if (!Array.isArray(req.body)) {
+      return res.status(400).json({ message: "Địa chỉ phải là một mảng" });
+    }
     user.address = req.body; // Gán danh sách địa chỉ mới vào user
     await user.save();
 
@@ -150,5 +153,3 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ message: "Lỗi máy chủ", error });
   }
 };
-
-
