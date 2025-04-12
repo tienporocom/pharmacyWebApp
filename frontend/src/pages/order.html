@@ -17,90 +17,179 @@
         margin: 0;
         padding: 0;
       }
-      .container {
-        width: 80%;
+      .container-order {
+        width: 90%;
+        max-width: 1200px;
         margin: 20px auto;
+        padding: 0 10px;
       }
-      h2 {
-        text-align: center;
-      }
-      .search-bar {
+      
+      .search-container-order {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
         margin-bottom: 20px;
-        width: 100%;
       }
-      .search-bar input {
+      .search-input {
+        border: none;
         flex: 1;
-        max-width: 400px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        margin-left: 10px;
+        padding: 10px 0 10px 15px;
+        border-radius: 25px 0 0 25px;
+        font-size: 14px;
+        height: 40px;
+      }
+      .search-button {
+        margin-left: 0px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 0 25px 25px 0;
+        cursor: pointer;
+        height: 40px;
+
+      }
+      .search-button:hover {
+        background-color: #0056b3;
+      }
+      .order-tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+        overflow-x: auto;
+      }
+      .order-tab {
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 14px;
+        white-space: nowrap;
+      }
+      .order-tab.active {
+        border-bottom: 2px solid #007bff;
+        color: #007bff;
+        font-weight: bold;
       }
       .order-list {
         display: flex;
         flex-direction: column;
         gap: 15px;
       }
-      .order {
+      .order-card {
         background: white;
         padding: 15px;
         border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
       .order-header {
         display: flex;
         justify-content: space-between;
-        font-weight: bold;
+        align-items: center;
         margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #eee;
+      }
+      .order-title {
+        font-weight: bold;
+        font-size: 15px;
+      }
+      .order-code {
+        color: #666;
+        font-size: 13px;
+      }
+      .order-status {
+        font-size: 13px;
+      }
+      .status-delivered {
+        color: green;
+      }
+      .status-processing {
+        color: orange;
+      }
+      .status-shipped {
+        color: blue;
+      }
+      .status-cancelled {
+        color: red;
+      }
+      .order-delivery {
+        font-size: 13px;
+        color: #666;
+      }
+      .order-products {
+        font-weight: 400;
+        margin: 10px 0;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #eee;
+      }
+      .product-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .more-products {
+        color: #666;
+        font-size: 13px;
+        margin-top: 5px;
+      }
+      .order-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .order-total {
+        font-weight: bold;
       }
       .view-detail {
         color: #007bff;
         text-decoration: none;
-        font-weight: bold;
-        display: inline-block;
-        margin-top: 5px;
-      }
-      .view-detail:hover {
-        text-decoration: underline;
-      }
-      .status {
-        color: green;
-      }
-      .order-details p {
-        margin: 5px 0;
+        font-size: 13px;
       }
       .buy-again {
         background: #007bff;
         color: white;
         border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
+        padding: 5px 10px;
         cursor: pointer;
-        display: block;
-        width: 100px;
-        margin-top: 10px;
+        font-size: 13px;
+        border-radius: 20px;
       }
       .buy-again:hover {
         background: #0056b3;
+      }
+      .product-price {
+        font-size: 13px;
+        color: #666;
+        margin-top: 3px;
+      }
+      .no-orders {
+        text-align: center;
+        padding: 20px;
+        color: #666;
       }
     </style>
   </head>
   <body>
     <div data-include="../components/header.html"></div>
 
-    <div class="container">
-      <h2>Đơn hàng của tôi</h2>
-      <div class="search-bar">
+    <div class="container-order">
+      <h1>Đơn hàng của tôi</h1>
+      
+      <div class="search-container-order">
         <input
           type="text"
-          placeholder="Tìm theo tên đơn, mã đơn, hoặc tên sản phẩm..."
+          class="search-input"
+          placeholder="Tìm theo tên sản phẩm, mã đơn hàng..."
+          id="searchInput"
         />
+        <button class="search-button" id="searchButton">Tìm kiếm</button>
+      </div>
+      
+      <div class="order-tabs" id="orderTabs">
+        <div class="order-tab active" data-status="all">Tất cả</div>
+        <div class="order-tab" data-status="processing">Đang xử lý</div>
+        <div class="order-tab" data-status="shipped">Đang giao</div>
+        <div class="order-tab" data-status="delivered">Đã giao</div>
+        <div class="order-tab" data-status="cancelled">Đã hủy</div>
       </div>
 
-      <div class="order-list" id="order-list">
+      <div class="order-list" id="orderList">
         <!-- Dữ liệu đơn hàng sẽ được hiển thị tại đây -->
       </div>
     </div>
@@ -109,7 +198,10 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
-        const orderList = document.getElementById("order-list");
+        const orderList = document.getElementById("orderList");
+        const orderTabs = document.getElementById("orderTabs");
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -117,89 +209,174 @@
           return;
         }
 
-        try {
-          const response = await fetch("http://localhost:5000/api/orders", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-          });
+        let currentStatus = "all";
+        let currentSearch = "";
 
-          if (!response.ok) {
-            throw new Error("Không thể lấy dữ liệu đơn hàng.");
+        // Xử lý click tab
+        orderTabs.addEventListener("click", (e) => {
+          if (e.target.classList.contains("order-tab")) {
+            // Xóa active khỏi tất cả các tab
+            document.querySelectorAll(".order-tab").forEach(tab => {
+              tab.classList.remove("active");
+            });
+            
+            // Thêm active vào tab được click
+            e.target.classList.add("active");
+            
+            // Lấy trạng thái từ data attribute
+            currentStatus = e.target.dataset.status;
+            currentSearch = "";
+            searchInput.value = "";
+            
+            // Load lại đơn hàng
+            loadOrders(currentStatus, currentSearch);
           }
+        });
 
-          const orders = await response.json();
-          console.log("Orders fetched:", orders);
-
-          if (orders.length === 0) {
-            orderList.innerHTML = "<p>Chưa có đơn hàng nào.</p>";
-            return;
+        // Xử lý tìm kiếm
+        searchButton.addEventListener("click", () => {
+          currentSearch = searchInput.value.trim();
+          if (currentSearch) {
+            // Nếu đang tìm kiếm, set tab về "Tất cả"
+            document.querySelectorAll(".order-tab").forEach(tab => {
+              tab.classList.remove("active");
+            });
+            document.querySelector('.order-tab[data-status="all"]').classList.add("active");
+            currentStatus = "all";
+            
+            loadOrders(currentStatus, currentSearch);
           }
+        });
 
-          orderList.innerHTML = orders
-            .map((order) => {
-              const date = new Date(order.createdAt).toLocaleDateString(
-                "vi-VN"
-              );
-              const orderCode = order._id.slice(-6).toUpperCase();
-              const status = order.status || "pending";
-              let total = 0;
+        // Xử lý nhấn Enter trong ô tìm kiếm
+        searchInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            searchButton.click();
+          }
+        });
 
-              // Lấy sản phẩm đầu tiên
-              let orderItemHTML = "";
-              if (order.orderItems.length > 0) {
-                const firstItem = order.orderItems[0];
-                const productName =
-                  firstItem.product?.name || "Sản phẩm đã bị xóa";
-                const itemTotal = firstItem.subtotal || 0;
-                total += itemTotal;
+        // Hàm load đơn hàng
+        async function loadOrders(status, searchTerm = "") {
+          try {
+            let url = "http://localhost:5000/api/orders";
+            
+            if (searchTerm) {
+              url = `http://localhost:5000/api/orders/search?search=${encodeURIComponent(searchTerm)}`;
+            } else if (status !== "all") {
+              url = `http://localhost:5000/api/orders/status/${status}`;
+            }
 
-                const itemUnits = firstItem.items
-                  .map((unit) => {
-                    return `${unit.price.toLocaleString()}đ x${unit.quantity} ${
-                      unit.unitName
-                    }`;
-                  })
-                  .join(" ");
+            const response = await fetch(url, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+            });
 
-                orderItemHTML += `
-                <p><strong>${productName}</strong></p>
-                <p>${itemUnits}</p>
+            if (!response.ok) {
+              throw new Error("Không thể lấy dữ liệu đơn hàng.");
+            }
+
+            const orders = await response.json();
+            
+            if (orders.length === 0) {
+              orderList.innerHTML = `
+                <div class="no-orders">
+                  ${searchTerm ? 
+                    "Không tìm thấy đơn hàng phù hợp với từ khóa tìm kiếm" : 
+                    "Chưa có đơn hàng nào ở trạng thái này"}
+                </div>
               `;
+              return;
+            }
 
-                if (order.orderItems.length > 1) {
-                  orderItemHTML += `<p style="color:#666;">+${
-                    order.orderItems.length - 1
-                  } sản phẩm khác</p>`;
+            // Sắp xếp đơn hàng theo thời gian mới nhất
+            orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            orderList.innerHTML = orders
+              .map((order) => {
+                const date = new Date(order.createdAt).toLocaleDateString("vi-VN");
+                const orderCode = order._id.slice(-6).toUpperCase();
+                const status = order.status || "new";
+                const deliveryMethod = order.shippingAddress ? "Giao hàng" : "Nhận tại cửa hàng";
+                
+                // Lấy sản phẩm đầu tiên
+                let orderItemHTML = "";
+                if (order.orderItems.length > 0) {
+                  const firstItem = order.orderItems[0];
+                  const productName = firstItem.product?.name || "Sản phẩm đã bị xóa";
+                  
+                  const itemUnits = firstItem.items
+                    .map((unit) => {
+                      return `${unit.price.toLocaleString()}đ x${unit.quantity} ${unit.unitName}`;
+                    })
+                    .join(" ");
+
+                  orderItemHTML += `
+                    <div class="product-name">${productName}</div>
+                    <div class="product-price">${itemUnits}</div>
+                  `;
+
+                  if (order.orderItems.length > 1) {
+                    orderItemHTML += `<div class="more-products">+${order.orderItems.length - 1} sản phẩm khác</div>`;
+                  }
                 }
 
-                orderItemHTML += `<p><em>Thành tiền: ${itemTotal.toLocaleString()}đ</em></p>`;
-              }
+                // Xác định class status dựa trên trạng thái
+                let statusClass = "";
+                if (status === "delivered") {
+                  statusClass = "status-delivered";
+                } else if (status === "processing" || status === "new") {
+                  statusClass = "status-processing";
+                } else if (status === "shipped") {
+                  statusClass = "status-shipped";
+                } else if (status === "cancelled") {
+                  statusClass = "status-cancelled";
+                }
 
-              return `
-              <div class="order">
-                <div class="order-header">
-                  <span>Đơn hàng ${date} - Mã: ${orderCode}</span>
-                  <span class="status">● ${status}</span>
+                return `
+                <div class="order-card">
+                  <div class="order-header">
+                    <div>
+                      <div class="order-title">Đơn hàng #${orderCode}</div>
+                      <div class="order-delivery">${deliveryMethod}</div>
+                      <div class="order-code">${date}</div>
+                    </div>
+                    <div class="order-status ${statusClass}">● ${getStatusText(status)}</div>
+                  </div>
+                  <div class="order-products">
+                    ${orderItemHTML}
+                  </div>
+                  <div class="order-footer">
+                    <div>
+                      <a href="order-detail.html?id=${order._id}" class="view-detail">Xem chi tiết</a>
+                    </div>
+                    <button class="buy-again">Mua lại</button>
+                  </div>
                 </div>
-                <div class="order-details">
-                  ${orderItemHTML}
-                  <a href="order-detail.html?id=${
-                    order._id
-                  }" class="view-detail">Xem chi tiết &gt;</a>
-                  <p><strong>Tổng cộng:</strong> ${order.totalAmount.toLocaleString()}đ</p>
-                </div>
-                <button class="buy-again">Mua lại</button>
-              </div>
-            `;
-            })
-            .join("");
-        } catch (error) {
-          console.error(error);
-          orderList.innerHTML =
-            "<p>Không thể tải đơn hàng. Vui lòng thử lại.</p>";
+              `;
+              })
+              .join("");
+          } catch (error) {
+            console.error(error);
+            orderList.innerHTML = "<p>Không thể tải đơn hàng. Vui lòng thử lại.</p>";
+          }
+        }
+
+        // Load đơn hàng ban đầu
+        loadOrders(currentStatus);
+
+        function getStatusText(status) {
+          const statusMap = {
+            'new': 'Giỏ hàng',
+            'processing': 'Đang xử lý',
+            'shipped': 'Đang giao',
+            'delivered': 'Đã giao',
+            'cancelled': 'Đã hủy',
+            'pending': 'Đang xử lý'
+          };
+          return statusMap[status] || status;
         }
       });
     </script>

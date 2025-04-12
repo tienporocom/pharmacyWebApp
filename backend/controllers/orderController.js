@@ -50,18 +50,58 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-// Lấy danh sách đơn hàng của người dùng
+// Lấy danh sách đơn hàng của người dùng trừ đơn có trạng thái new
+// Không trả trường description
 exports.getOrders = async (req, res) => {
   try {
-    const userId = req.user._id || req.user.userId;
-    const orders = await Order.find({ user: userId })
-      .populate("orderItems.product")
+    const userId = req.user; // Lấy ID người dùng từ token
+    const orders = await Order.find({ user: userId , status: { $ne: "new" } })
+      .populate("orderItems.product", "name images isPrescribe drugGroup iD packaging manufacturer manufacturerOrigin registrationNumber ingredient placeOfManufacture dosageForm packagingUnits sales") // Không lấy description
       .sort({ createdAt: -1 }); // Mới nhất trước
     res.json(orders);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Lỗi khi lấy danh sách đơn hàng:", error.message);
+    res.status(500).json({ error: "Lỗi server khi lấy danh sách đơn hàng" });
   }
 };
+
+//Lọc đơn hàng theo trạng thái
+exports.getOrdersByStatus = async (req, res) => {
+  try {
+    const status = req.params.status;
+    const userId = req.user; // Lấy ID người dùng từ token
+    const orders = await Order.find({ user: userId, status })
+      .populate("orderItems.product", "name images isPrescribe drugGroup iD packaging manufacturer manufacturerOrigin registrationNumber ingredient placeOfManufacture dosageForm packagingUnits sales") // Không lấy description
+      .sort({ createdAt: -1 }); 
+    res.json(orders);
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách đơn hàng:", error.message);
+    res.status(500).json({ error: "Lỗi server khi lấy danh sách đơn hàng" });
+  }
+}
+
+//Tìm kiếm đơn hàng bằng tên sản phẩm, mã đơn hàng
+exports.searchOrders = async (req, res) => {
+  try {
+    //lấy từ khoá
+    const search = req.query.search || ""; // Tìm kiếm theo tên sản phẩm hoặc ID đơn hàng
+    const userId = req.user; // Lấy ID người dùng từ token
+    const orders = await Order.find({user: userId }).populate("orderItems.product", "name images isPrescribe drugGroup iD packaging manufacturer manufacturerOrigin registrationNumber ingredient placeOfManufacture dosageForm packagingUnits sales ") // Không lấy description
+    // Tìm kiếm theo tên sản phẩm hoặc ID đơn hàng từ danh sách đơn hàng
+    const response = orders.filter((order) => {
+      const orderItems = order.orderItems.map(item => item.product.name.toLowerCase()).join(" ");
+      return order._id.toString().includes(search) || orderItems.includes(search.toLowerCase());
+    }
+    );
+
+   
+    res.json(response);
+  } catch (error) {
+    console.error("Lỗi khi tìm kiếm đơn hàng:", error.message);
+    res.status(500).json({ error: "Lỗi server khi tìm kiếm đơn hàng" });
+  }
+};
+// VD: gọi /api/orders/search?search=Paracetamol
 
 // Lấy chi tiết đơn hàng theo ID
 exports.getOrderById = async (req, res) => {
@@ -131,3 +171,5 @@ exports.getAllOrders = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
