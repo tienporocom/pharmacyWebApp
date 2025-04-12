@@ -35,10 +35,8 @@ exports.addToCart = async (req, res) => {
       cart = new Order({
         user: user,
         orderItems: [],
-        shippingAddress: {
-          address: "not set",
-          phone: "not set",
-        },
+        shippingAddress: "not set",
+        phoneNumber: "not set",
         totalAmountBeforeDiscount: 0,
         totalAmount: 0,
         discount: {
