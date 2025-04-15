@@ -1,4 +1,3 @@
-
 // Biến toàn cục
 let medicines = [];
 let prescriptions = [];
@@ -9,22 +8,29 @@ let totalMedicines = 0;
 const loadData = async () => {
   try {
     const responseOrder = await fetch("http://localhost:5000/api/orders/all", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
-    const responseTotalProduct = await fetch("http://localhost:5000/api/products/total");
-    const responseProduct = await fetch("http://localhost:5000/api/products/page");
-    const responseCustomer = await fetch("http://localhost:5000/api/users/all", {
+    const responseTotalProduct = await fetch(
+      "http://localhost:5000/api/products/total"
+    );
+    const responseProduct = await fetch(
+      "http://localhost:5000/api/products/page"
+    );
+    const responseCustomer = await fetch(
+      "http://localhost:5000/api/users/all",
+      {
         method: "GET",
-        
+
         headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }
-    });
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     // const responsePost = await fetch("http://localhost:5000/api/posts");
     if (!responseOrder.ok || !responseProduct.ok || !responseCustomer.ok) {
       throw new Error("Failed to fetch data");
@@ -43,8 +49,9 @@ const loadData = async () => {
     updateTables();
     updateOverview();
     const adminNamefield = document.querySelector(".adminName");
-    adminNamefield.innerText = "Admin:" + JSON.parse(localStorage.getItem("user"))?.name;
-    } catch (error) {
+    adminNamefield.innerText =
+      "Admin:" + JSON.parse(localStorage.getItem("user"))?.name;
+  } catch (error) {
     //Hiện cửa sổ thông báo lỗi
     alert("Lỗi tải dữ liệu: " + error.message);
 
@@ -54,7 +61,6 @@ const loadData = async () => {
 
 // Gọi hàm loadData khi trang được tải
 loadData();
-
 
 let posts = [
   {
@@ -102,8 +108,8 @@ function showSection(sectionId) {
 
 // Cập nhật tổng quan
 function updateOverview() {
-    console.log("loading overview");
-  const today = "2025-04-07";  
+  console.log("loading overview");
+  const today = "2025-04-07";
   document.getElementById("totalMedicines").innerText = totalMedicines;
   document.getElementById("totalPrescriptions").innerText =
     prescriptions.length;
@@ -153,15 +159,9 @@ function updateMedicineTable() {
                     <td>${isPrescribe}</td>
                     <td>${medicine.packaging} VNĐ</td>
                     <td class="action-buttons">
-                        <button class="view-btn" onclick="viewMedicine('${
-                          medicine.iD
-                        }')">Xem</button>
-                        <button class="edit-btn" onclick="editMedicine('${
-                          medicine.iD
-                        }')">Sửa</button>
-                        <button class="delete-btn" onclick="deleteMedicineModal('${
-                          medicine.iD
-                        }')">Xóa</button>
+                        <button class="view-btn" onclick="viewMedicine('${medicine.iD}')">Xem</button>
+                        <button class="edit-btn" onclick="editMedicine('${medicine.iD}')">Sửa</button>
+                        <button class="delete-btn" onclick="deleteMedicineModal('${medicine.iD}')">Xóa</button>
                     </td>
                 `;
     tableBody.appendChild(row);
@@ -262,13 +262,38 @@ function updatePrescriptionTable() {
   tableBody.innerHTML = "";
   prescriptions.forEach((prescription) => {
     const row = document.createElement("tr");
+
+    //chuyển status sang tiếng việt
+    let status = prescription.status;
+    switch (status) {
+      case "new":
+        status = "Mới";
+        break;
+      case "pending":
+        status = "Chờ xử lý";
+        break;
+      case "processing":
+        status = "Đang xử lý";
+        break;
+      case "shipped":
+        status = "Đã giao hàng";
+        break;
+      case "delivered":
+        status = "Đã giao";
+        break;
+      case "cancelled":
+        status = "Đã hủy";
+        break;
+      default:
+        status = "Không xác định";
+    }
     row.innerHTML = `
                     <td>${prescription._id}</td>
-                    <td>${prescription.user}</td>
+                    <td>${prescription.user.name}</td>
                     <td>${prescription.totalAmount.toLocaleString(
                       "vi-VN"
                     )} VNĐ</td>
-                    <td>${prescription.status}</td>
+                    <td>${status}</td>
                     <td class="action-buttons">
                         <button class="view-btn" onclick="viewPrescription('${
                           prescription._id
@@ -279,46 +304,107 @@ function updatePrescriptionTable() {
                         <button class="delete-btn" onclick="deletePrescriptionModal('${
                           prescription._id
                         }')">Xóa</button>
+                        <button class="print-btn" onclick="openPrintPrescription('${
+                          prescription._id
+                        }')">In Đơn</button>
                     </td>
                 `;
     tableBody.appendChild(row);
   });
 }
 
-function openAddPrescriptionModal() {
-  document.getElementById("prescriptionAddModal").style.display = "flex";
-}
-
-function addPrescription() {
-  const id = document.getElementById("prescriptionAddId").value;
-  const customer = document.getElementById("prescriptionAddCustomer").value;
-  const total = parseInt(document.getElementById("prescriptionAddTotal").value);
-  const status = document.getElementById("prescriptionAddStatus").value;
-
-  prescriptions.push({
-    _id: id,
-    user: customer,
-    totalAmount: total,
-    status: status,
-    createdAt: new Date().toISOString().split("T")[0],
-  });
-
-  closeModal("prescriptionAddModal");
-  updatePrescriptionTable();
-  updateOverview();
+function openPrintPrescription(id) {
+  window.open(`./printOrder.html?id=${id}`, "_blank");
 }
 
 function viewPrescription(id) {
   const prescription = prescriptions.find((p) => p._id === id);
+
+  // Cập nhật nội dung modal
   document.getElementById("prescriptionViewContent").innerHTML = `
-                ID: ${prescription._id}<br>
-                Khách hàng: ${prescription.user}<br>
-                Tổng tiền: ${prescription.totalAmount.toLocaleString(
-                  "vi-VN"
-                )} VNĐ<br>
-                Trạng thái: ${prescription.status}<br>
-                Ngày tạo: ${prescription.createdAt}
-            `;
+    <div class="prescription-header">
+      <div class="prescription-status ${prescription.status.toLowerCase()}">
+        ${prescription.status}
+      </div>
+    </div>
+    
+    <div class="prescription-grid">
+      <div class="prescription-info">
+        <div class="info-item">
+          <span class="info-label">Khách hàng:</span>
+          <span class="info-value">${prescription.user.name}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Ngày tạo:</span>
+          <span class="info-value">${new Date(prescription.createdAt).toLocaleString('vi-VN')}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Địa chỉ giao hàng:</span>
+          <span class="info-value">${prescription.shippingAddress}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">SĐT:</span>
+          <span class="info-value">${prescription.phoneNumber}</span>
+        </div>
+      </div>
+      
+      <div class="prescription-payment">
+        <div class="info-item">
+          <span class="info-label">Tổng tiền:</span>
+          <span class="info-value highlight">${prescription.totalAmount.toLocaleString("vi-VN")} VNĐ</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Phương thức thanh toán:</span>
+          <span class="info-value">${prescription.paymentMethod}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Trạng thái thanh toán:</span>
+          <span class="info-value ${prescription.paymentStatus.toLowerCase()}">
+            ${prescription.paymentStatus}
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="prescription-items">
+      <h3>Chi tiết đơn thuốc</h3>
+      <table class="prescription-table">
+        <thead>
+          <tr>
+            <th>Tên thuốc</th>
+            <th>Đơn vị</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+          </tr>
+        </thead>
+        <tbody id="prescriptionViewItems">
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4" class="total-label">Tổng cộng:</td>
+            <td class="total-amount">${prescription.totalAmount.toLocaleString("vi-VN")} VNĐ</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  `;
+
+  const itemsTableBody = document.getElementById("prescriptionViewItems");
+  itemsTableBody.innerHTML = "";
+  
+  prescription.orderItems.forEach((item) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${item.product.name}</td>
+      <td>${item.product.unit || 'Viên'}</td>
+      <td>${item.items[0].quantity}</td>
+      <td>${item.items[0].price.toLocaleString("vi-VN")} VNĐ</td>
+      <td>${item.subtotal.toLocaleString("vi-VN")} VNĐ</td>
+    `;
+    itemsTableBody.appendChild(row);
+  });
+
   document.getElementById("prescriptionViewModal").style.display = "flex";
 }
 
@@ -326,7 +412,8 @@ function editPrescription(id) {
   selectedPrescriptionId = id;
   const prescription = prescriptions.find((p) => p._id === id);
   document.getElementById("prescriptionEditId").value = prescription._id;
-  document.getElementById("prescriptionEditCustomer").value = prescription.user;
+  document.getElementById("prescriptionEditCustomer").value =
+    prescription.user.name;
   document.getElementById("prescriptionEditTotal").value =
     prescription.totalAmount;
   document.getElementById("prescriptionEditStatus").value = prescription.status;
@@ -342,13 +429,30 @@ function savePrescription() {
   const status = document.getElementById("prescriptionEditStatus").value;
 
   const prescription = prescriptions.find((p) => p._id === id);
-  prescription.user = customer;
+  prescription.user.name = customer;
   prescription.totalAmount = total;
   prescription.status = status;
 
   closeModal("prescriptionEditModal");
   updatePrescriptionTable();
   updateOverview();
+  //gửi put request đến api /api/orders/:id/status với body là {status: prescription.status}
+  console.log("Status:", status);
+  fetch(`http://localhost:5000/api/orders/${id}/status`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify({ status: status }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
 
 function deletePrescriptionModal(id) {
@@ -358,6 +462,22 @@ function deletePrescriptionModal(id) {
 
 function deletePrescription() {
   prescriptions = prescriptions.filter((p) => p._id !== selectedPrescriptionId);
+
+  //gửi delete request đến api /api/orders/:id
+  fetch(`http://localhost:5000/api/orders/${selectedPrescriptionId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
   selectedPrescriptionId = null;
   closeModal("prescriptionDeleteModal");
   updatePrescriptionTable();
@@ -567,12 +687,11 @@ updateTables();
 updateOverview();
 
 function resetBtnClick() {
-    loadData();
-    updateTables();
-    updateOverview();
-    //tạm ngưng 3s
-    setTimeout(() => {
-        document.getElementById("resetBtn").blur();
-    }, 1000);
-    }
-
+  loadData();
+  updateTables();
+  updateOverview();
+  //tạm ngưng 3s
+  setTimeout(() => {
+    document.getElementById("resetBtn").blur();
+  }, 1000);
+}

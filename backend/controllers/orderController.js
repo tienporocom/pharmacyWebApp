@@ -125,8 +125,9 @@ exports.getOrderById = async (req, res) => {
 exports.updateOrderStatus = async (req, res) => {
   try {
     const validStatuses = ["new", "pending", "processing", "shipped", "delivered", "cancelled"];
-    const { status } = req.body;
+    const status = req.body.status;
 
+    console.log("Status:", status);
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: "Trạng thái không hợp lệ" });
     }
@@ -158,7 +159,7 @@ exports.getAllOrders = async (req, res) => {
   try {
     
     const orders = await Order.find()
-      .populate("orderItems.product")
+      .populate("orderItems.product", "name images isPrescribe drugGroup iD packaging manufacturer manufacturerOrigin registrationNumber ingredient placeOfManufacture dosageForm packagingUnits sales") // Không lấy description
       .populate("user", "name phoneNumber")
       .sort({ createdAt: -1 }); // Mới nhất trước
 

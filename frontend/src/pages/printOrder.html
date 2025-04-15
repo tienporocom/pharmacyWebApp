@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hóa đơn mua hàng</title>
+    <script src="../assets/js/qrcode.js"></script>
+    <link
+      type="image/x-icon"
+      href="../assets/img/logo.png"
+      rel="shortcut icon"
+    />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background: white;
+        padding: 20px;
+        margin: 0;
+        color: #000;
+      }
+
+      .invoice-container {
+        max-width: 600px;
+        margin: 0 auto;
+        border: 1px dashed #333;
+        padding: 20px;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .section {
+        margin-bottom: 15px;
+      }
+
+      .section-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+
+      .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      .product-table th,
+      .product-table td {
+        border-bottom: 1px solid #ccc;
+        padding: 6px;
+        text-align: left;
+      }
+
+      .product-table th {
+        background: #f2f2f2;
+      }
+
+      .total {
+        text-align: right;
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      @media print {
+        body {
+          background: white;
+          margin: 0;
+        }
+
+        .invoice-container {
+          box-shadow: none;
+          border: none;
+        }
+      }
+
+      .store-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .store-header .logo {
+        height: 80px;
+        width: auto;
+      }
+
+      .store-header .store-name {
+        font-size: 22px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      #qrcode {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="invoice-container" id="invoice">
+      <div class="store-header">
+        <img src="../assets/img/logo.png" alt="Logo Nhà thuốc" class="logo" />
+        <div class="store-name">
+          NHÀ THUỐC TẬN TÂM<br /><span style="font-size: 12px; font-weight: 400"
+            >ĐC: 12 Nguyễn Văn Bảo, P1, Gò Vấp<br />ĐT: 012.036.5478</span
+          >
+        </div>
+      </div>
+
+      <h2>HÓA ĐƠN MUA HÀNG</h2>
+
+      <div class="section">
+        <div class="info-row">
+          <span>Ngày: <span id="order-date">--/--/----</span></span>
+          <span>Mã đơn: <span id="order-code">#ABC123</span></span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Thông tin người nhận</div>
+        <div class="info-row">
+          <span>Họ tên:</span><span id="receiver-name">---</span>
+        </div>
+        <div class="info-row">
+          <span>Điện thoại:</span><span id="receiver-phone">---</span>
+        </div>
+        <div class="info-row">
+          <span>Địa chỉ:</span><span id="receiver-address">---</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Danh sách sản phẩm</div>
+        <table class="product-table" id="product-list">
+          <thead>
+            <tr>
+              <th>Sản phẩm</th>
+              <th>SL</th>
+              <th>Đơn giá</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="info-row">
+          <span>Phương thức thanh toán:</span
+          ><span id="payment-method">---</span>
+        </div>
+      </div>
+
+      <div class="total">Thành tiền: <span id="total-price">0đ</span></div>
+      <div id="qrcode"></div>
+
+      <div class="section">
+        <div
+          class="section-title"
+          style="font-size: 16px; color: #333; margin-bottom: 10px"
+        >
+          Điều kiện đổi trả
+        </div>
+        <ul
+          class="return-policy"
+          style="
+            list-style-type: disc;
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+          "
+        >
+          <li>Sản phẩm còn nguyên vẹn, chưa qua sử dụng.</li>
+          <li>Đổi trả trong vòng 7 ngày kể từ ngày mua hàng.</li>
+          <li>Xuất trình hóa đơn mua hàng khi đổi trả.</li>
+        </ul>
+      </div>
+      <div class="section">
+        <p
+          style="
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+          "
+        >
+          Nhà thuốc Tận Tâm xin chân thành cảm ơn quý khách <br />đã tin tưởng
+          và sử dụng dịch vụ của chúng tôi.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get("id");
+        console.log("Order ID:", orderId);
+
+        if (!orderId) return;
+
+        try {
+          const res = await fetch(
+            `http://localhost:5000/api/orders/${orderId}`,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
+
+          if (!res.ok) throw new Error("Không tải được đơn hàng");
+
+          const order = await res.json();
+
+          // Gán dữ liệu vào hóa đơn
+          document.getElementById("order-date").textContent = new Date(
+            order.createdAt
+          ).toLocaleDateString("vi-VN");
+          document.getElementById("order-code").textContent =
+            "#" + order._id.slice(-6).toUpperCase();
+          document.getElementById("receiver-name").textContent =
+            order.user?.name || "Không rõ";
+          document.getElementById("receiver-phone").textContent =
+            order.phoneNumber || "N/A";
+          document.getElementById("receiver-address").textContent =
+            order.shippingAddress || "Chưa cập nhật";
+          document.getElementById("payment-method").textContent =
+            getPaymentMethodText(order.paymentMethod || "cash");
+          document.getElementById("total-price").textContent =
+            order.totalAmount.toLocaleString() + "đ";
+
+          const productList = document.querySelector("#product-list tbody");
+          let productRows = "";
+
+          order.orderItems.forEach((item) => {
+            const product = item.product || {};
+            const name = product.name || "Sản phẩm";
+            item.items.forEach((unit) => {
+              productRows += `
+              <tr>
+                <td>${name}</td>
+                <td>${unit.quantity} ${unit.unitName}</td>
+                <td>${unit.price.toLocaleString()}đ</td>
+              </tr>
+            `;
+            });
+          });
+
+          productList.innerHTML = productRows;
+
+          // Tự động mở hộp thoại in
+          setTimeout(() => {
+            window.print();
+          }, 500);
+        } catch (err) {
+          console.error(err);
+          document.getElementById("invoice").innerHTML =
+            "<p>Lỗi khi tải đơn hàng. Vui lòng thử lại.</p>";
+        }
+        var QR_CODE = new QRCode("qrcode", {
+            width: 220,
+            height: 220,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+          });
+    
+          QR_CODE.makeCode("ID: "+orderId);
+    
+      });
+
+      function getPaymentMethodText(method) {
+        const map = {
+          cash: "Thanh toán khi nhận hàng",
+          online: "Thanh toán online",
+          momo: "Ví MoMo",
+          bank: "Chuyển khoản ngân hàng",
+        };
+        return map[method] || method;
+      }
+    </script>
+  </body>
+</html>
