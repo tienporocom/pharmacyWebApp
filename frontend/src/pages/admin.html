@@ -6,6 +6,7 @@
     <title>Admin - Quản lý bán thuốc</title>
     <link rel="stylesheet" href="../assets/css/admin.css" />
     <script src="../assets/js/admin.js"></script>
+    <link rel="shortcut icon" href="../assets/img/logo.png" type="image/x-icon">
   </head>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
@@ -39,7 +40,7 @@
           <i>💊</i> Quản lý thuốc
         </li>
         <li id="nav-prescriptions" onclick="showSection('prescriptions')">
-          <i>📋</i> Đơn thuốc
+          <i>📋</i> Đơn hàng
         </li>
         <li id="nav-customers" onclick="showSection('customers')">
           <i>👥</i> Khách hàng
@@ -70,7 +71,7 @@
             <span id="totalMedicines">...</span>
           </div>
           <div class="overview-card card-prescriptions">
-            <h3>Tổng số đơn thuốc</h3>
+            <h3>Tổng số đơn hàng</h3>
             <span id="totalPrescriptions">...</span>
           </div>
           <div class="overview-card card-customers">
@@ -86,7 +87,7 @@
             <span id="todayRevenue">... VNĐ</span>
           </div>
           <div class="overview-card card-pending">
-            <h3>Đơn thuốc đang chờ</h3>
+            <h3>Đơn hàng đang chờ</h3>
             <span id="pendingPrescriptions">...</span>
           </div>
           <div class="overview-card card-low-stock">
@@ -106,6 +107,33 @@
         <button class="addBtn" onclick="openAddMedicineModal()">
           Thêm thuốc
         </button>
+        <!--thanh tìm kiếm -->
+        <div class="search-medicine-container">
+          <!-- Sắp xếp theo: -->
+          <div class="sort-filter-medicine">
+            <label for="sortFilter">Sắp xếp theo</label>
+            <select id="sortFilter" onchange="sortMedicines()">
+              <option value="name">Tên thuốc</option>
+              <option value="price">Giá</option>
+              <option value="quantity">Số lượng</option>
+            </select>
+            <label for="orderFilter">Thứ tự</label>
+            <select id="orderFilter" onchange="sortMedicines()">
+              <option value="asc">Tăng dần</option>
+              <option value="desc">Giảm dần</option>
+            </select>
+          </div>
+
+          <input
+            type="text"
+            id="searchMedicines"
+            placeholder="Tìm kiếm thuốc theo ID hoặc tên"
+          />
+          <button id="searchMedBtn" onclick="searchMedicines()">
+            Tìm kiếm
+          </button>
+
+        </div>
         <table id="medicineTable">
           <thead>
             <tr>
@@ -120,9 +148,30 @@
         </table>
       </div>
 
-      <!-- Đơn thuốc -->
       <div class="content-section" id="prescriptions">
-        <h1>Đơn thuốc</h1>
+        <h1>Đơn hàng</h1>
+        <div class="search-prescription-container">
+          <div class="sort-filter-prescription">
+            <!-- lọc theo trạng thái đơn hàng -->
+            <label for="statusFilter">Trạng thái</label>
+            <select id="statusFilter" onchange="filterPrescriptions()">
+              <option value="">Tất cả</option>
+              <option value="pending">Chờ xử lý</option>
+              <option value="processing">Đang xử lý</option>
+              <option value="shipped">Đã giao</option>
+              <option value="delivered">Hoàn thành</option>
+              <option value="cancelled">Hủy</option>
+            </select>
+          </div>
+          <input
+            type="text"
+            id="searchPrescriptions"
+            placeholder="Tìm kiếm đơn hàng theo ID hoặc khách hàng"
+          />
+          <button id="searchPreBtn" onclick="searchOrders()">
+            Tìm kiếm
+          </button>
+        </div>
         
         <table id="prescriptionTable">
           <thead>
@@ -144,6 +193,16 @@
         <button class="addBtn" onclick="openAddCustomerModal()">
           Thêm khách hàng
         </button>
+        <div class="search-customer-container">
+          <input
+            type="text"
+            id="searchCustomers"
+            placeholder="Tìm kiếm khách hàng theo ID hoặc tên"
+          />
+          <button id="searchCusBtn" onclick="searchCustomers()">
+            Tìm kiếm
+          </button>
+        </div>
         <table id="customerTable">
           <thead>
             <tr>
@@ -233,7 +292,7 @@
     <!-- Prescription Modals -->
     <div class="modal" id="prescriptionAddModal">
       <div class="modal-content">
-        <h2>Thêm đơn thuốc</h2>
+        <h2>Thêm đơn hàng</h2>
         <label>ID:</label><input type="text" id="prescriptionAddId" />
         <label>Khách hàng:</label
         ><input type="text" id="prescriptionAddCustomer" />
@@ -254,8 +313,8 @@
       </div>
     </div>
     <div class="modal" id="prescriptionViewModal">
-      <div class="modal-content">
-        <h2>Thông tin đơn thuốc</h2>
+      <div class="modal-content" style="width: 600px">
+        <h2>Thông tin đơn hàng</h2>
         <p id="prescriptionViewContent"></p>
         <button
           class="cancel-btn"
@@ -267,10 +326,10 @@
     </div>
     <div class="modal" id="prescriptionEditModal">
       <div class="modal-content">
-        <h2>Sửa đơn thuốc</h2>
-        <input type="hidden" id="prescriptionEditId" />
+        <h2>Sửa đơn hàng</h2>
+        <input type="hidden" id="prescriptionEditId" disabled/>
         <label>Khách hàng:</label
-        ><input type="text" id="prescriptionEditCustomer" />
+        ><input type="text" id="prescriptionEditCustomer" disabled/>
         <label>Tổng tiền:</label
         ><input type="number" id="prescriptionEditTotal" />
         <label>Trạng thái:</label>
@@ -293,7 +352,7 @@
     <div class="modal" id="prescriptionDeleteModal">
       <div class="modal-content">
         <h2>Xác nhận xóa</h2>
-        <p>Bạn có chắc chắn muốn xóa đơn thuốc này không?</p>
+        <p>Bạn có chắc chắn muốn xóa đơn hàng này không?</p>
         <button class="confirm-btn" onclick="deletePrescription()">
           Xác nhận
         </button>

@@ -18,7 +18,7 @@ const loadData = async () => {
       "http://localhost:5000/api/products/total"
     );
     const responseProduct = await fetch(
-      "http://localhost:5000/api/products/page"
+      "http://localhost:5000/api/products/"
     );
     const responseCustomer = await fetch(
       "http://localhost:5000/api/users/all",
@@ -322,11 +322,6 @@ function viewPrescription(id) {
 
   // Cập nhật nội dung modal
   document.getElementById("prescriptionViewContent").innerHTML = `
-    <div class="prescription-header">
-      <div class="prescription-status ${prescription.status.toLowerCase()}">
-        ${prescription.status}
-      </div>
-    </div>
     
     <div class="prescription-grid">
       <div class="prescription-info">
@@ -372,7 +367,6 @@ function viewPrescription(id) {
         <thead>
           <tr>
             <th>Tên thuốc</th>
-            <th>Đơn vị</th>
             <th>Số lượng</th>
             <th>Đơn giá</th>
             <th>Thành tiền</th>
@@ -382,7 +376,7 @@ function viewPrescription(id) {
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4" class="total-label">Tổng cộng:</td>
+            <td colspan="3" class="total-label">Tổng cộng:</td>
             <td class="total-amount">${prescription.totalAmount.toLocaleString("vi-VN")} VNĐ</td>
           </tr>
         </tfoot>
@@ -397,8 +391,7 @@ function viewPrescription(id) {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${item.product.name}</td>
-      <td>${item.product.unit || 'Viên'}</td>
-      <td>${item.items[0].quantity}</td>
+      <td>${item.product.unit || 'Viên'} x ${item.items[0].quantity}</td>
       <td>${item.items[0].price.toLocaleString("vi-VN")} VNĐ</td>
       <td>${item.subtotal.toLocaleString("vi-VN")} VNĐ</td>
     `;
@@ -694,4 +687,203 @@ function resetBtnClick() {
   setTimeout(() => {
     document.getElementById("resetBtn").blur();
   }, 1000);
+}
+
+function searchMedicines() {
+  const searchValue = document.getElementById("searchMedicines").value.toLowerCase();
+  const filteredMedicines = medicines.filter((medicine) =>
+    //Tìm bằng iD, name, _id
+    medicine.iD.toLowerCase().includes(searchValue) ||
+    medicine._id.toLowerCase().includes(searchValue)||
+    medicine.name.toLowerCase().includes(searchValue) 
+  );
+  const tableBody = document.getElementById("medicineTable").querySelector("tbody");
+  tableBody.innerHTML = "";
+  filteredMedicines.forEach((medicine) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+                    <td>${medicine.iD}</td>
+                    <td>${medicine.name}</td>
+                    <td>${medicine.isPrescribe ? "Có" : "Không"}</td>
+                    <td>${medicine.packaging} VNĐ</td>
+                    <td class="action-buttons">
+                        <button class="view-btn" onclick="viewMedicine('${medicine.iD}')">Xem</button>
+                        <button class="edit-btn" onclick="editMedicine('${medicine.iD}')">Sửa</button>
+                        <button class="delete-btn" onclick="deleteMedicineModal('${medicine.iD}')">Xóa</button>
+                    </td>
+                `;
+    tableBody.appendChild(row);
+  });
+}
+function searchCustomers() {
+  const searchValue = document.getElementById("searchCustomers").value.toLowerCase();
+  const filteredCustomers = customers.filter((customer) =>
+    //Tìm bằng iD, name, _id, email, phone
+    customer._id.toLowerCase().includes(searchValue) ||
+    customer.name.toLowerCase().includes(searchValue) ||
+    customer.email.toLowerCase().includes(searchValue) ||
+    (customer.phone && customer.phone.toString().toLowerCase().includes(searchValue))
+  );
+  const tableBody = document.getElementById("customerTable").querySelector("tbody");
+  tableBody.innerHTML = "";
+  filteredCustomers.forEach((customer) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+                    <td>${customer._id}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.phone}</td>
+                    <td class="action-buttons">
+                        <button class="view-btn" onclick="viewCustomer('${customer._id}')">Xem</button>
+                        <button class="edit-btn" onclick="editCustomer('${customer._id}')">Sửa</button>
+                        <button class="delete-btn" onclick="deleteCustomerModal('${customer._id}')">Xóa</button>
+                    </td>
+                `;
+    tableBody.appendChild(row);
+  });
+}
+function searchOrders (){
+  const searchValue = document.getElementById("searchPrescriptions").value.toLowerCase();
+  const filteredOrders = prescriptions.filter((order) =>
+    //Tìm bằng iD, name, _id
+    order._id.toLowerCase().includes(searchValue) ||
+    order.user.name.toLowerCase().includes(searchValue) 
+  );
+  const tableBody = document.getElementById("prescriptionTable").querySelector("tbody");
+  tableBody.innerHTML = "";
+  filteredOrders.forEach((order) => {
+    const row = document.createElement("tr");
+
+    //chuyển status sang tiếng việt
+    let status = order.status;
+    switch (status) {
+      case "new":
+        status = "Mới";
+        break;
+      case "pending":
+        status = "Chờ xử lý";
+        break;
+      case "processing":
+        status = "Đang xử lý";
+        break;
+      case "shipped":
+        status = "Đã giao hàng";
+        break;
+      case "delivered":
+        status = "Đã giao";
+        break;
+      case "cancelled":
+        status = "Đã hủy";
+        break;
+      default:
+        status = "Không xác định";
+    }
+    row.innerHTML = `
+                    <td>${order._id}</td>
+                    <td>${order.user.name}</td>
+                    <td>${order.totalAmount.toLocaleString(
+                      "vi-VN"
+                    )} VNĐ</td>
+                    <td>${status}</td>
+                    <td class="action-buttons">
+                        <button class="view-btn" onclick="viewPrescription('${
+                          order._id
+                        }')">Xem</button>
+                        <button class="edit-btn" onclick="editPrescription('${
+                          order._id
+                        }')">Sửa</button>
+                        <button class="delete-btn" onclick="deletePrescriptionModal('${
+                          order._id
+                        }')">Xóa</button>
+                        <button class="print-btn" onclick="openPrintPrescription('${
+                          order._id
+                        }')">In Đơn</button>
+                    </td>
+                `;
+    tableBody.appendChild(row);
+  });
+}
+
+function filterPrescriptions(){
+  const filterValue = document.getElementById("statusFilter").value;
+  const filteredOrders = prescriptions.filter((order) =>
+    order.status.toLowerCase().includes(filterValue.toLowerCase())
+  );
+  const tableBody = document.getElementById("prescriptionTable").querySelector("tbody");
+  tableBody.innerHTML = "";
+  filteredOrders.forEach((order) => {
+    const row = document.createElement("tr");
+
+    //chuyển status sang tiếng việt
+    let status = order.status;
+    switch (status) {
+      case "new":
+        status = "Mới";
+        break;
+      case "pending":
+        status = "Chờ xử lý";
+        break;
+      case "processing":
+        status = "Đang xử lý";
+        break;
+      case "shipped":
+        status = "Đã giao hàng";
+        break;
+      case "delivered":
+        status = "Đã giao";
+        break;
+      case "cancelled":
+        status = "Đã hủy";
+        break;
+      default:
+        status = "Không xác định";
+    }
+    row.innerHTML = `
+                    <td>${order._id}</td>
+                    <td>${order.user.name}</td>
+                    <td>${order.totalAmount.toLocaleString(
+                      "vi-VN"
+                    )} VNĐ</td>
+                    <td>${status}</td>
+                    <td class="action-buttons">
+                        <button class="view-btn" onclick="viewPrescription('${
+                          order._id
+                        }')">Xem</button>
+                        <button class="edit-btn" onclick="editPrescription('${
+                          order._id
+                        }')">Sửa</button>
+                        <button class="delete-btn" onclick="deletePrescriptionModal('${
+                          order._id
+                        }')">Xóa</button>
+                        <button class="print-btn" onclick="openPrintPrescription('${
+                          order._id
+                        }')">In Đơn</button>
+                    </td>
+                `;
+    tableBody.appendChild(row);
+  });
+}
+function sortMedicines(){
+  const sortValue = document.getElementById("sortFilter").value;
+  const orderValue = document.getElementById("orderFilter").value;
+  
+  medicines.sort((a, b) => {
+    if (sortValue === "name") {
+      return a.name.localeCompare(b.name);
+    } else if (sortValue === "price") {
+      return a.packagingUnits[0].price - b.packagingUnits[0].price;
+    } else if (sortValue === "quantity") {
+      //so sánh vói tổng số lượng
+      const totalA = a.packagingUnits.reduce((sum, unit) => sum + unit.quantity, 0);
+      const totalB = b.packagingUnits.reduce((sum, unit) => sum + unit.quantity, 0);
+      return totalA - totalB;
+    }
+  });
+  if (orderValue === "desc") {
+    medicines.reverse();
+  }
+  updateMedicineTable();
+  
+
+
 }

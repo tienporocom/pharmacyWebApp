@@ -226,7 +226,7 @@
 
           console.log(order);
           
-          const orderCode = order._id.slice(-6).toUpperCase();
+          const orderCode = order._id;
           const status = getStatusText(order.status || "new");
           const receiver = order.user?.name || "Không rõ";
           const phone = order.phoneNumber || "N/A";

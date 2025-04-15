@@ -297,7 +297,7 @@
             orderList.innerHTML = orders
               .map((order) => {
                 const date = new Date(order.createdAt).toLocaleDateString("vi-VN");
-                const orderCode = order._id.slice(-6).toUpperCase();
+                const orderCode = order._id;
                 const status = order.status || "new";
                 const deliveryMethod = order.shippingAddress ? "Giao hàng" : "Nhận tại cửa hàng";
                 
