@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     
   },
   dOB: { type: Date, default: Date.now },
-  sex: { type: String },
+  sex: { type: String },//male,female
   address: [
     {
       address: { type: String },

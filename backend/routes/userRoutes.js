@@ -12,6 +12,8 @@ const {
   getAddress,
   updateAddress,
   getAllUsers,
+  updateUserProfileWithID,
+  deleteUserWithID,
 } = require("../controllers/userController");
 
 // Đăng ký người dùng mới
@@ -22,10 +24,13 @@ router.post("/login", loginUser);
 
 // Lấy thông tin hồ sơ người dùng (yêu cầu xác thực)
 router.get("/profile", authMiddleware, getUserProfile);
-
+// Cập nhật thông tin hồ sơ người dùng (dành cho admin, yêu cầu xác thực và quyền admin)
+router.put("/profile/:id", authMiddleware, roleMiddleware(["admin"]), updateUserProfileWithID);
 // Cập nhật thông tin hồ sơ người dùng (yêu cầu xác thực)
 router.put("/profile", authMiddleware, updateUserProfile);
 
+// Xóa tài khoản người dùng (yêu cầu xác thực admin)
+router.delete("/profile/:id", authMiddleware, roleMiddleware(["admin"]), deleteUserWithID);
 // Xóa tài khoản người dùng (yêu cầu xác thực)
 router.delete("/profile", authMiddleware, deleteUser);
 

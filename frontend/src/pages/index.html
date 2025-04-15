@@ -74,8 +74,9 @@
           </div>
           <p>Cần mua thuốc</p>
         </button>
-        <button class="feature-item" id="open-chat">
-          <div class="feature-icon">
+        <!-- KHi nhấn vào thì đặt display của modal là flex -->
+        <button class="feature-item" >
+            <div class="feature-icon">
             <img src="../assets/img/iconQues.webp" alt="Tư vấn với Dược Sỹ" />
           </div>
           <p>Tư vấn với Dược Sỹ</p>
@@ -213,23 +214,7 @@
     <!-- Footer -->
     <div data-include="../components/footer.html"></div>
 
-    <div class="chat-modal" id="chat-modal">
-      <div class="chat-header">
-        Tư vấn cùng Nhà thuốc Tận Tâm
-        <button class="close-chat" id="close-chat">×</button>
-      </div>
-      <div class="chat-messages" id="chat-messages">
-        <!-- Tin nhắn sẽ hiển thị ở đây -->
-      </div>
-      <div class="chat-input">
-        <input
-          type="text"
-          id="message-input"
-          placeholder="Nhập câu hỏi của bạn..."
-        />
-        <button id="send-button">Gửi</button>
-      </div>
-    </div>
+    
     
     <div id="mapModal" class="modal">
       <div class="modal-content">

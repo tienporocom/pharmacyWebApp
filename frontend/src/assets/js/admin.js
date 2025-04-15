@@ -6,7 +6,53 @@ let totalMedicines = 0;
 
 //Load dữ liệu từ API
 const loadData = async () => {
+  
   try {
+    // Hiển thị modal mờ với logo và nội dung
+    const loadingModal = document.createElement("div");
+    loadingModal.className = "loading-modal";
+    loadingModal.innerHTML = `
+      <div class="loading-content">
+        <img src="../assets/img/logo.png" alt="Logo" class="loading-logo" />
+        <p class="loading-text">Đang xác thực...</p>
+      </div>
+      <style>
+        .loading-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+        }
+        .loading-content {
+          text-align: center;
+          color: white;
+          font-size: 24px;
+          font-weight: bold;
+        }
+        .loading-logo {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 20px;
+        }
+        .loading-text {
+          margin-top: 10px;
+          font-size: 18px;
+        }
+      </style>
+    `;
+    document.body.appendChild(loadingModal);
+    //sau khi xác thực xong thì đổi sang loading thành "Đang tải dữ liệu..."
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    loadingModal.querySelector(".loading-text").innerText = "Đang tải dữ liệu...";
+
+
+    
     const responseOrder = await fetch("http://localhost:5000/api/orders/all", {
       method: "GET",
       headers: {
@@ -29,8 +75,9 @@ const loadData = async () => {
         },
       }
     );
-    // const responsePost = await fetch("http://localhost:5000/api/posts");
     if (!responseOrder.ok || !responseProduct.ok || !responseCustomer.ok) {
+      // Hiện cửa sổ thông báo Không có quyền truy cập
+      alert("Không có quyền truy cập vào dữ liệu này.");
       throw new Error("Failed to fetch data");
     }
 
@@ -49,16 +96,21 @@ const loadData = async () => {
     const adminNamefield = document.querySelector(".adminName");
     adminNamefield.innerText =
       "Admin:" + JSON.parse(localStorage.getItem("user"))?.name;
-  } catch (error) {
-    //Hiện cửa sổ thông báo lỗi
-    alert("Lỗi tải dữ liệu: " + error.message);
 
+    
+
+    
+      document.body.removeChild(loadingModal);
+  } catch (error) {
+    
     console.error("Error loading data:", error);
   }
 };
 
 // Gọi hàm loadData khi trang được tải
-loadData();
+document.addEventListener("DOMContentLoaded", () => {
+  loadData();
+});
 
 let posts = [
   {
@@ -159,7 +211,8 @@ function updateMedicineTable() {
                     <td class="action-buttons">
                         <button class="view-btn" onclick="viewMedicine('${medicine.iD}')">Xem</button>
                         <button class="edit-btn" onclick="editMedicine('${medicine.iD}')">Sửa</button>
-                        <button class="delete-btn" onclick="deleteMedicineModal('${medicine.iD}')">Xóa</button>
+                        <button class="delete-btn" onclick="deleteM
+                        edicineModal('${medicine.iD}')">Xóa</button>
                     </td>
                 `;
     tableBody.appendChild(row);
@@ -171,20 +224,87 @@ function openAddMedicineModal() {
 }
 
 function addMedicine() {
-  const id = document.getElementById("medicineAddId").value;
   const name = document.getElementById("medicineAddName").value;
   const description = document.getElementById("medicineAddDescription").value;
-  const price = parseInt(document.getElementById("medicineAddPrice").value);
-  const quantity = parseInt(
-    document.getElementById("medicineAddQuantity").value
-  );
+  const shortDescription = document.getElementById("medicineAddShortDescription").value;
+  const images = document.getElementById("medicineAddImages").value;
+  const isPrescribe = document.getElementById("medicineAddIsPrescribe").value === "true";
+  const drugGroup = document.getElementById("medicineAddDrugGroup").value;
+  const manufacturer = document.getElementById("medicineAddManufacturer").value;
+  const manufacturerOrigin = document.getElementById("medicineAddManufacturerOrigin").value;
+  const registrationNumber = document.getElementById("medicineAddRegistrationNumber").value;
+  const ingredient = document.getElementById("medicineAddIngredient").value;
+  const placeOfManufacture = document.getElementById("medicineAddPlaceOfManufacture").value;
+  const dosageForm = document.getElementById("medicineAddDosageForm").value;
+  const packaging = document.getElementById("medicineAddPackaging").value;
+  const packagingUnits = [];
+  const unitNames = document.querySelectorAll(".unitName");
+  const quantities = document.querySelectorAll(".quantity");
+  const prices = document.querySelectorAll(".price");
 
-  medicines.push({
+  unitNames.forEach((unitNameElement, index) => {
+    const unitName = unitNameElement.value;
+    const quantity = parseInt(quantities[index].value);
+    const price = parseInt(prices[index].value);
+    packagingUnits.push({
+      unitName,
+      quantity,
+      price,
+    });
+  });
+  const sales = parseInt(document.getElementById("medicineAddSales").value);
+
+  //xử lý lấy id = max id + 1
+  let maxId = 0;
+  medicines.forEach((medicine) => {
+    const id = parseInt(medicine.iD.substring(1)); // Lấy phần số của ID
+    if (id > maxId) {
+      maxId = id;
+    }
+  });
+  const id = (maxId + 1).toString().padStart(8, "0"); // Tạo ID mới
+
+  const newMedicine = {
     iD: id,
     name: name,
     description: description,
-    packagingUnits: [{ unitName: "Viên", quantity: quantity, price: price }],
-  });
+    shortDescription: shortDescription,
+    images: images,
+    isPrescribe: isPrescribe,
+    drugGroup: drugGroup,
+    manufacturer: manufacturer,
+    manufacturerOrigin: manufacturerOrigin,
+    registrationNumber: registrationNumber,
+    ingredient: ingredient,
+    placeOfManufacture: placeOfManufacture,
+    dosageForm: dosageForm,
+    packaging: packaging,
+    packagingUnits: packagingUnits,
+    sales: sales,
+  };
+  console.log(newMedicine);
+
+  medicines.push(newMedicine);
+
+  // Gửi yêu cầu POST đến API để thêm sản phẩm mới
+  fetch("http://localhost:5000/api/products", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(newMedicine),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to add medicine");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Medicine added:", data);
+      alert("Thêm thuốc thành công!");
+    })
 
   closeModal("medicineAddModal");
   updateMedicineTable();
@@ -193,15 +313,82 @@ function addMedicine() {
 
 function viewMedicine(id) {
   const medicine = medicines.find((m) => m.iD === id);
-  document.getElementById("medicineViewContent").innerHTML = `
-                ID: ${medicine.iD}<br>
-                Tên: ${medicine.name}<br>
-                Mô tả: ${medicine.description}<br>
-                Giá: ${medicine.packagingUnits[0].price.toLocaleString(
-                  "vi-VN"
-                )} VNĐ<br>
-                Số lượng: ${medicine.packagingUnits[0].quantity}
-            `;
+  const categories = medicine.packagingUnits
+    .map(
+      (unit) =>
+        `<tr><td>${unit.unitName}</td><td>${unit.quantity}</td> <td> ${unit.price.toLocaleString(
+          "vi-VN"
+        )} VNĐ</td></tr>`
+    )
+    .join("");
+    document.getElementById("medicineViewContent").innerHTML = `
+      <div class="medicine-info">
+        <div class="info-item">
+          <span class="info-label">ID:</span>
+          <span class="info-value">${medicine.iD}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Tên:</span>
+          <span class="info-value">${medicine.name}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Mô tả:</span>
+          <span class="info-value">${medicine.shortDescription || "Không có"}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Kê đơn:</span>
+          <span class="info-value">${medicine.isPrescribe ? "Có" : "Không"}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Nước sản xuất:</span>
+          <span class="info-value">${medicine.manufacturer || "Không có"}</span>
+        </div>
+        
+
+      <div class="medicine-categories">
+        <h3>Phân loại</h3>
+        <table class="medicine-table">
+          <thead>
+            <tr>
+              <th>Tên phân loại</th>
+              <th>Số lượng</th>
+              <th>Giá</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${categories}
+          </tbody>
+        </table>
+      </div>
+      <style>
+        .medicine-info {
+          margin-bottom: 20px;
+        }
+        .info-item {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        }
+        .info-label {
+          font-weight: bold;
+        }
+        .medicine-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        .medicine-table th, .medicine-table td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+        }
+        .medicine-table th {
+          background-color: #ccc;
+          color: #333;
+          font-weight: bold;
+        }
+      </style>
+    `;
+  
   document.getElementById("medicineViewModal").style.display = "flex";
 }
 
@@ -210,29 +397,107 @@ function editMedicine(id) {
   const medicine = medicines.find((m) => m.iD === id);
   document.getElementById("medicineEditId").value = medicine.iD;
   document.getElementById("medicineEditName").value = medicine.name;
-  document.getElementById("medicineEditDescription").value =
-    medicine.description;
-  document.getElementById("medicineEditPrice").value =
-    medicine.packagingUnits[0].price;
-  document.getElementById("medicineEditQuantity").value =
-    medicine.packagingUnits[0].quantity;
+  document.getElementById("medicineEditDescription").value = medicine.description;
+  document.getElementById("medicineEditShortDescription").value = medicine.shortDescription;
+  document.getElementById("medicineEditImages").value = medicine.images;
+  document.getElementById("medicineEditIsPrescribe").value = medicine.isPrescribe.toString();
+  document.getElementById("medicineEditDrugGroup").value = medicine.drugGroup;
+  document.getElementById("medicineEditManufacturer").value = medicine.manufacturer;
+  document.getElementById("medicineEditManufacturerOrigin").value = medicine.manufacturerOrigin;
+  document.getElementById("medicineEditRegistrationNumber").value = medicine.registrationNumber;
+  document.getElementById("medicineEditIngredient").value = medicine.ingredient;
+  document.getElementById("medicineEditPlaceOfManufacture").value = medicine.placeOfManufacture;
+  document.getElementById("medicineEditDosageForm").value = medicine.dosageForm;
+  document.getElementById("medicineEditPackaging").value = medicine.packaging;
+  document.getElementById("medicineEditSales").value = medicine.sales;
+
+  const tableBody = document.getElementById("editPackagingUnitsTableBody");
+  tableBody.innerHTML = "";
+  medicine.packagingUnits.forEach((unit) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><input type="text" class="unitName" value="${unit.unitName}" placeholder="Tên đơn vị" /></td>
+      <td><input type="number" class="quantity" value="${unit.quantity}" placeholder="Số lượng" /></td>
+      <td><input type="number" class="price" value="${unit.price}" placeholder="Giá" /></td>
+      <td><button onclick="removeRow(this)">Xóa</button></td>
+    `;
+    tableBody.appendChild(row);
+  });
+
   document.getElementById("medicineEditModal").style.display = "flex";
 }
 
 function saveMedicine() {
-  const id = document.getElementById("medicineEditId").value;
   const name = document.getElementById("medicineEditName").value;
   const description = document.getElementById("medicineEditDescription").value;
-  const price = parseInt(document.getElementById("medicineEditPrice").value);
-  const quantity = parseInt(
-    document.getElementById("medicineEditQuantity").value
-  );
+  const shortDescription = document.getElementById("medicineEditShortDescription").value;
+  const images = document.getElementById("medicineEditImages").value;
+  const isPrescribe = document.getElementById("medicineEditIsPrescribe").value === "true";
+  const drugGroup = document.getElementById("medicineEditDrugGroup").value;
+  const manufacturer = document.getElementById("medicineEditManufacturer").value;
+  const manufacturerOrigin = document.getElementById("medicineEditManufacturerOrigin").value;
+  const registrationNumber = document.getElementById("medicineEditRegistrationNumber").value;
+  const ingredient = document.getElementById("medicineEditIngredient").value;
+  const placeOfManufacture = document.getElementById("medicineEditPlaceOfManufacture").value;
+  const dosageForm = document.getElementById("medicineEditDosageForm").value;
+  const packaging = document.getElementById("medicineEditPackaging").value;
+  const packagingUnits = [];
+  const unitNames = document.querySelectorAll("#editPackagingUnitsTableBody .unitName");
+  const quantities = document.querySelectorAll("#editPackagingUnitsTableBody .quantity");
+  const prices = document.querySelectorAll("#editPackagingUnitsTableBody .price");
 
-  const medicine = medicines.find((m) => m.iD === id);
+  unitNames.forEach((unitNameElement, index) => {
+    const unitName = unitNameElement.value;
+    const quantity = parseInt(quantities[index].value);
+    const price = parseInt(prices[index].value);
+    packagingUnits.push({
+      unitName,
+      quantity,
+      price,
+    });
+  });
+  const sales = parseInt(document.getElementById("medicineEditSales").value);
+
+  const medicine = medicines.find((m) => m.iD === selectedMedicineId);
   medicine.name = name;
   medicine.description = description;
-  medicine.packagingUnits[0].price = price;
-  medicine.packagingUnits[0].quantity = quantity;
+  medicine.shortDescription = shortDescription;
+  medicine.images = images;
+  medicine.isPrescribe = isPrescribe;
+  medicine.drugGroup = drugGroup;
+  medicine.manufacturer = manufacturer;
+  medicine.manufacturerOrigin = manufacturerOrigin;
+  medicine.registrationNumber = registrationNumber;
+  medicine.ingredient = ingredient;
+  medicine.placeOfManufacture = placeOfManufacture;
+  medicine.dosageForm = dosageForm;
+  medicine.packaging = packaging;
+  medicine.packagingUnits = packagingUnits;
+  medicine.sales = sales;
+
+  // Gửi yêu cầu PUT đến API để cập nhật thuốc
+  fetch(`http://localhost:5000/api/products/${medicine._id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(medicine),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to update medicine");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Medicine updated:", data);
+      alert("Cập nhật thuốc thành công!");
+    })
+    .catch((error) => {
+      console.error("Error updating medicine:", error);
+      alert("Có lỗi xảy ra khi cập nhật thuốc.");
+    });
 
   closeModal("medicineEditModal");
   updateMedicineTable();
@@ -245,7 +510,31 @@ function deleteMedicineModal(id) {
 }
 
 function deleteMedicine() {
+  const medicine = medicines.find((m) => m.iD === selectedMedicineId);
+  const _id = medicine._id;
   medicines = medicines.filter((m) => m.iD !== selectedMedicineId);
+
+  //gửi delete request đến api /api/products/:id
+  fetch(`http://localhost:5000/api/products/${_id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to delete medicine");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Medicine deleted:", data);
+      alert("Xóa thuốc thành công!");
+    })
+    .catch((error) => {
+      console.error("Error deleting medicine:", error);
+    });
   selectedMedicineId = null;
   closeModal("medicineDeleteModal");
   updateMedicineTable();
@@ -357,7 +646,7 @@ function viewPrescription(id) {
         <div class="info-item">
           <span class="info-label">Trạng thái thanh toán:</span>
           <span class="info-value ${prescription.paymentStatus.toLowerCase()}">
-            ${prescription.paymentStatus}
+            ${prescription.paymentStatus==="paid" ? "Đã thanh toán" : "Chưa thanh toán"}
           </span>
         </div>
       </div>
@@ -386,6 +675,69 @@ function viewPrescription(id) {
         </tfoot>
       </table>
     </div>
+
+    <style>
+      .prescription-grid {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .prescription-info, .prescription-payment {
+        flex: 1;
+      }
+
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .info-label {
+        font-weight: bold;
+        flex: 1;
+      }
+
+      .info-value {
+        flex: 2;
+        text-align: right;
+      }
+
+      .highlight {
+        color: red;
+        font-weight: bold;
+      }
+
+      .prescription-items {
+        margin-top: 20px;
+      }
+
+      .prescription-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .prescription-table th, .prescription-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      .prescription-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      .total-label {
+        text-align: right;
+        font-weight: bold;
+      }
+
+      .total-amount {
+        font-weight: bold;
+        color: red;
+      }
+    </style>
   `;
 
   const itemsTableBody = document.getElementById("prescriptionViewItems");
@@ -565,26 +917,76 @@ async function addCustomer() {
 function viewCustomer(id) {
   const customer = customers.find((c) => c._id === id);
   document.getElementById("customerViewContent").innerHTML = `
-                ID: ${customer._id}<br>
-                Tên: ${customer.name}<br>
-                Email: ${customer.email}<br>
-                SĐT: ${customer.phone}<br>
-                Ngày tham gia: ${customer.joinDate}
-            `;
+    <div class="customer-info">
+      <div class="info-item">
+        <span class="info-label">ID:</span>
+        <span class="info-value">${customer._id}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Tên:</span>
+        <span class="info-value">${customer.name}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Email:</span>
+        <span class="info-value">${customer.email}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">SĐT:</span>
+        <span class="info-value">${customer.phone}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Ngày sinh:</span>
+        <span class="info-value">${new Date(customer.dOB).toLocaleDateString("vi-VN")}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Giới tính:</span>
+        <span class="info-value">${customer.sex === "male" ? "Nam" : "Nữ"}</span>
+      </div>
+      <style>
+        .customer-info {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .info-item {
+          display: flex;
+          justify-content: space-between;
+          padding: 5px 0;
+        }
+
+        .info-label {
+          font-weight: bold;
+        }
+
+        .info-value {
+          text-align: right;
+        }
+      </style>
+    </div>
+  `;
   document.getElementById("customerViewModal").style.display = "flex";
 }
 
 function editCustomer(id) {
   selectedCustomerId = id;
   const customer = customers.find((c) => c._id === id);
+  console.log(customer.sex + customer.dOB);
 
   document.getElementById("customerEditId").value = customer._id;
   document.getElementById("customerEditName").value = customer.name;
   document.getElementById("customerEditEmail").value = customer.email;
   document.getElementById("customerEditPhone").value = customer.phone;
+  // chọn giới tính trong ô select có id customerEditGender với giá trị là customer.sex
   document.getElementById("customerEditGender").value = customer.sex;
-  document.getElementById("customerEditDOB").value = customer.dOB;
+  // chuyển dob sang dạng date mm/dd/yyyy
+  const dob = new Date(customer.dOB);
+  const yyyy = dob.getFullYear();
+  const mm = String(dob.getMonth() + 1).padStart(2, "0"); // getMonth() trả về 0-11
+  const dd = String(dob.getDate()).padStart(2, "0");
+  const formattedDate = `${yyyy}-${mm}-${dd}`;
 
+  document.getElementById("customerEditDOB").value = formattedDate;
   document.getElementById("customerEditModal").style.display = "flex";
 }
 
@@ -593,12 +995,32 @@ function saveCustomer() {
   const name = document.getElementById("customerEditName").value;
   const email = document.getElementById("customerEditEmail").value;
   const phone = document.getElementById("customerEditPhone").value;
+  const dOB = document.getElementById("customerEditDOB").value;
+  const sex = document.getElementById("customerEditGender").value;
 
   const customer = customers.find((c) => c._id === id);
   customer.name = name;
   customer.email = email;
   customer.phone = phone;
+  customer.dOB = dOB;
+  customer.sex = sex;
 
+  //Gửi PUT lên API
+  fetch(`http://localhost:5000/api/users/profile/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(customer),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
   closeModal("customerEditModal");
   updateCustomerTable();
   updateOverview();
@@ -610,6 +1032,21 @@ function deleteCustomerModal(id) {
 }
 
 function deleteCustomer() {
+  //Gửi DELETE lên API
+  fetch(`http://localhost:5000/api/users/profile/${selectedCustomerId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
   customers = customers.filter((c) => c._id !== selectedCustomerId);
   selectedCustomerId = null;
   closeModal("customerDeleteModal");

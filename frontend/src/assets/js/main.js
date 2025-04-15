@@ -20,6 +20,7 @@ function setupUserAccount() {
     initializeUser();
     loadCartInfoFromAPIToHeader(); // Gọi hàm tải thông tin giỏ hàng từ API
     scrollToTop(); // Gọi hàm cuộn lên đầu trang
+    impChat(); // Gọi hàm khởi tạo chat
   });
 }
 
@@ -302,4 +303,106 @@ function deleteRow(button) {
         console.error("Error deleting item:", err);
         alert("Có lỗi xảy ra khi xóa sản phẩm");
     });
+  
 }
+
+function impChat() {
+
+// Initialize chat functionality after DOM content is loaded
+  // Các câu trả lời ngẫu nhiên của bot
+  const botResponses = [
+    "Chào bạn! Bạn cần tư vấn về loại thuốc nào ạ?",
+    "Bạn đang gặp triệu chứng gì? Mình sẽ giúp bạn chọn thuốc phù hợp.",
+    "Cảm ơn bạn đã nhắn tin! Bạn có cần hỗ trợ về liều dùng không?",
+    "Nhà thuốc Tận Tâm luôn sẵn sàng lắng nghe bạn.",
+    "Bạn có thể cho mình biết tuổi và tình trạng sức khỏe hiện tại không?",
+    "Bạn có bị dị ứng với thành phần thuốc nào không ạ?",
+    "Nếu bạn có đơn thuốc, vui lòng gửi nội dung để chúng tôi hỗ trợ chính xác hơn.",
+    "Bạn muốn mua thuốc bổ, giảm đau, hay điều trị bệnh lý cụ thể nào ạ?",
+    "Để an toàn, bạn nên uống thuốc đúng hướng dẫn từ bác sĩ hoặc dược sĩ.",
+    "Chúng tôi có giao hàng tận nơi. Bạn ở khu vực nào vậy?",
+    "Cảm ơn bạn đã tin tưởng Nhà thuốc Tận Tâm!",
+    "Mình đã ghi nhận yêu cầu của bạn. Vui lòng chờ trong giây lát.",
+    "Bạn cần hỗ trợ gợi ý sản phẩm phù hợp? Mình sẵn sàng giúp!",
+    "Sức khỏe là ưu tiên hàng đầu, bạn đừng ngần ngại chia sẻ nhé!",
+    "Bạn có thể miêu tả thêm triệu chứng để mình tư vấn chi tiết hơn.",
+  ];
+
+  // Lấy các phần tử DOM
+  const chatModal = document.getElementById("chat-modal");
+  const openChatBtn = document.getElementById("open-chat");
+  const closeChatBtn = document.getElementById("close-chat");
+  const chatMessages = document.getElementById("chat-messages");
+  const messageInput = document.getElementById("message-input");
+  const sendButton = document.getElementById("send-button");
+
+  // Ensure all elements exist in the DOM
+  if (!chatModal || !openChatBtn || !closeChatBtn || !chatMessages || !messageInput || !sendButton) {
+  
+    console.error("One or more chat elements are missing in the DOM.");
+    return;
+  }
+
+  // Mở modal chat
+  openChatBtn.addEventListener("click", function () {
+    chatModal.style.display = "flex";
+  });
+
+  // Đóng modal chat
+  closeChatBtn.addEventListener("click", function () {
+    chatModal.style.display = "none";
+  });
+
+  // Thêm tin nhắn vào khung chat
+  function addMessage(text, isUser) {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message");
+    messageDiv.classList.add(isUser ? "user-message" : "bot-message");
+    messageDiv.textContent = text;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Lấy câu trả lời ngẫu nhiên từ bot
+  function getRandomResponse() {
+    const randomIndex = Math.floor(Math.random() * botResponses.length);
+    return botResponses[randomIndex];
+  }
+
+  // Xử lý gửi tin nhắn
+  sendButton.addEventListener("click", function () {
+    const message = messageInput.value.trim();
+    if (message) {
+      addMessage(message, true);
+      messageInput.value = "";
+
+      // Bot trả lời sau 0.5 giây
+      setTimeout(() => {
+        const response = getRandomResponse();
+        addMessage(response, false);
+      }, 500);
+    }
+  });
+
+  // Gửi tin nhắn khi nhấn Enter
+  messageInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      sendButton.click();
+    }
+  });
+
+  // Tin nhắn chào mừng khi mở chat
+  openChatBtn.addEventListener("click", function () {
+    // Chỉ thêm tin nhắn chào mừng nếu chưa có tin nhắn nào
+    
+      setTimeout(() => {
+        if (chatMessages.children.length === 0) {
+          addMessage(
+            "Chào bạn! MÌnh là trợ lý của Nhà thuốc Tận Tâm. Bạn cần tư vấn về thuốc hay sức khỏe?",
+            false
+          );
+        }
+      }, 300);
+  });
+};
+

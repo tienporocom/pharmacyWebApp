@@ -5,28 +5,29 @@ const jwt = require("jsonwebtoken");
 // Đăng ký người dùng mới
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, password, phone, sex, dOB, role } = req.body;
+    const { name, email, phone, password, dOB, sex } = req.body;
 
-    // Kiểm tra email đã tồn tại
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email đã tồn tại!" });
+    let user = await User.findOne({ email });
+    let userPhone = await User.findOne({ phone });
+    if (user) {
+      return res.status(400).json({ message: "Email đã tồn tại" });
+    } else if (userPhone) {
+      return res.status(400).json({ message: "Số điện thoại đã tồn tại" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({
+    user = new User({
       name,
       email,
       password: hashedPassword,
+      dOB,
       phone,
       sex,
-      dOB,
-      role,
     });
 
-    const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
+    await user.save();
+    res.status(201).json({ message: "Đăng ký thành công" });
   } catch (error) {
     res.status(500).json({ message: "Lỗi máy chủ", error });
   }
@@ -152,3 +153,40 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ message: "Lỗi máy chủ", error });
   }
 };
+
+// Cập nhật thông tin người dùng theo ID (admin)
+exports.updateUserProfileWithID = async (req, res) => {
+  try {
+    const { name, email, phone, sex, dOB } = req.body;
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Người dùng không tồn tại" });
+    }
+
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.phone = phone || user.phone;
+    user.sex = sex || user.sex;
+    user.dOB = dOB || user.dOB;
+
+    await user.save();
+    res.json({ message: "Cập nhật thành công", user });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi máy chủ", error });
+  }
+}
+
+exports.deleteUserWithID = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Người dùng không tồn tại" });
+    }
+
+    res.json({ message: "Xóa tài khoản thành công" });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi máy chủ", error });
+  }
+}
