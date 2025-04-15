@@ -5,29 +5,28 @@ const jwt = require("jsonwebtoken");
 // Đăng ký người dùng mới
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, phone, password, dOB, sex } = req.body;
+    const { name, email, password, phone, sex, dOB, role } = req.body;
 
-    let user = await User.findOne({ email });
-    let userPhone = await User.findOne({ phone });
-    if (user) {
-      return res.status(400).json({ message: "Email đã tồn tại" });
-    } else if (userPhone) {
-      return res.status(400).json({ message: "Số điện thoại đã tồn tại" });
+    // Kiểm tra email đã tồn tại
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email đã tồn tại!" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    user = new User({
+    const newUser = new User({
       name,
       email,
       password: hashedPassword,
-      dOB,
       phone,
       sex,
+      dOB,
+      role,
     });
 
-    await user.save();
-    res.status(201).json({ message: "Đăng ký thành công" });
+    const savedUser = await newUser.save();
+    res.status(201).json(savedUser);
   } catch (error) {
     res.status(500).json({ message: "Lỗi máy chủ", error });
   }

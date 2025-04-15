@@ -10,7 +10,7 @@ const {
   updateUserProfile,
   deleteUser,
   getAddress,
-  updateAddress, 
+  updateAddress,
   getAllUsers,
 } = require("../controllers/userController");
 

@@ -123,39 +123,37 @@ tr:hover {
 /* Overview Cards */
 
 #overview > h1 {
-    display: flex;
-    align-items: center;
-    
+  display: flex;
+  align-items: center;
 }
 
 #resetBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    margin-left: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: 15px;
   border: 1px solid #ccc;
   border-radius: 20px;
   cursor: pointer;
   background-color: #fff;
 }
 #resetBtn img {
-    width: 30px;
-    height: 30px;
-    margin-bottom: 3px;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 3px;
 }
 #resetBtn:hover {
   background-color: #f0f4f8;
-
 }
 #resetBtn:focus {
-    animation-fill-mode: forwards;
-    animation-iteration-count: 2;
-    animation-timing-function: linear;
-    animation-delay: 0s;
-    animation-name: rotate;
-    animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 2;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-name: rotate;
+  animation-duration: 0.5s;
 }
 
 @keyframes rotate {
@@ -172,10 +170,6 @@ tr:hover {
     transform: rotate(360deg);
   }
 }
-
-
-
-
 
 .overview-container {
   display: flex;
@@ -312,119 +306,129 @@ tr:hover {
 }
 
 .logo-img {
-    width: 65px;
-    height: auto;
-  }
-  .text h1 {
-    font-size: 25px;
-    font-weight: bold;
-    line-height: 1.2;
-    margin: 0;
-    margin-left: 10px;
-    color: #ff9800;
-  }
-
-  .adminName {
-    margin-top: 20px;
-    font-size: 15px;
-    font-weight: bold;
-    color: #000;
-  }
-  .print-btn{
-    background-color: #1e90ff;
-  }
-  .print-btn:hover{
-    background-color: #0d47a1;
-  }
-
-.info-value{
-    text-align: right;
+  width: 65px;
+  height: auto;
+}
+.text h1 {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0;
+  margin-left: 10px;
+  color: #ff9800;
 }
 
-.info-label{
-    text-align: left;
+.adminName {
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #000;
 }
-  
-#medicineTable > thead > tr > th{
-width: 300px;}
-
-.search-medicine-container, .search-customer-container, .search-prescription-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    padding: 0 20px;
+.print-btn {
+  background-color: #1e90ff;
+}
+.print-btn:hover {
+  background-color: #0d47a1;
 }
 
-.search-medicine-container input, .search-customer-container input, .search-prescription-container input{
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px 0 0 20px;
-}
-.search-medicine-container input:focus, .search-customer-container input:focus, .search-prescription-container input:focus{
-    outline: none;
-    border-color: #1e90ff;
-    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+.info-value {
+  text-align: right;
 }
 
-.search-medicine-container button, .search-customer-container button, .search-prescription-container button{
-    padding: 10px 20px;
-    border: 1px solid #1e90ff;
-    border-radius: 0 20px 20px 0;
-    background-color: #1e90ff;
-    color: #fff;
-    cursor: pointer;
-}
-.search-medicine-container button:hover, .search-customer-container button:hover{
-    background-color: #0d47a1;
-}
-.sort-filter-prescription{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 20px;
-}
-.sort-filter-prescription label{
-    margin-right: 10px;
-    font-size: 15px;
-    color: #333;
-    font-weight: bold;
-}
-.sort-filter-prescription select{
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    margin-right: 10px;
-    font-size: 15px;
-}
-.sort-filter-prescription select:focus{
-    outline: none;
-    border-color: #1e90ff;
-    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+.info-label {
+  text-align: left;
 }
 
-.sort-filter-medicine{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 20px;
+#medicineTable > thead > tr > th {
+  width: 300px;
 }
-.sort-filter-medicine label{
-    margin-right: 10px;
-    font-size: 15px;
-    color: #333;
-    font-weight: bold;
+
+.search-medicine-container,
+.search-customer-container,
+.search-prescription-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
 }
-.sort-filter-medicine select{
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    margin-right: 10px;
-    font-size: 15px;
+
+.search-medicine-container input,
+.search-customer-container input,
+.search-prescription-container input {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px 0 0 20px;
 }
-.sort-filter-medicine select:focus{
-    outline: none;
-    border-color: #1e90ff;
-    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+.search-medicine-container input:focus,
+.search-customer-container input:focus,
+.search-prescription-container input:focus {
+  outline: none;
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+}
+
+.search-medicine-container button,
+.search-customer-container button,
+.search-prescription-container button {
+  padding: 10px 20px;
+  border: 1px solid #1e90ff;
+  border-radius: 0 20px 20px 0;
+  background-color: #1e90ff;
+  color: #fff;
+  cursor: pointer;
+}
+.search-medicine-container button:hover,
+.search-customer-container button:hover {
+  background-color: #0d47a1;
+}
+.sort-filter-prescription {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+.sort-filter-prescription label {
+  margin-right: 10px;
+  font-size: 15px;
+  color: #333;
+  font-weight: bold;
+}
+.sort-filter-prescription select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-right: 10px;
+  font-size: 15px;
+}
+.sort-filter-prescription select:focus {
+  outline: none;
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+}
+
+.sort-filter-medicine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+.sort-filter-medicine label {
+  margin-right: 10px;
+  font-size: 15px;
+  color: #333;
+  font-weight: bold;
+}
+.sort-filter-medicine select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-right: 10px;
+  font-size: 15px;
+}
+.sort-filter-medicine select:focus {
+  outline: none;
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
 }

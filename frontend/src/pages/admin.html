@@ -6,7 +6,11 @@
     <title>Admin - Quản lý bán thuốc</title>
     <link rel="stylesheet" href="../assets/css/admin.css" />
     <script src="../assets/js/admin.js"></script>
-    <link rel="shortcut icon" href="../assets/img/logo.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="../assets/img/logo.png"
+      type="image/x-icon"
+    />
   </head>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
@@ -16,11 +20,12 @@
           headers: { Authorization: "Bearer " + token },
         });
         const user = await res.json();
-        document.querySelector(".adminName").textContent = "Admin: " + user.name;
+        document.querySelector(".adminName").textContent =
+          "Admin: " + user.name;
       }
     });
   </script>
-  
+
   <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -30,7 +35,7 @@
           <h1>NHÀ THUỐC</h1>
           <h1>TẬN TÂM</h1>
         </div>
-        <div class="adminName">Admin: </div>
+        <div class="adminName">Admin:</div>
       </div>
       <ul class="nav-menu">
         <li id="nav-overview" class="active" onclick="showSection('overview')">
@@ -132,7 +137,6 @@
           <button id="searchMedBtn" onclick="searchMedicines()">
             Tìm kiếm
           </button>
-
         </div>
         <table id="medicineTable">
           <thead>
@@ -168,11 +172,9 @@
             id="searchPrescriptions"
             placeholder="Tìm kiếm đơn hàng theo ID hoặc khách hàng"
           />
-          <button id="searchPreBtn" onclick="searchOrders()">
-            Tìm kiếm
-          </button>
+          <button id="searchPreBtn" onclick="searchOrders()">Tìm kiếm</button>
         </div>
-        
+
         <table id="prescriptionTable">
           <thead>
             <tr>
@@ -327,9 +329,9 @@
     <div class="modal" id="prescriptionEditModal">
       <div class="modal-content">
         <h2>Sửa đơn hàng</h2>
-        <input type="hidden" id="prescriptionEditId" disabled/>
+        <input type="hidden" id="prescriptionEditId" disabled />
         <label>Khách hàng:</label
-        ><input type="text" id="prescriptionEditCustomer" disabled/>
+        ><input type="text" id="prescriptionEditCustomer" disabled />
         <label>Tổng tiền:</label
         ><input type="number" id="prescriptionEditTotal" />
         <label>Trạng thái:</label>
@@ -369,22 +371,51 @@
     <div class="modal" id="customerAddModal">
       <div class="modal-content">
         <h2>Thêm khách hàng</h2>
-        <label>ID:</label><input type="text" id="customerAddId" />
-        <label>Tên:</label><input type="text" id="customerAddName" />
-        <label>Email:</label><input type="email" id="customerAddEmail" />
-        <label>SĐT:</label><input type="text" id="customerAddPhone" />
+        <label for="customerAddName">Tên:</label>
+        <input
+          type="text"
+          id="customerAddName"
+          placeholder="Nhập tên khách hàng"
+          required
+        />
+
+        <label for="customerAddEmail">Email:</label>
+        <input
+          type="email"
+          id="customerAddEmail"
+          placeholder="Nhập email"
+          required
+        />
+
+        <label for="customerAddPassword">Mật khẩu:</label>
+        <input
+          type="password"
+          id="customerAddPassword"
+          placeholder="Nhập mật khẩu"
+          required
+        />
+
+        <label for="customerAddPhone">SĐT:</label>
+        <input
+          type="text"
+          id="customerAddPhone"
+          placeholder="Nhập số điện thoại"
+          required
+        />
+
+        <label for="customerAddGender">Giới tính:</label>
+        <select id="customerAddGender" required>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+          <option value="Khác">Khác</option>
+        </select>
+
+        <label for="customerAddDOB">Ngày sinh:</label>
+        <input type="date" id="customerAddDOB" required />
+
         <button class="save-btn" onclick="addCustomer()">Thêm</button>
         <button class="cancel-btn" onclick="closeModal('customerAddModal')">
           Hủy
-        </button>
-      </div>
-    </div>
-    <div class="modal" id="customerViewModal">
-      <div class="modal-content">
-        <h2>Thông tin khách hàng</h2>
-        <p id="customerViewContent"></p>
-        <button class="cancel-btn" onclick="closeModal('customerViewModal')">
-          Đóng
         </button>
       </div>
     </div>
@@ -392,9 +423,41 @@
       <div class="modal-content">
         <h2>Sửa khách hàng</h2>
         <input type="hidden" id="customerEditId" />
-        <label>Tên:</label><input type="text" id="customerEditName" />
-        <label>Email:</label><input type="email" id="customerEditEmail" />
-        <label>SĐT:</label><input type="text" id="customerEditPhone" />
+
+        <label for="customerEditName">Tên:</label>
+        <input
+          type="text"
+          id="customerEditName"
+          placeholder="Nhập tên khách hàng"
+          required
+        />
+
+        <label for="customerEditEmail">Email:</label>
+        <input
+          type="email"
+          id="customerEditEmail"
+          placeholder="Nhập email"
+          required
+        />
+
+        <label for="customerEditPhone">SĐT:</label>
+        <input
+          type="text"
+          id="customerEditPhone"
+          placeholder="Nhập số điện thoại"
+          required
+        />
+
+        <label for="customerEditGender">Giới tính:</label>
+        <select id="customerEditGender" required>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+          <option value="Khác">Khác</option>
+        </select>
+
+        <label for="customerEditDOB">Ngày sinh:</label>
+        <input type="date" id="customerEditDOB" required />
+
         <button class="save-btn" onclick="saveCustomer()">Lưu</button>
         <button class="cancel-btn" onclick="closeModal('customerEditModal')">
           Hủy

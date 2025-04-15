@@ -17,9 +17,7 @@ const loadData = async () => {
     const responseTotalProduct = await fetch(
       "http://localhost:5000/api/products/total"
     );
-    const responseProduct = await fetch(
-      "http://localhost:5000/api/products/"
-    );
+    const responseProduct = await fetch("http://localhost:5000/api/products/");
     const responseCustomer = await fetch(
       "http://localhost:5000/api/users/all",
       {
@@ -331,7 +329,9 @@ function viewPrescription(id) {
         </div>
         <div class="info-item">
           <span class="info-label">Ngày tạo:</span>
-          <span class="info-value">${new Date(prescription.createdAt).toLocaleString('vi-VN')}</span>
+          <span class="info-value">${new Date(
+            prescription.createdAt
+          ).toLocaleString("vi-VN")}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Địa chỉ giao hàng:</span>
@@ -346,7 +346,9 @@ function viewPrescription(id) {
       <div class="prescription-payment">
         <div class="info-item">
           <span class="info-label">Tổng tiền:</span>
-          <span class="info-value highlight">${prescription.totalAmount.toLocaleString("vi-VN")} VNĐ</span>
+          <span class="info-value highlight">${prescription.totalAmount.toLocaleString(
+            "vi-VN"
+          )} VNĐ</span>
         </div>
         <div class="info-item">
           <span class="info-label">Phương thức thanh toán:</span>
@@ -377,7 +379,9 @@ function viewPrescription(id) {
         <tfoot>
           <tr>
             <td colspan="3" class="total-label">Tổng cộng:</td>
-            <td class="total-amount">${prescription.totalAmount.toLocaleString("vi-VN")} VNĐ</td>
+            <td class="total-amount">${prescription.totalAmount.toLocaleString(
+              "vi-VN"
+            )} VNĐ</td>
           </tr>
         </tfoot>
       </table>
@@ -386,12 +390,12 @@ function viewPrescription(id) {
 
   const itemsTableBody = document.getElementById("prescriptionViewItems");
   itemsTableBody.innerHTML = "";
-  
+
   prescription.orderItems.forEach((item) => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${item.product.name}</td>
-      <td>${item.product.unit || 'Viên'} x ${item.items[0].quantity}</td>
+      <td>${item.product.unit || "Viên"} x ${item.items[0].quantity}</td>
       <td>${item.items[0].price.toLocaleString("vi-VN")} VNĐ</td>
       <td>${item.subtotal.toLocaleString("vi-VN")} VNĐ</td>
     `;
@@ -478,6 +482,26 @@ function deletePrescription() {
 }
 
 // **Khách hàng**
+async function loadCustomers() {
+  try {
+    const response = await fetch("http://localhost:5000/api/users/all", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    if (response.ok) {
+      customers = await response.json(); // Cập nhật biến toàn cục `customers`
+      updateCustomerTable(); // Hiển thị danh sách khách hàng
+    } else {
+      alert("Không thể tải danh sách khách hàng.");
+    }
+  } catch (err) {
+    console.error("Error:", err);
+  }
+}
 function updateCustomerTable() {
   const tableBody = document
     .getElementById("customerTable")
@@ -504,23 +528,38 @@ function openAddCustomerModal() {
   document.getElementById("customerAddModal").style.display = "flex";
 }
 
-function addCustomer() {
-  const id = document.getElementById("customerAddId").value;
-  const name = document.getElementById("customerAddName").value;
-  const email = document.getElementById("customerAddEmail").value;
-  const phone = document.getElementById("customerAddPhone").value;
+async function addCustomer() {
+  const customerData = {
+    name: document.getElementById("customerAddName").value,
+    email: document.getElementById("customerAddEmail").value,
+    password: document.getElementById("customerAddPassword").value,
+    phone: document.getElementById("customerAddPhone").value,
+    sex: document.getElementById("customerAddGender").value,
+    dOB: document.getElementById("customerAddDOB").value,
+    role: "user", // Mặc định vai trò là "user"
+  };
 
-  customers.push({
-    _id: id,
-    name: name,
-    email: email,
-    phone: phone,
-    joinDate: new Date().toISOString().split("T")[0],
-  });
+  try {
+    const response = await fetch("http://localhost:5000/api/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(customerData),
+    });
 
-  closeModal("customerAddModal");
-  updateCustomerTable();
-  updateOverview();
+    if (response.ok) {
+      alert("Thêm khách hàng thành công!");
+      closeModal("customerAddModal");
+      loadCustomers(); // Tải lại danh sách khách hàng
+    } else {
+      const error = await response.json();
+      alert(`Lỗi: ${error.message}`);
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    alert("Có lỗi xảy ra khi thêm khách hàng.");
+  }
 }
 
 function viewCustomer(id) {
@@ -538,10 +577,14 @@ function viewCustomer(id) {
 function editCustomer(id) {
   selectedCustomerId = id;
   const customer = customers.find((c) => c._id === id);
+
   document.getElementById("customerEditId").value = customer._id;
   document.getElementById("customerEditName").value = customer.name;
   document.getElementById("customerEditEmail").value = customer.email;
   document.getElementById("customerEditPhone").value = customer.phone;
+  document.getElementById("customerEditGender").value = customer.sex;
+  document.getElementById("customerEditDOB").value = customer.dOB;
+
   document.getElementById("customerEditModal").style.display = "flex";
 }
 
@@ -690,14 +733,19 @@ function resetBtnClick() {
 }
 
 function searchMedicines() {
-  const searchValue = document.getElementById("searchMedicines").value.toLowerCase();
-  const filteredMedicines = medicines.filter((medicine) =>
-    //Tìm bằng iD, name, _id
-    medicine.iD.toLowerCase().includes(searchValue) ||
-    medicine._id.toLowerCase().includes(searchValue)||
-    medicine.name.toLowerCase().includes(searchValue) 
+  const searchValue = document
+    .getElementById("searchMedicines")
+    .value.toLowerCase();
+  const filteredMedicines = medicines.filter(
+    (medicine) =>
+      //Tìm bằng iD, name, _id
+      medicine.iD.toLowerCase().includes(searchValue) ||
+      medicine._id.toLowerCase().includes(searchValue) ||
+      medicine.name.toLowerCase().includes(searchValue)
   );
-  const tableBody = document.getElementById("medicineTable").querySelector("tbody");
+  const tableBody = document
+    .getElementById("medicineTable")
+    .querySelector("tbody");
   tableBody.innerHTML = "";
   filteredMedicines.forEach((medicine) => {
     const row = document.createElement("tr");
@@ -707,24 +755,36 @@ function searchMedicines() {
                     <td>${medicine.isPrescribe ? "Có" : "Không"}</td>
                     <td>${medicine.packaging} VNĐ</td>
                     <td class="action-buttons">
-                        <button class="view-btn" onclick="viewMedicine('${medicine.iD}')">Xem</button>
-                        <button class="edit-btn" onclick="editMedicine('${medicine.iD}')">Sửa</button>
-                        <button class="delete-btn" onclick="deleteMedicineModal('${medicine.iD}')">Xóa</button>
+                        <button class="view-btn" onclick="viewMedicine('${
+                          medicine.iD
+                        }')">Xem</button>
+                        <button class="edit-btn" onclick="editMedicine('${
+                          medicine.iD
+                        }')">Sửa</button>
+                        <button class="delete-btn" onclick="deleteMedicineModal('${
+                          medicine.iD
+                        }')">Xóa</button>
                     </td>
                 `;
     tableBody.appendChild(row);
   });
 }
 function searchCustomers() {
-  const searchValue = document.getElementById("searchCustomers").value.toLowerCase();
-  const filteredCustomers = customers.filter((customer) =>
-    //Tìm bằng iD, name, _id, email, phone
-    customer._id.toLowerCase().includes(searchValue) ||
-    customer.name.toLowerCase().includes(searchValue) ||
-    customer.email.toLowerCase().includes(searchValue) ||
-    (customer.phone && customer.phone.toString().toLowerCase().includes(searchValue))
+  const searchValue = document
+    .getElementById("searchCustomers")
+    .value.toLowerCase();
+  const filteredCustomers = customers.filter(
+    (customer) =>
+      //Tìm bằng iD, name, _id, email, phone
+      customer._id.toLowerCase().includes(searchValue) ||
+      customer.name.toLowerCase().includes(searchValue) ||
+      customer.email.toLowerCase().includes(searchValue) ||
+      (customer.phone &&
+        customer.phone.toString().toLowerCase().includes(searchValue))
   );
-  const tableBody = document.getElementById("customerTable").querySelector("tbody");
+  const tableBody = document
+    .getElementById("customerTable")
+    .querySelector("tbody");
   tableBody.innerHTML = "";
   filteredCustomers.forEach((customer) => {
     const row = document.createElement("tr");
@@ -742,14 +802,19 @@ function searchCustomers() {
     tableBody.appendChild(row);
   });
 }
-function searchOrders (){
-  const searchValue = document.getElementById("searchPrescriptions").value.toLowerCase();
-  const filteredOrders = prescriptions.filter((order) =>
-    //Tìm bằng iD, name, _id
-    order._id.toLowerCase().includes(searchValue) ||
-    order.user.name.toLowerCase().includes(searchValue) 
+function searchOrders() {
+  const searchValue = document
+    .getElementById("searchPrescriptions")
+    .value.toLowerCase();
+  const filteredOrders = prescriptions.filter(
+    (order) =>
+      //Tìm bằng iD, name, _id
+      order._id.toLowerCase().includes(searchValue) ||
+      order.user.name.toLowerCase().includes(searchValue)
   );
-  const tableBody = document.getElementById("prescriptionTable").querySelector("tbody");
+  const tableBody = document
+    .getElementById("prescriptionTable")
+    .querySelector("tbody");
   tableBody.innerHTML = "";
   filteredOrders.forEach((order) => {
     const row = document.createElement("tr");
@@ -781,9 +846,7 @@ function searchOrders (){
     row.innerHTML = `
                     <td>${order._id}</td>
                     <td>${order.user.name}</td>
-                    <td>${order.totalAmount.toLocaleString(
-                      "vi-VN"
-                    )} VNĐ</td>
+                    <td>${order.totalAmount.toLocaleString("vi-VN")} VNĐ</td>
                     <td>${status}</td>
                     <td class="action-buttons">
                         <button class="view-btn" onclick="viewPrescription('${
@@ -804,12 +867,14 @@ function searchOrders (){
   });
 }
 
-function filterPrescriptions(){
+function filterPrescriptions() {
   const filterValue = document.getElementById("statusFilter").value;
   const filteredOrders = prescriptions.filter((order) =>
     order.status.toLowerCase().includes(filterValue.toLowerCase())
   );
-  const tableBody = document.getElementById("prescriptionTable").querySelector("tbody");
+  const tableBody = document
+    .getElementById("prescriptionTable")
+    .querySelector("tbody");
   tableBody.innerHTML = "";
   filteredOrders.forEach((order) => {
     const row = document.createElement("tr");
@@ -841,9 +906,7 @@ function filterPrescriptions(){
     row.innerHTML = `
                     <td>${order._id}</td>
                     <td>${order.user.name}</td>
-                    <td>${order.totalAmount.toLocaleString(
-                      "vi-VN"
-                    )} VNĐ</td>
+                    <td>${order.totalAmount.toLocaleString("vi-VN")} VNĐ</td>
                     <td>${status}</td>
                     <td class="action-buttons">
                         <button class="view-btn" onclick="viewPrescription('${
@@ -863,10 +926,10 @@ function filterPrescriptions(){
     tableBody.appendChild(row);
   });
 }
-function sortMedicines(){
+function sortMedicines() {
   const sortValue = document.getElementById("sortFilter").value;
   const orderValue = document.getElementById("orderFilter").value;
-  
+
   medicines.sort((a, b) => {
     if (sortValue === "name") {
       return a.name.localeCompare(b.name);
@@ -874,8 +937,14 @@ function sortMedicines(){
       return a.packagingUnits[0].price - b.packagingUnits[0].price;
     } else if (sortValue === "quantity") {
       //so sánh vói tổng số lượng
-      const totalA = a.packagingUnits.reduce((sum, unit) => sum + unit.quantity, 0);
-      const totalB = b.packagingUnits.reduce((sum, unit) => sum + unit.quantity, 0);
+      const totalA = a.packagingUnits.reduce(
+        (sum, unit) => sum + unit.quantity,
+        0
+      );
+      const totalB = b.packagingUnits.reduce(
+        (sum, unit) => sum + unit.quantity,
+        0
+      );
       return totalA - totalB;
     }
   });
@@ -883,7 +952,4 @@ function sortMedicines(){
     medicines.reverse();
   }
   updateMedicineTable();
-  
-
-
 }
