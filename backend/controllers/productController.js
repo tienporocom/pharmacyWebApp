@@ -16,6 +16,10 @@ exports.getProductsByGroup = async (req, res) => {
     const group = req.params.group;
 
     const filter = { drugGroup: group };
+    
+    if (group === "Tất cả thuốc") {
+      delete filter.drugGroup; // Nếu group là "all", xóa điều kiện drugGroup
+    }
 
     // Lọc theo loại thuốc
     if (medicineType === 'prescription') {

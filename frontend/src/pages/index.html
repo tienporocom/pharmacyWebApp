@@ -13,8 +13,9 @@
       rel="shortcut icon"
     />
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="stylesheet" href="../assets/css/index.css">
-    <script src="../assets/js/main.js"></script>
+    <link rel="stylesheet" href="../assets/css/index.css" />
+
+    
   </head>
   <body>
     <!-- Header Top: Thông tin, Hotline, v.v. -->
@@ -26,73 +27,94 @@
       <div class="slider">
         <div class="slide">
           <a href="https://example.com/link1" target="_blank">
-            <img src="../assets/img/banner1.webp" alt="Banner 1" class="banner-image" />
+            <img
+              src="../assets/img/banner1.webp"
+              alt="Banner 1"
+              class="banner-image"
+            />
           </a>
         </div>
         <div class="slide">
           <a href="https://example.com/link2" target="_blank">
-            <img src="../assets/img/banner2.webp" alt="Banner 2" class="banner-image" />
+            <img
+              src="../assets/img/banner2.webp"
+              alt="Banner 2"
+              class="banner-image"
+            />
           </a>
         </div>
         <div class="slide">
           <a href="https://example.com/link3" target="_blank">
-            <img src="../assets/img/banner3.webp" alt="Banner 3" class="banner-image" />
+            <img
+              src="../assets/img/banner3.webp"
+              alt="Banner 3"
+              class="banner-image"
+            />
           </a>
         </div>
       </div>
-      <button class="prev" >&#10094;</button>
-      <button class="next" >&#10095;</button>
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
       <div class="dot-container">
         <span class="dot active"></span>
         <span class="dot"></span>
         <span class="dot"></span>
       </div>
     </div>
-    
+
     <!-- Các chức năng hỗ trợ -->
     <section class="feature-boxes">
       <div class="container">
-        <button class="feature-item">
+        <button
+          class="feature-item"
+          onclick="location.href = '../pages/category.html?category=Tất cả thuốc'"
+        >
           <div class="feature-icon">
             <img src="../assets/img/iconDrug.webp" alt="Cần mua thuốc" />
           </div>
           <p>Cần mua thuốc</p>
-        </button >
-        <button class="feature-item">
+        </button>
+        <button class="feature-item" id="open-chat">
           <div class="feature-icon">
-            <img
-              src="../assets/img/iconQues.webp"
-              alt="Tư vấn với Dược Sỹ"
-            />
+            <img src="../assets/img/iconQues.webp" alt="Tư vấn với Dược Sỹ" />
           </div>
           <p>Tư vấn với Dược Sỹ</p>
-        </button >
-        <button class="feature-item">
+        </button>
+        <button class="feature-item" id="openMapBtn">
           <div class="feature-icon">
             <img src="../assets/img/iconFindStore.webp" alt="Tìm nhà thuốc" />
           </div>
           <p>Tìm nhà thuốc</p>
-        </button >
-        <button class="feature-item" onclick="location.href = '../pages/order.html'">
+        </button>
+        <button
+          class="feature-item"
+          onclick="location.href = '../pages/order.html'"
+        >
           <div class="feature-icon">
             <img src="../assets/img/iconOrder.webp" alt="Đơn của tôi" />
           </div>
           <p>Đơn của tôi</p>
-        </button >
+        </button>
         <button class="feature-item">
           <div class="feature-icon">
-            <img src="../assets/img/iconHealthCheck.webp" alt="Kiểm tra sức khỏe" />
+            <img
+              src="../assets/img/iconHealthCheck.webp"
+              alt="Kiểm tra sức khỏe"
+            />
           </div>
           <p>Kiểm tra sức khỏe</p>
-        </button >
+        </button>
       </div>
     </section>
 
     <!-- Khu vực các sản phẩm bán chạy -->
     <section class="best-sellers">
       <div class="container">
-
-        <div class="best-seller-header"><img src="../assets/img/hotIcon.png" alt="" srcset=""><span>Sản phẩm bán chạy</span></div>
+        <div class="best-seller-header">
+          <img src="../assets/img/hotIcon.png" alt="" srcset="" /><span
+            >Sản phẩm bán chạy</span
+          >
+        </div>
         <div class="product-grid" id="productGrid"></div>
         <button class="load-more" id="loadMoreBtn">Xem thêm</button>
       </div>
@@ -155,15 +177,17 @@
       productGrid.addEventListener("click", async (event) => {
         if (event.target.classList.contains("add-to-cart")) {
           const productId = event.target.getAttribute("data-product-id");
-          const userId = JSON.parse(localStorage.getItem("user"))?._id
-          const unitName = event.target.closest(".product-card").querySelector(".product-info span").textContent;
+          const userId = JSON.parse(localStorage.getItem("user"))?._id;
+          const unitName = event.target
+            .closest(".product-card")
+            .querySelector(".product-info span").textContent;
           const quantity = 1; // Số lượng mặc định là 1
 
           if (!userId) {
             alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
             return;
           }
-          
+
           //POST dữ liệu lên API
           const res = await fetch("http://localhost:5000/api/cart", {
             method: "POST",
@@ -171,7 +195,12 @@
               "Content-Type": "application/json",
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-            body: JSON.stringify({ user:userId, product:productId, unitName, quantity }),
+            body: JSON.stringify({
+              user: userId,
+              product: productId,
+              unitName,
+              quantity,
+            }),
           });
           const product = await res.json();
           console.log("Sản phẩm đã chọn:", product);
@@ -183,6 +212,45 @@
 
     <!-- Footer -->
     <div data-include="../components/footer.html"></div>
+
+    <div class="chat-modal" id="chat-modal">
+      <div class="chat-header">
+        Tư vấn cùng Nhà thuốc Tận Tâm
+        <button class="close-chat" id="close-chat">×</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <!-- Tin nhắn sẽ hiển thị ở đây -->
+      </div>
+      <div class="chat-input">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Nhập câu hỏi của bạn..."
+        />
+        <button id="send-button">Gửi</button>
+      </div>
+    </div>
     
+    <div id="mapModal" class="modal">
+      <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h2 class="modal-title">Vị trí Nhà thuốc Tận Tâm</h2>
+          <div class="map-container">
+              <!-- Iframe Google Maps -->
+              <iframe 
+                  id="mapIframe"
+                  src="about:blank"
+                  allowfullscreen="" 
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+          </div>
+          <div style="margin-top: 15px; text-align: center;">
+              <a href="https://maps.google.com?q=10.801834,106.662198" target="_blank" style="color: #2c7ae7; text-decoration: none;">
+                  Mở bằng Google Maps
+              </a>
+          </div>
+      </div>
+  </div>
   </body>
 </html>

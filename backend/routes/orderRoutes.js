@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth'); // Middleware xác thực JWT
+const roleMiddleware = require("../middleware/role");
+
 const { 
   createOrder, 
   getOrders, 
@@ -19,7 +21,7 @@ router.post('/', authMiddleware, createOrder);
 router.get('/', authMiddleware, getOrders);
 
 // Lấy tất cả đơn hàng (dành cho admin, yêu cầu xác thực và quyền admin)
-router.get('/all', authMiddleware, getAllOrders);
+router.get('/all', authMiddleware,roleMiddleware(["admin"]), getAllOrders);
 
 // Lấy danh sách đơn hàng theo trạng thái (yêu cầu xác thực)
 router.get('/status/:status', authMiddleware, getOrdersByStatus);

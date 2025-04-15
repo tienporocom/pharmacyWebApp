@@ -156,11 +156,7 @@ exports.deleteOrder = async (req, res) => {
 // Lấy tất cả đơn hàng (admin)
 exports.getAllOrders = async (req, res) => {
   try {
-    // Nếu dùng phân quyền thì kiểm tra ở đây
-    if (!req.user || !req.user.isAdmin) {
-      return res.status(403).json({ message: "Bạn không có quyền truy cập." });
-    }
-
+    
     const orders = await Order.find()
       .populate("orderItems.product")
       .populate("user", "name phoneNumber")
