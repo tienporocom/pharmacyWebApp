@@ -1,0 +1,39 @@
+[{
+  "_id": {
+    "$oid": "67f40eed87ac9b7afe6e991c"
+  },
+  "user": {
+    "$oid": "67df74bdb9be8db71dcf696c"
+  },
+  "orderItems": [
+    {
+      "product": "67f1803190cd5123448c3578",
+      "_id": {
+        "$oid": "67df74bdb9be8db71dcf696c"
+      },
+      "unitName": "VIEN",
+      "quantity": 6,
+      "price": 200000,
+      "subtotal": 1200000
+    }
+  ],
+  "status": "new",
+  "shippingAddress": {
+    "address": "HCM",
+    "phone": "0909090909"
+  },
+  "totalAmount": 2000000,
+  "totalAmountBeforeDiscount": 2000000,
+  "createdAt": {
+    "$date": "2025-04-07T18:08:55.587Z"
+  },
+  "discount": {
+    "amount": 0,
+    "percentage": 0
+  },
+  "paymentMethod": "cash",
+  "paymentStatus": "unpaid",
+  "updatedAt": {
+    "$date": "2025-04-08T05:55:13.848Z"
+  }
+}]
