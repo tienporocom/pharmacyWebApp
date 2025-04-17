@@ -11,7 +11,8 @@ const {
   deleteOrder,
   getOrdersByStatus,
   searchOrders,
-  getAllOrders // Thêm route cho admin
+  getAllOrders,
+  updateOrder // Thêm route cho admin
 } = require('../controllers/orderController');
 
 // Tạo đơn hàng mới (yêu cầu xác thực)
@@ -31,6 +32,9 @@ router.get('/search', authMiddleware, searchOrders);
 
 // Lấy chi tiết đơn hàng theo ID (yêu cầu xác thực)
 router.get('/:id', authMiddleware, getOrderById);
+
+// Cập nhật trạng thái đơn hàng
+router.put('/:id', authMiddleware , updateOrder); // Chỉ admin mới có quyền cập nhật đơn hàng
 
 // Cập nhật trạng thái đơn hàng (yêu cầu xác thực)
 router.put('/:id/status', authMiddleware, updateOrderStatus);

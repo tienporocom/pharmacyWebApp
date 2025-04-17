@@ -127,7 +127,7 @@ exports.updateOrderStatus = async (req, res) => {
     const validStatuses = ["new", "pending", "processing", "shipped", "delivered", "cancelled"];
     const status = req.body.status;
 
-    console.log("Status:", status);
+    // console.log("Status:", status);
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: "Trạng thái không hợp lệ" });
     }
@@ -143,6 +143,54 @@ exports.updateOrderStatus = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+//Liệt kke các trường có trong đơn hàng
+// user, orderItems, shippingAddress, phoneNumber, totalAmountBeforeDiscount, totalAmount, discount , paymentStatus,
+// status, paymentMethod, createdAt, updatedAt
+//
+//Cập nhật đơn hàng với tất cả các trường
+exports.updateOrder = async (req, res) => {
+  try {
+    const {
+      orderItems,
+      shippingAddress,
+      phoneNumber,
+      totalAmountBeforeDiscount,
+      totalAmount,
+      discount,
+      paymentStatus,
+      status,
+      paymentMethod,
+      createdAt,
+      updatedAt,
+    } = req.body;
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    
+
+    order.orderItems = orderItems || order.orderItems;
+    order.shippingAddress = shippingAddress || order.shippingAddress;
+    order.phoneNumber = phoneNumber || order.phoneNumber;
+    order.totalAmountBeforeDiscount = totalAmountBeforeDiscount || order.totalAmountBeforeDiscount;
+    order.totalAmount = totalAmount || order.totalAmount;
+    order.discount = discount || order.discount;
+    order.paymentStatus = paymentStatus || order.paymentStatus;
+    order.status = status || order.status;
+    order.paymentMethod = paymentMethod || order.paymentMethod;
+    order.createdAt = createdAt || order.createdAt;
+    order.updatedAt = updatedAt || order.updatedAt;
+
+    await order.save();
+    res.json({ message: "Cập nhật đơn hàng thành công!", order });
+  }
+  catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+   
 
 // Xóa đơn hàng
 exports.deleteOrder = async (req, res) => {

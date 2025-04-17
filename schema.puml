@@ -1,0 +1,78 @@
+@startuml
+class User {
+    +String name
+    +String email
+    +String password
+    +String phone
+    +String role
+    +String avatar
+    +Date dOB
+    +String sex
+    +List<Address> address
+}
+
+class Address {
+    +String address
+    +String phoneToDelivery
+    +Boolean default
+}
+
+class Product {
+    +String name
+    +String description
+    +String shortDescription
+    +String images
+    +Boolean isPrescribe
+    +String drugGroup
+    +String iD
+    +String packaging
+    +String manufacturer
+    +String manufacturerOrigin
+    +String registrationNumber
+    +String ingredient
+    +String placeOfManufacture
+    +String dosageForm
+    +List<PackagingUnit> packagingUnits
+    +Number sales
+}
+
+class PackagingUnit {
+    +String unitName
+    +Number quantity
+    +Number price
+}
+
+class Order {
+    +User user
+    +List<OrderItem> orderItems
+    +String shippingAddress
+    +Date createdAt
+    +Date updatedAt
+}
+
+class OrderItem {
+    +Product product
+    +List<Unit> items
+    +Number subtotal
+}
+
+class Unit {
+    +String unitName
+    +Number quantity
+    +Number price
+}
+
+class DrugGroup {
+    +String name
+    +String description
+    +String image
+    +Number order
+}
+
+User "1" -- "0..*" Address
+Product "1" -- "0..*" PackagingUnit
+Order "1" -- "0..*" OrderItem
+OrderItem "1" -- "1" Product
+OrderItem "1" -- "0..*" Unit
+DrugGroup "1" -- "0..*" Product
+@enduml
