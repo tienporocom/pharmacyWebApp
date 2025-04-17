@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link type="image/x-icon" href="../assets/img/logo.png" rel="shortcut icon" />
+    <link
+      type="image/x-icon"
+      href="../assets/img/logo.png"
+      rel="shortcut icon"
+    />
     <title>Chi tiết đơn hàng</title>
     <link rel="stylesheet" href="../assets/css/style.css" />
     <style>
@@ -94,7 +98,7 @@
         margin-right: 10px;
         border: 0.5px solid #ddd;
       }
-      
+
       .product-name {
         font-weight: 400;
         margin-right: 10px;
@@ -167,21 +171,20 @@
         background: #e8f5e9;
         color: #fff;
       }
-      #qrcode{
+      #qrcode {
         margin: 20px auto;
         width: 150px;
-        height: 150px;;
+        height: 150px;
         display: flex;
         justify-content: center;
-        align-items: center;        
+        align-items: center;
       }
-      #qrcode img{
-        width: 100%!important;
+      #qrcode img {
+        width: 100% !important;
         height: 100%;
       }
     </style>
     <script src="../assets/js/qrcode.js"></script>
-
   </head>
   <body>
     <div data-include="../components/header.html"></div>
@@ -207,53 +210,64 @@
         }
 
         try {
-          const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          });
+          const res = await fetch(
+            `http://localhost:5000/api/orders/${orderId}`,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            }
+          );
 
           if (!res.ok) throw new Error("Lỗi khi tải đơn hàng");
 
           const order = await res.json();
-          
+
           // Format date
-          const orderDate = new Date(order.createdAt).toLocaleDateString("vi-VN", {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-          });
+          const orderDate = new Date(order.createdAt).toLocaleDateString(
+            "vi-VN",
+            {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            }
+          );
 
           console.log(order);
-          
-          const orderCode = order._id;
+
+          const orderCode = order._id.slice(-6).toUpperCase();
           const status = getStatusText(order.status || "new");
           const receiver = order.user?.name || "Không rõ";
           const phone = order.phoneNumber || "N/A";
           const address = order.shippingAddress || "Chưa cập nhật";
-          const paymentMethod = getPaymentMethodText(order.paymentMethod || "cash");
+          const paymentMethod = getPaymentMethodText(
+            order.paymentMethod || "cash"
+          );
           const total = order.totalAmount || 0;
-          const deliveryMethod = order.shippingAddress ? "Giao hàng" : "Nhận tại cửa hàng";
+          const deliveryMethod = order.shippingAddress
+            ? "Giao hàng"
+            : "Nhận tại cửa hàng";
 
           // Tạo HTML cho danh sách sản phẩm
-          let productsHTML = '';
-          order.orderItems.forEach(item => {
+          let productsHTML = "";
+          order.orderItems.forEach((item) => {
             const product = item.product || {};
             const name = product.name || "Sản phẩm";
             const group = product.drugGroup || "";
-            const imgLink = product.images || "../assets/img/default-product.png";
+            const imgLink =
+              product.images || "../assets/img/default-product.png";
             const imagesHTML = `<img src="${imgLink}" alt="${name}" class="product-img" />`;
-            item.items.forEach(unit => {
+            item.items.forEach((unit) => {
               productsHTML += `
                 <tr>
                   <td class="product-img-con">${imagesHTML}</td>
                   <td class="product-name">${name}</td>
                   <td class="product-price">${unit.price.toLocaleString()}đ </td>
-                  <td class="product-quantity"> x${unit.quantity} ${unit.unitName}</td>
+                  <td class="product-quantity"> x${unit.quantity} ${
+                unit.unitName
+              }</td>
                 </tr>
               `;
-              
-            
             });
           });
 
@@ -326,18 +340,18 @@
               </div>
                         <div id="qrcode"></div>
 
-              <button class="buy-again-btn">Mua lại</button>
+              <button class="buy-again-btn" id="buy-again-btn">Mua lại</button>
             </div>
           `;
 
           // Thêm sự kiện click cho nút sao chép
-          const copyBtn = document.querySelector('.copy-icon');
+          const copyBtn = document.querySelector(".copy-icon");
           if (copyBtn) {
-            copyBtn.addEventListener('click', () => {
+            copyBtn.addEventListener("click", () => {
               navigator.clipboard.writeText(orderCode);
-              copyBtn.textContent = 'Đã sao chép';
+              copyBtn.textContent = "Đã sao chép";
               setTimeout(() => {
-                copyBtn.textContent = 'Sao chép';
+                copyBtn.textContent = "Sao chép";
               }, 2000);
             });
           }
@@ -358,38 +372,65 @@
             "đã giao": "rgb(0 122 77)",
             "đã hủy": "#dc3545",
           };
-          const statusBadge = document.querySelector('.status-badge');
+          const statusBadge = document.querySelector(".status-badge");
           const statusAt = statusBadge.textContent.trim().toLowerCase();
 
-          statusBadge.style.backgroundColor = statusColorMap[statusAt] || '#6c757d';
+          statusBadge.style.backgroundColor =
+            statusColorMap[statusAt] || "#6c757d";
         } catch (err) {
           console.error(err);
-          ordDContainner.innerHTML = "<p>Không thể tải chi tiết đơn hàng. Vui lòng thử lại sau.</p>";
+          ordDContainner.innerHTML =
+            "<p>Không thể tải chi tiết đơn hàng. Vui lòng thử lại sau.</p>";
         }
       });
 
       function getStatusText(status) {
         const statusMap = {
-          'new': 'Đang xử lý',
-          'processing': 'Đang xử lý',
-          'shipped': 'Đang giao',
-          'delivered': 'Đã giao',
-          'cancelled': 'Đã hủy',
-          'pending': 'Đang xử lý'
+          new: "Đang xử lý",
+          processing: "Đang xử lý",
+          shipped: "Đang giao",
+          delivered: "Đã giao",
+          cancelled: "Đã hủy",
+          pending: "Đang xử lý",
         };
-        
-//đổi màu .status-badge theo trạng thái đơn hàng
-        
+
+        // Gắn lại sự kiện sau khi render nút
+        const buyAgainBtn = document.getElementById("buyAgainBtn");
+        if (buyAgainBtn) {
+          buyAgainBtn.addEventListener("click", () => {
+            const cartItems = [];
+
+            order.orderItems.forEach((item) => {
+              const productId = item.product?._id;
+              item.items.forEach((unit) => {
+                cartItems.push({
+                  productId: productId,
+                  name: item.product?.name || "Sản phẩm",
+                  image:
+                    item.product?.images || "../assets/img/default-product.png",
+                  price: unit.price,
+                  quantity: unit.quantity,
+                  unitName: unit.unitName,
+                });
+              });
+            });
+
+            localStorage.setItem("buyAgainItems", JSON.stringify(cartItems));
+            window.location.href = "cart.html";
+          });
+        }
+
+        //đổi màu .status-badge theo trạng thái đơn hàng
 
         return statusMap[status] || status;
       }
 
       function getPaymentMethodText(method) {
         const methodMap = {
-          'cash': 'Thanh toán khi nhận hàng',
-          'online': 'Thanh toán online',
-          'momo': 'Ví MoMo',
-          'bank': 'Chuyển khoản ngân hàng'
+          cash: "Thanh toán khi nhận hàng",
+          online: "Thanh toán online",
+          momo: "Ví MoMo",
+          bank: "Chuyển khoản ngân hàng",
         };
         return methodMap[method] || method;
       }

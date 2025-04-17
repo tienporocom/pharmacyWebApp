@@ -1043,7 +1043,7 @@
       };
 
       // Send a POST request to create the order
-      fetch(`${host}/api/oders`, {
+      fetch(`${host}/api/orders`, {
         // Replace with your API endpoint
         method: "POST",
         headers: requestHeader,
@@ -1103,7 +1103,6 @@
 
     function decrement(inputId, itemId) {
       let quantityInput = document.getElementById(inputId);
-      const updatedQuantity = parseInt(quantityInput.value) + 1;
       if (quantityInput.value > 1) {
         const updatedQuantity = parseInt(quantityInput.value) - 1;
 
@@ -1145,6 +1144,31 @@
       const closeAddressModal = document.querySelector(".close-address");
       const addNewAddressBtn = document.getElementById("add-address");
       const saveAddressBtn = document.querySelector(".btn.save");
+      const cartContainer = document.getElementById("cart-items");
+
+    // Lấy danh sách sản phẩm đã thêm (nếu có)
+    const storedCart = localStorage.getItem("buyAgainItems");
+    let cartItems = storedCart ? JSON.parse(storedCart) : [];
+
+    // Nếu có sản phẩm được mua lại, hiển thị
+    if (cartItems.length > 0) {
+      cartContainer.innerHTML = "";
+      cartItems.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "cart-row";
+        row.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" width="60" />
+          <div>
+            <div><strong>${item.name}</strong></div>
+            <div>${item.price.toLocaleString()}đ x ${item.quantity} ${item.unitName}</div>
+          </div>
+        `;
+        cartContainer.appendChild(row);
+      });
+
+      // Sau khi load xong, xóa khỏi localStorage để không thêm lặp lại
+      localStorage.removeItem("buyAgainItems");
+    }
 
       // Mở modal khi nhấn nút xem địa chỉ
       if (viewAddressBtn) {
