@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Chat</title>
+  <link rel="icon" href="../assets/img/logo.png" type="image/x-icon">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --bg-color: #f5f6fa;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      display: flex;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      height: 100vh;
+      background: var(--bg-color);
+    }
+
+    #userList {
+      width: 300px;
+      background: var(--card-bg);
+      overflow-y: auto;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    #chatBox {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-color);
+    }
+
+    .user {
+      padding: 15px;
+      margin-bottom: 10px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    }
+
+    .user:hover {
+      transform: translateX(5px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+
+    .user.active {
+      background: var(--secondary-color);
+      color: white;
+    }
+
+    .user-id {
+      font-size: 0.8em;
+      color: #7f8c8d;
+      margin-top: 4px;
+    }
+
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .msg {
+      margin-bottom: 15px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      max-width: 70%;
+      word-break: break-word;
+      position: relative;
+    }
+
+    .user-msg {
+      background: var(--card-bg);
+      margin-right: auto;
+      border: 1px solid #ecf0f1;
+    }
+
+    .admin-msg {
+      background: var(--secondary-color);
+      color: white;
+      margin-left: auto;
+    }
+
+    .timestamp {
+      font-size: 0.75em;
+      color: #95a5a6;
+      margin-top: 4px;
+    }
+
+    #replyForm {
+      display: flex;
+      gap: 15px;
+      padding: 15px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    }
+
+    #replyInput {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #bdc3c7;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    #sendBtn {
+      padding: 12px 25px;
+      background: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #sendBtn:hover {
+      background: #2980b9;
+    }
+
+    .chat-header {
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #ecf0f1;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background-color: var(--card-bg);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .logo-img {
+      width: 60px;
+      height: 60px;
+      margin-right: 15px;
+    }
+
+    .text h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    .logo-container{
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 3px rgba(0,0,0,0.1);    }
+  </style>
+</head>
+<body>
+  
+  <div id="userList">
+    <div class="logo-container" onclick="window.location.href='./admin.html'">
+      <img class="logo-img" src="../assets/img/logo.png" alt="logo" />
+      <div class="text">
+      <h1>NHÀ THUỐC</h1>
+      <h1>TẬN TÂM</h1>
+      </div>
+    </div>
+    <h3 class="chat-header">Danh sách người dùng</h3>
+    <div id="users"></div>
+  </div>
+
+  <div id="chatBox">
+    
+    <h3 class="chat-header">Hộp thoại</h3>
+    <div id="messages"></div>
+    <form id="replyForm">
+      <input type="text" id="replyInput" placeholder="Nhập tin nhắn trả lời..." required />
+      <button type="submit" id="sendBtn">Gửi</button>
+    </form>
+  </div>
+
+  <script>
+    let allMessages = [];
+    let usersMap = {};
+    let selectedUserId = null;
+
+    async function fetchUsersAndMessages() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = '/login.html';
+        return;
+      }
+
+      try {
+        const [usersRes, messagesRes] = await Promise.all([
+          fetch('http://localhost:5000/api/users/all', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          }),
+          fetch('http://localhost:5000/api/chat/allMessages', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          })
+        ]);
+
+        const users = await usersRes.json();
+        const messages = await messagesRes.json();
+
+        allMessages = messages;
+        users.forEach(u => usersMap[u._id] = u);
+
+        const userIds = [...new Set(messages.map(msg => msg.user).filter(Boolean))];
+        renderUserList(userIds);
+
+        if (selectedUserId) {
+          loadMessages(selectedUserId);
+        }
+      } catch (error) {
+        console.error('Lỗi tải dữ liệu:', error);
+      }
+    }
+
+    function renderUserList(userIds) {
+      const usersListDiv = document.getElementById('users');
+      usersListDiv.innerHTML = ''; // Xóa danh sách cũ
+
+      userIds.forEach(id => {
+        const user = usersMap[id];
+        const div = document.createElement('div');
+        div.className = 'user';
+
+        // Kiểm tra nếu người dùng này đang được chọn
+        if (id === selectedUserId) {
+          div.classList.add('active');
+        }
+
+        div.innerHTML = `
+          <div>${user?.name || 'Khách'}</div>
+          <div class="user-id">ID: ${id}</div>
+        `;
+
+        // Gắn sự kiện click để chọn người dùng
+        div.onclick = () => {
+          document.querySelectorAll('.user').forEach(u => u.classList.remove('active'));
+          div.classList.add('active');
+          loadMessages(id);
+        };
+
+        usersListDiv.appendChild(div);
+      });
+    }
+
+    function loadMessages(userId) {
+      selectedUserId = userId;
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML = '';
+      
+      
+      const userMessages = allMessages.filter(m => m.user === userId);
+      userMessages.forEach(msg => {
+        const isAdminMsg = msg.message.startsWith("REP:");
+        const div = document.createElement('div');
+        div.className = `msg ${isAdminMsg ? 'admin-msg' : 'user-msg'}`;
+        
+        const time = new Date(msg.timestamp).toLocaleTimeString('vi-VN', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        div.innerHTML = `
+        <div>${msg.message.replace('REP:', '')}</div>
+        <div class="timestamp">${time}</div>
+        `;
+        messagesDiv.appendChild(div);
+        // chỉnh sửa thẻ chat-header với cú pháp: Hộp thoại với tên người dùng - id in nhạt và bên cạnh có nút sao chép id
+        const chatHeader = document.querySelector('#chatBox > h3');
+        chatHeader.innerHTML = `${usersMap[userId]?.name || 'Khách'} - ID: ${userId} <button onclick="copyToClipboard('${userId}')" style="border: none; background: none; cursor: pointer;">📋</button>`;
+      });
+      
+
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    document.getElementById('replyForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const content = document.getElementById('replyInput').value.trim();
+      
+      if (!selectedUserId) {
+        alert('Vui lòng chọn người dùng trước khi gửi tin nhắn');
+        return;
+      }
+      if (!content) return;
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/chat/reply/${selectedUserId}`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify({ message: content, user: selectedUserId })
+        });
+
+        if (res.ok) {
+          const msgDiv = document.createElement('div');
+          msgDiv.className = 'msg admin-msg';
+          const time = new Date().toLocaleTimeString('vi-VN', {
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          msgDiv.innerHTML = `
+            <div>${content}</div>
+            <div class="timestamp">${time}</div>
+          `;
+          document.getElementById('messages').appendChild(msgDiv);
+          document.getElementById('replyInput').value = '';
+          document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+        }
+      } catch (error) {
+        console.error('Lỗi gửi tin nhắn:', error);
+      }
+    });
+
+    fetchUsersAndMessages();
+
+    setInterval(fetchUsersAndMessages, 5000);
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('ID đã được sao chép vào clipboard!');
+      }).catch(err => {
+        console.error('Lỗi sao chép:', err);
+      });
+    }
+  </script>
+</body>
+</html>

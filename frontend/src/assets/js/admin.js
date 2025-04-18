@@ -997,6 +997,9 @@ function saveCustomer() {
   const phone = document.getElementById("customerEditPhone").value;
   const dOB = document.getElementById("customerEditDOB").value;
   const sex = document.getElementById("customerEditGender").value;
+    // Kiểm tra xem nút reset password có được chọn hay không
+    const resetPassword = document.getElementById("customerEditResetPassword").checked;
+
 
   const customer = customers.find((c) => c._id === id);
   customer.name = name;
@@ -1004,6 +1007,7 @@ function saveCustomer() {
   customer.phone = phone;
   customer.dOB = dOB;
   customer.sex = sex;
+  customer.RSTpassword = resetPassword; // Thêm thuộc tính resetPassword vào đối tượng customer
 
   //Gửi PUT lên API
   fetch(`http://localhost:5000/api/users/profile/${id}`, {

@@ -1,537 +1,658 @@
 <!DOCTYPE html>
 <html lang="vi">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Giỏ hàng - Nhà thuốc Tận Tâm</title>
-  <link type="image/x-icon" href="../assets/img/logo.png" rel="shortcut icon">
-  <style>
-    .icon-button {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-    }
-
-    .icon-button i {
-      font-size: 20px;
-      /* Adjust icon size */
-      color: #616161;
-      /* Change color if needed */
-    }
-
-    .icon-button:hover i {
-      color: red;
-      /* Change color on hover */
-    }
-
-    .small-quantity {
-      width: 100px;
-    }
-
-    .small-quantity button {
-      border-radius: 20px;
-      background-color: #fff;
-      color: #0d6efd;
-      border: 1px solid #0d6efd;
-    }
-
-    .small-quantity input {
-      text-align: center;
-      border: 1px solid #0d6efd;
-    }
-
-    .btn-sm {
-      width: 25px;
-      /* Smaller button width */
-      padding: 2px;
-    }
-
-    .form-control-sm {
-      height: 25px;
-      /* Smaller input height */
-      text-align: center;
-    }
-
-    .containerT {
-      display: flex;
-      max-width: 900px;
-      margin: auto;
-      background: rgb(255, 255, 255);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-list {
-      flex: 2;
-    }
-
-    .summary {
-      flex: 1;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      margin-left: 20px;
-    }
-
-    .product {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 10px;
-    }
-
-    .product img {
-      width: 60px;
-      height: 60px;
-      margin-right: 10px;
-      border-radius: 5px;
-    }
-
-    .price {
-      font-weight: bold;
-      color: #d0021b;
-    }
-
-    .discount {
-      font-size: 12px;
-      color: #0080ff;
-    }
-
-    .summary h3 {
-      margin-bottom: 15px;
-    }
-
-    .summary div {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .btn-complete {
-      display: block;
-      width: 100%;
-      background: #007bff;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 16px;
-
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f8f8f8;
-        padding: 20px;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giỏ hàng - Nhà thuốc Tận Tâm</title>
+    <link
+      type="image/x-icon"
+      href="../assets/img/logo.png"
+      rel="shortcut icon"
+    />
+    <style>
+      .icon-button {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
       }
 
-      .container0 {
-        max-width: 800px;
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      .icon-button i {
+        font-size: 20px;
+        /* Adjust icon size */
+        color: #616161;
+        /* Change color if needed */
+      }
+
+      .icon-button:hover i {
+        color: red;
+        /* Change color on hover */
+      }
+
+      .small-quantity {
+        width: 100px;
+      }
+
+      .small-quantity button {
+        border-radius: 20px;
+        background-color: #fff;
+        color: #0d6efd;
+        border: 1px solid #0d6efd;
+      }
+
+      .small-quantity input {
+        text-align: center;
+        border: 1px solid #0d6efd;
+      }
+
+      .btn-sm {
+        width: 25px;
+        /* Smaller button width */
+        padding: 2px;
+      }
+
+      .form-control-sm {
+        height: 25px;
+        /* Smaller input height */
+        text-align: center;
+      }
+
+      .containerT {
+        display: flex;
+        max-width: 900px;
         margin: auto;
+        background: rgb(255, 255, 255);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
 
-      h3 {
-        margin-bottom: 10px;
-        border-bottom: 2px solid #007bff;
-        padding-bottom: 5px;
+      .product-list {
+        flex: 2;
       }
 
-      label {
+      .summary {
+        flex: 1;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-left: 20px;
+      }
+
+      .product {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+      }
+
+      .product img {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+
+      .price {
         font-weight: bold;
-        display: block;
-        margin-top: 10px;
+        color: #d0021b;
       }
 
-      input,
-      select,
-      textarea {
-        width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
+      .discount {
+        font-size: 12px;
+        color: #0080ff;
       }
 
-      .form-group {
+      .summary h3 {
         margin-bottom: 15px;
       }
 
-      .toggle-switch {
+      .summary div {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .btn-complete {
+        display: block;
+        width: 100%;
+        background: #007bff;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
+
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f8f8f8;
+          padding: 20px;
+        }
+
+        .container0 {
+          max-width: 800px;
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          margin: auto;
+        }
+
+        h3 {
+          margin-bottom: 10px;
+          border-bottom: 2px solid #007bff;
+          padding-bottom: 5px;
+        }
+
+        label {
+          font-weight: bold;
+          display: block;
+          margin-top: 10px;
+        }
+
+        input,
+        select,
+        textarea {
+          width: 100%;
+          padding: 8px;
+          margin-top: 5px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+        }
+
+        .form-group {
+          margin-bottom: 15px;
+        }
+
+        .toggle-switch {
+          display: flex;
+          align-items: center;
+          margin-top: 15px;
+        }
+
+        .toggle-switch input {
+          margin-right: 10px;
+        }
+
+        .buttons {
+          text-align: center;
+          margin-top: 15px;
+        }
+
+        button {
+          background-color: #007bff;
+          color: white;
+          padding: 10px 15px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          width: 100%;
+          font-size: 16px;
+        }
+
+        button:hover {
+          background-color: #0056b3;
+        }
+      }
+
+      .payment-method {
+        max-width: 600px;
+        margin: auto;
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .form-check-label {
         display: flex;
         align-items: center;
+        gap: 10px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .form-check-input {
+        margin-top: 0;
+      }
+
+      .icon {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      body
+        > div.container.text-center
+        > div
+        > div.col-10.container.text-center
+        > div.row
+        > div.col-8 {
+        background-color: #ffffff;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      /* Style cho modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        padding: 20px;
+        border-radius: 8px;
+        width: 80%;
+        max-width: 800px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+
+      .modal-footer {
+        border-top: 1px solid #dee2e6;
+        padding-top: 15px;
         margin-top: 15px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
       }
 
-      .toggle-switch input {
-        margin-right: 10px;
+      .close-address {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
       }
 
-      .buttons {
-        text-align: center;
-        margin-top: 15px;
+      .close-address:hover {
+        color: black;
       }
 
-      button {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 15px;
+      .btn-edit,
+      .btn-delete,
+      .btn-select {
+        padding: 3px 8px;
+        margin: 0 3px;
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        width: 100%;
+      }
+
+      .btn-edit {
+        background-color: #ffc107;
+        color: #212529;
+      }
+
+      .btn-delete {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .btn-select {
+        background-color: #0d6efd;
+        color: #fff;
+      }
+
+      tr {
+        border-top: 1px solid #ccc !important;
+        border-bottom: 1px solid #ccc !important;
+      }
+
+      .summary {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .summary-row span:first-child {
+        color: #666;
+      }
+
+      .discount {
+        color: #0056b3;
+      }
+
+      .saving {
+        color: #0056b3;
+      }
+
+      .summary-total {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+        font-weight: bold;
         font-size: 16px;
       }
 
-      button:hover {
-        background-color: #0056b3;
+      .final-price {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
       }
-    }
 
-    .payment-method {
-      max-width: 600px;
-      margin: auto;
-      background: #f8f9fa;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
+      .old-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 14px;
+        font-weight: normal;
+      }
 
-    .form-check-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 16px;
-      font-weight: 500;
-    }
+      .new-price {
+        color: #0056b3;
+        font-size: 18px;
+      }
 
-    .form-check-input {
-      margin-top: 0;
-    }
+      .submit-order-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
 
-    .icon {
-      width: 32px;
-      height: 32px;
-      object-fit: contain;
-    }
+      .submit-order-btn:hover {
+        background-color: #b30000;
+      }
 
-    body>div.container.text-center>div>div.col-10.container.text-center>div.row>div.col-8 {
-      background-color: #ffffff;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
+      .terms-notice {
+        margin-top: 15px;
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+      }
 
-    /* Style cho modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      justify-content: center;
-      align-items: center;
-    }
+      .terms-notice a {
+        color: #0066cc;
+        text-decoration: none;
+      }
 
-    .modal-content {
-      background-color: #fefefe;
-      padding: 20px;
-      border-radius: 8px;
-      width: 80%;
-      max-width: 800px;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
+      .terms-notice a:hover {
+        text-decoration: underline;
+      }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #dee2e6;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
-    }
+      body
+        > div.container.text-center
+        > div
+        > div.col-10.container.text-center
+        > div.row
+        > div.col-8
+        > div.container.mt-5
+        > div
+        > div
+        > label
+        > img {
+        margin-right: 10px;
+        width: 25px;
+        height: 25px;
+      }
 
-    .modal-footer {
-      border-top: 1px solid #dee2e6;
-      padding-top: 15px;
-      margin-top: 15px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
+      /* Ẩn checkbox mặc định */
+      .item-checkbox,
+      #checkAll {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 15px;
+        height: 15px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
 
-    .close-address {
-      color: #aaa;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+      /* Style khi checkbox được chọn */
+      .item-checkbox:checked,
+      #checkAll:checked {
+        background-color: #007bff;
+        /* Màu xanh lá */
+        border-color: #007bff;
+      }
 
-    .close-address:hover {
-      color: black;
-    }
+      /* Tạo dấu tích trắng khi được chọn */
+      .item-checkbox:checked::after,
+      #checkAll:checked::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: translate(-50%, -60%) rotate(45deg);
+      }
 
-    .btn-edit,
-    .btn-delete,
-    .btn-select {
-      padding: 3px 8px;
-      margin: 0 3px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+      /* Hiệu ứng hover */
+      .item-checkbox:hover,
+      #checkAll:hover {
+        border-color: #0d6efd;
+      }
 
-    .btn-edit {
-      background-color: #ffc107;
-      color: #212529;
-    }
+      /* Hiệu ứng focus */
+      .item-checkbox:focus {
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+      }
 
-    .btn-delete {
-      background-color: #dc3545;
-      color: white;
-    }
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
 
-    .btn-select {
-      background-color: #0d6efd;
-      color: #fff;
-    }
+      .modal-container {
+        display: flex;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        max-width: 800px;
+        width: 90%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      }
 
-    tr {
-      border-top: 1px solid #ccc !important;
-      border-bottom: 1px solid #ccc !important;
-    }
+      .left-info {
+        background-color: #f0f8ff; /* xanh biển nhạt */
+        padding: 20px;
+        flex: 1;
+      }
 
-    .summary {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+      .left-info h3 {
+        margin-bottom: 15px;
+        color: #007bff;
+      }
 
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      font-size: 14px;
-      color: #333;
-    }
+      .left-info .time-box {
+        margin-top: 20px;
+        background: #e6f2ff;
+        padding: 10px;
+        border-radius: 5px;
+        color: #333;
+        font-weight: bold;
+      }
 
-    .summary-row span:first-child {
-      color: #666;
-    }
+      .left-info .close-btn {
+        margin-top: 20px;
+        background: transparent;
+        border: none;
+        color: #007bff;
+        font-weight: bold;
+        cursor: pointer;
+      }
 
-    .discount {
-      color: #0056b3;
-    }
+      .qr-box {
+        flex: 1.2;
+        text-align: center;
+        padding: 20px;
+        background-color: #e6f2ff;
+      }
 
-    .saving {
-      color: #0056b3;
-    }
+      .qr-box h2 {
+        margin-bottom: 15px;
+        color: #007bff;
+      }
 
-    .summary-total {
-      display: flex;
-      justify-content: space-between;
-      margin: 20px 0;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
-      font-weight: bold;
-      font-size: 16px;
-    }
+      .qr-wrapper {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 15px;
+      }
 
-    .final-price {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
+      .qr-code {
+        width: 230px;
+        height: 230px;
+        border-radius: 10px;
+        background: white;
+        padding: 10px;
+      }
 
-    .old-price {
-      text-decoration: line-through;
-      color: #999;
-      font-size: 14px;
-      font-weight: normal;
-    }
+      .qr-logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: white;
+        padding: 5px;
+      }
+    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/reset.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/qrcode.js"></script>
+    <script>
+      $(function () {
+        $("#content-header").load("../components/header.html");
+      });
+      $(function () {
+        $("#content-footer").load("../components/footer.html");
+      });
+    </script>
+  </head>
 
-    .new-price {
-      color: #0056b3;
-      font-size: 18px;
-    }
+  <body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../assets/css/style.css" />
 
-    .submit-order-btn {
-      width: 100%;
-      padding: 12px;
-      background-color: #0d6efd;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+    <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
+    <div data-include="../components/header.html"></div>
 
-    .submit-order-btn:hover {
-      background-color: #b30000;
-    }
+    <!-- <div id="content-header"></div> -->
 
-    .terms-notice {
-      margin-top: 15px;
-      font-size: 12px;
-      color: #666;
-      text-align: center;
-    }
-
-    .terms-notice a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    .terms-notice a:hover {
-      text-decoration: underline;
-    }
-
-    body>div.container.text-center>div>div.col-10.container.text-center>div.row>div.col-8>div.container.mt-5>div>div>label>img {
-      margin-right: 10px;
-      width: 25px;
-      height: 25px;
-    }
-
-    /* Ẩn checkbox mặc định */
-    .item-checkbox,
-    #checkAll {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      width: 15px;
-      height: 15px;
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      outline: none;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.3s ease;
-      vertical-align: middle;
-    }
-
-    /* Style khi checkbox được chọn */
-    .item-checkbox:checked,
-    #checkAll:checked {
-      background-color: #007bff;
-      /* Màu xanh lá */
-      border-color: #007bff;
-    }
-
-    /* Tạo dấu tích trắng khi được chọn */
-    .item-checkbox:checked::after,
-    #checkAll:checked::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 6px;
-      height: 10px;
-      border: solid white;
-      border-width: 0 2px 2px 0;
-      transform: translate(-50%, -60%) rotate(45deg);
-    }
-
-    /* Hiệu ứng hover */
-    .item-checkbox:hover,
-    #checkAll:hover {
-      border-color: #0d6efd;
-    }
-
-    /* Hiệu ứng focus */
-    .item-checkbox:focus {
-      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-    }
-  </style>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/reset.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/main.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script>
-    $(function () {
-      $("#content-header").load("../components/header.html");
-    });
-    $(function () {
-      $("#content-footer").load("../components/footer.html");
-    });
-  </script>
-
-</head>
-
-<body>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-
-  <!-- Header chính: Logo, thanh tìm kiếm, tài khoản -->
-  <div data-include="../components/header.html"></div>
-
-  <!-- <div id="content-header"></div> -->
-
-  <div class="container text-center">
-    <div class="row">
-      <div class="col"></div>
-      <div class="col-10 container text-center">
-        <br />
-        <div class="text-start">
-          <a href="../pages/index.html" class="btn btn-primary" role="button">← Quay lại trang chủ</a>
-        </div>
-        <br />
-        <div class="row">
-          <div class="col-8">
-            <div class="container mt-4">
-              <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
-                <p class="mb-0 fw-semibold">Danh sách sản phẩm</p>
-              </div>
-              <div class="mt-4" style="background-color: #ffffff">
-                <div class="product-list-detail" style="padding: 5px">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th style="width: 4%">
-                          <label class="toggle-button">
-                            <input type="checkbox" id="checkAll" />
-                          </label>
-                        </th>
-                        <th style="
+    <div class="container text-center">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-10 container text-center">
+          <br />
+          <div class="text-start">
+            <a href="../pages/index.html" class="btn btn-primary" role="button"
+              >← Quay lại trang chủ</a
+            >
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-8">
+              <div class="container mt-4">
+                <div
+                  class="d-flex justify-content-between align-items-center border-bottom pb-2"
+                >
+                  <p class="mb-0 fw-semibold">Danh sách sản phẩm</p>
+                </div>
+                <div class="mt-4" style="background-color: #ffffff">
+                  <div class="product-list-detail" style="padding: 5px">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th style="width: 4%">
+                            <label class="toggle-button">
+                              <input type="checkbox" id="checkAll" />
+                            </label>
+                          </th>
+                          <th
+                            style="
                               width: auto;
                               font-size: 12px;
                               text-align: left;
-                            ">
-                          Chọn tất cả
-                        </th>
-                        <th></th>
-                        <th style="font-size: 12px; width: 10%">Giá thành</th>
-                        <th></th>
-                        <th style="font-size: 12px; width: 15%">Số lượng</th>
-                        <th></th>
-                        <th style="font-size: 12px; width: 10%">Đơn vị</th>
-                        <th></th>
-                        <th style="font-size: 12px; width: 5%"></th>
-                      </tr>
-                    </thead>
-                    <tbody id="productTableBody">
-                      <!-- 🔹 Rows will be dynamically added here -->
-                    </tbody>
-                  </table>
+                            "
+                          >
+                            Chọn tất cả
+                          </th>
+                          <th></th>
+                          <th style="font-size: 12px; width: 10%">Giá thành</th>
+                          <th></th>
+                          <th style="font-size: 12px; width: 15%">Số lượng</th>
+                          <th></th>
+                          <th style="font-size: 12px; width: 10%">Đơn vị</th>
+                          <th></th>
+                          <th style="font-size: 12px; width: 5%"></th>
+                        </tr>
+                      </thead>
+                      <tbody id="productTableBody">
+                        <!-- 🔹 Rows will be dynamically added here -->
+                      </tbody>
+                    </table>
 
-                  <!-- <tr>
+                    <!-- <tr>
                                         <td style="display: none;">1</td>
                                         <td>
                                             <label class="toggle-button">
@@ -577,534 +698,664 @@
                                             </button>
                                         </td>
                                     </tr> -->
-                </div>
-              </div>
-            </div>
-            <br />
-            <div class="container mt-4">
-              <!-- Chọn hình thức nhận hàng -->
-              <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
-                <p class="mb-0 fw-semibold">Chọn hình thức nhận hàng</p>
-                <div>
-                  <button class="btn btn-primary me-2">
-                    Giao hàng tận nơi
-                  </button>
-                  <button class="btn btn-light" onclick="alert('Chức năng đang được phát triển')">
-                    Nhận tại nhà thuốc
-                  </button>
-                </div>
-              </div>
-              <!-- Thông tin người đặt -->
-              <div class="mt-4">
-                <h6 class="text-primary">
-                  <i class="bi bi-person-circle"></i> Thông tin người đặt
-                </h6>
-                <div class="row g-2">
-                  <div class="col-md-6">
-                    <input type="text" class="form-control field-name-order" placeholder="Họ và tên người đặt"
-                      disabled />
-                  </div>
-                  <div class="col-md-6">
-                    <input type="text" class="form-control field-phone-order" placeholder="Số điện thoại" disabled />
-                  </div>
-                  <div class="col-md-12">
-                    <input type="email" class="form-control field-email-order" placeholder="Email (không bắt buộc)"
-                      disabled />
                   </div>
                 </div>
               </div>
-
-              <!-- Địa chỉ nhận hàng -->
-              <!-- Địa chỉ nhận hàng -->
-              <div class="mt-4">
-                <h6 class="text-primary">
-                  <i class="bi bi-geo-alt"></i> Địa chỉ nhận hàng
-                </h6>
-                <div class="row g-2">
-                  <div class="col-md-4">
-                    <input type="text" id="receiver-name" class="form-control" placeholder="Họ và tên người nhận" />
-                  </div>
-                  <div class="col-md-4">
-                    <input type="text" id="receiver-phone" class="form-control" placeholder="Số điện thoại" />
-                  </div>
-                  <div class="col-md-4">
-                    <button class="btn btn-outline-primary w-100" id="view-address-list">
-                      <i class="bi bi-list-ul"></i> Danh sách địa chỉ
+              <br />
+              <div class="container mt-4">
+                <!-- Chọn hình thức nhận hàng -->
+                <div
+                  class="d-flex justify-content-between align-items-center border-bottom pb-2"
+                >
+                  <p class="mb-0 fw-semibold">Chọn hình thức nhận hàng</p>
+                  <div>
+                    <button class="btn btn-primary me-2">
+                      Giao hàng tận nơi
+                    </button>
+                    <button
+                      class="btn btn-light"
+                      onclick="alert('Chức năng đang được phát triển')"
+                    >
+                      Nhận tại nhà thuốc
                     </button>
                   </div>
-                  <div class="col-md-12">
-                    <input type="text" id="receiver-address" class="form-control" placeholder="Nhập địa chỉ cụ thể" />
-                  </div>
-                  <div class="col-md-12">
-                    <textarea class="form-control" rows="2" id="order-note"
-                      placeholder="Ghi chú (không bắt buộc)"></textarea>
+                </div>
+                <!-- Thông tin người đặt -->
+                <div class="mt-4">
+                  <h6 class="text-primary">
+                    <i class="bi bi-person-circle"></i> Thông tin người đặt
+                  </h6>
+                  <div class="row g-2">
+                    <div class="col-md-6">
+                      <input
+                        type="text"
+                        class="form-control field-name-order"
+                        placeholder="Họ và tên người đặt"
+                        disabled
+                      />
+                    </div>
+                    <div class="col-md-6">
+                      <input
+                        type="text"
+                        class="form-control field-phone-order"
+                        placeholder="Số điện thoại"
+                        disabled
+                      />
+                    </div>
+                    <div class="col-md-12">
+                      <input
+                        type="email"
+                        class="form-control field-email-order"
+                        placeholder="Email (không bắt buộc)"
+                        disabled
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Modal quản lý địa chỉ (cập nhật thêm nút chọn) -->
-              <div id="addressModal" class="modal">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Quản lý Địa Chỉ</h5>
-                    <span class="close-address">&times;</span>
-                  </div>
-                  <div class="modal-body">
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Địa chỉ</th>
-                            <th>Số điện thoại</th>
-                            <th>Mặc định</th>
-                            <th>Chức năng</th>
-                          </tr>
-                        </thead>
-                        <tbody id="address-items">
-                          <!-- Danh sách địa chỉ sẽ được load ở đây -->
-                        </tbody>
-                      </table>
+                <!-- Địa chỉ nhận hàng -->
+                <!-- Địa chỉ nhận hàng -->
+                <div class="mt-4">
+                  <h6 class="text-primary">
+                    <i class="bi bi-geo-alt"></i> Địa chỉ nhận hàng
+                  </h6>
+                  <div class="row g-2">
+                    <div class="col-md-4">
+                      <input
+                        type="text"
+                        id="receiver-name"
+                        class="form-control"
+                        placeholder="Họ và tên người nhận"
+                      />
                     </div>
-
-                    <div class="mt-3">
-                      <h6>Chỉnh sửa/Thêm địa chỉ</h6>
-                      <div class="mb-3">
-                        <input type="text" id="edit-address-inp" class="form-control" placeholder="Nhập địa chỉ" />
-                      </div>
-                      <div class="mb-3">
-                        <input type="text" id="edit-phoneToDelivery" class="form-control"
-                          placeholder="Số điện thoại nhận hàng" />
-                      </div>
-                      <div class="mb-3 form-check">
-                        <input type="checkbox" id="edit-default-address" class="form-check-input" />
-                        <label class="form-check-label" for="edit-default-address">Đặt làm địa chỉ mặc định</label>
-                      </div>
-                      <button id="add-address" class="btn btn-primary">
-                        Thêm địa chỉ
+                    <div class="col-md-4">
+                      <input
+                        type="text"
+                        id="receiver-phone"
+                        class="form-control"
+                        placeholder="Số điện thoại"
+                      />
+                    </div>
+                    <div class="col-md-4">
+                      <button
+                        class="btn btn-outline-primary w-100"
+                        id="view-address-list"
+                      >
+                        <i class="bi bi-list-ul"></i> Danh sách địa chỉ
                       </button>
                     </div>
+                    <div class="col-md-12">
+                      <input
+                        type="text"
+                        id="receiver-address"
+                        class="form-control"
+                        placeholder="Nhập địa chỉ cụ thể"
+                      />
+                    </div>
+                    <div class="col-md-12">
+                      <textarea
+                        class="form-control"
+                        rows="2"
+                        id="order-note"
+                        placeholder="Ghi chú (không bắt buộc)"
+                      ></textarea>
+                    </div>
                   </div>
-                  <div class="modal-footer">
-                    <button class="btn btn-secondary close-address">
-                      Đóng
-                    </button>
-                    <button class="btn btn-primary save">Lưu thay đổi</button>
+                </div>
+
+                <!-- Modal quản lý địa chỉ (cập nhật thêm nút chọn) -->
+                <div id="addressModal" class="modal">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Quản lý Địa Chỉ</h5>
+                      <span class="close-address">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Địa chỉ</th>
+                              <th>Số điện thoại</th>
+                              <th>Mặc định</th>
+                              <th>Chức năng</th>
+                            </tr>
+                          </thead>
+                          <tbody id="address-items">
+                            <!-- Danh sách địa chỉ sẽ được load ở đây -->
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div class="mt-3">
+                        <h6>Chỉnh sửa/Thêm địa chỉ</h6>
+                        <div class="mb-3">
+                          <input
+                            type="text"
+                            id="edit-address-inp"
+                            class="form-control"
+                            placeholder="Nhập địa chỉ"
+                          />
+                        </div>
+                        <div class="mb-3">
+                          <input
+                            type="text"
+                            id="edit-phoneToDelivery"
+                            class="form-control"
+                            placeholder="Số điện thoại nhận hàng"
+                          />
+                        </div>
+                        <div class="mb-3 form-check">
+                          <input
+                            type="checkbox"
+                            id="edit-default-address"
+                            class="form-check-input"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="edit-default-address"
+                            >Đặt làm địa chỉ mặc định</label
+                          >
+                        </div>
+                        <button id="add-address" class="btn btn-primary">
+                          Thêm địa chỉ
+                        </button>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary close-address">
+                        Đóng
+                      </button>
+                      <button class="btn btn-primary save">Lưu thay đổi</button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="container mt-5">
-              <div class="payment-method p-3 shadow-sm">
-                <h5 class="mb-3">Chọn phương thức thanh toán</h5>
-                <div class="list-group">
-                  <label class="list-group-item d-flex align-items-center">
-                    <input class="form-check-input me-2" type="radio" name="payment" />
-                    <img src="../assets/img/COD.png" class="icon" />
-                    Thanh toán tiền mặt khi nhận hàng
-                  </label>
+              <div class="container mt-5">
+                <div class="payment-method p-3 shadow-sm">
+                  <h5 class="mb-3">Chọn phương thức thanh toán</h5>
+                  <div class="list-group">
+                    <label class="list-group-item d-flex align-items-center">
+                      <input
+                        class="form-check-input me-2"
+                        type="radio"
+                        name="payment"
+                        value="COD"
+                      />
+                      <img src="../assets/img/COD.png" class="icon" />
+                      Thanh toán tiền mặt khi nhận hàng
+                    </label>
 
-                  <label class="list-group-item d-flex align-items-center">
-                    <input class="form-check-input me-2" type="radio" name="payment" />
-                    <img src="../assets/img/card.png" class="icon" />
-                    Thanh toán thẻ ATM, thẻ (Napas, Visa, MasterCard, JCB,...)
-                  </label>
+                    <label class="list-group-item d-flex align-items-center">
+                      <input
+                        class="form-check-input me-2"
+                        type="radio"
+                        name="payment"
+                        value="ATM"
+                      />
+                      <img src="../assets/img/card.png" class="icon" />
+                      Thanh toán thẻ ATM, thẻ (Napas, Visa, MasterCard, JCB,...)
+                    </label>
 
-                  <label class="list-group-item d-flex align-items-center">
-                    <input class="form-check-input me-2" type="radio" name="payment" />
-                    <img src="../assets/img/zalopay.png" class="icon" />
-                    Thanh toán bằng ví ZaloPay
-                  </label>
-                  <label class="list-group-item d-flex align-items-center">
-                    <input class="form-check-input me-2" type="radio" name="payment" />
-                    <img src="../assets/img/momo.png" class="icon" />
-                    Thanh toán bằng ví MoMo
-                  </label>
-                  <label class="list-group-item d-flex align-items-center">
-                    <input class="form-check-input me-2" type="radio" name="payment" onclick="generateQR(this.value)" />
-                    <img src="../assets/img/vnpay.jpg" class="icon" />
-                    Thanh toán bằng VNPAY
-                  </label>
-                  <div id="qrcode" style="margin-top: 20px;"></div>
+                    <label class="list-group-item d-flex align-items-center">
+                      <input
+                        class="form-check-input me-2"
+                        type="radio"
+                        name="payment"
+                        value="Zalopay"
+                      />
+                      <img src="../assets/img/zalopay.png" class="icon" />
+                      Thanh toán bằng ví ZaloPay
+                    </label>
+                    <label class="list-group-item d-flex align-items-center">
+                      <input
+                        class="form-check-input me-2"
+                        type="radio"
+                        name="payment"
+                        value="Momo"
+                      />
+                      <img src="../assets/img/momo.png" class="icon" />
+                      Thanh toán bằng ví MoMo
+                    </label>
+                    <label class="list-group-item d-flex align-items-center">
+                      <input
+                        class="form-check-input me-2"
+                        type="radio"
+                        name="payment"
+                        value="VNPAY"
+                      />
+                      <img src="../assets/img/vnpay.jpg" class="icon" />
+                      Thanh toán bằng VNPAY
+                    </label>
+                  </div>
                 </div>
               </div>
+              <div></div>
             </div>
-            <div></div>
-          </div>
-          <div class="col-4">
-            <div class="summary"></div>
+            <div class="col-4">
+              <div class="summary"></div>
+            </div>
           </div>
         </div>
+        <div class="col"></div>
       </div>
-      <div class="col"></div>
     </div>
-  </div>
-  <div id="content-footer"></div>
-  <script>
-    const requestHeader = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    };
-
-    const host = "http://localhost:5000";
-    let cart = []
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const fieldNameorder = document.querySelector(".field-name-order");
-      const fieldPhoneOrder = document.querySelector(".field-phone-order");
-      const fieldEmailOrder = document.querySelector(".field-email-order");
-      const fieldNameReceiver = document.querySelector("#receiver-name");
-
-      fieldNameorder.value = JSON.parse(localStorage.getItem("user"))?.name;
-      fieldPhoneOrder.value = JSON.parse(localStorage.getItem("user"))?.phone;
-      fieldEmailOrder.value = JSON.parse(localStorage.getItem("user"))?.email;
-      fieldNameReceiver.value = JSON.parse(
-        localStorage.getItem("user")
-      )?.name;
-
-      const checkAll = document.getElementById("checkAll");
-
-      // Debugging: Check if script runs and checkboxes exist
-      //console.log("Script Loaded: ", checkAll);
-      //console.log("Item Checkboxes Found: ", document.querySelectorAll('.item-checkbox'));
-
-      checkAll.addEventListener("change", function () {
-        let checkboxes = document.querySelectorAll(".item-checkbox");
-        checkboxes.forEach((checkbox) => {
-          checkbox.checked = checkAll.checked;
-        });
-
-        updateTotalPrice();
-      });
-
-      fetchData();
-
-      async function fetchData() {
-        try {
-          let response = await fetch(`${host}/api/cart/info`, {
-            method: "GET",
-            headers: requestHeader,
-          });
-
-          if (!response.ok) {
-            throw new Error(
-              `API request failed with status: ${response.status}`
-            );
-          }
-
-          cart = await response.json();
-          //console.log("API Response:", cart);
-
-          let tableBody = document.getElementById("productTableBody");
-          if (!tableBody) {
-            console.error("Error: productTableBody element not found");
-            return;
-          }
-          tableBody.innerHTML = "";
-          let count = 0;
-          // Duyệt qua từng orderItem
-          cart.orderItems.forEach((orderItem, index) => {
-            //console.log("Order Item:", orderItem);
-            orderItem.items.forEach((item, itemIndex) => {
-              //console.log("Item:", item);
-
-              // Tạo một hàng mới cho mỗi sản phẩm
-              let row = document.createElement("tr");
-              row.setAttribute("data-id", item._id); // Set data-id attribute
-              count++;
-              row.innerHTML = `
-                                <td style="display: none;">${index + 1}</td>
-                                <td>
-                                    <label class="toggle-button">
-                                        <input type="checkbox" class="item-checkbox" checked onChange ="updateTotalPrice()">
-                                    </label>
-                                </td>
-                                <td style="display: flex; align-items: center; vertical-align: middle;">
-                                    <img style="width: 15%; height: 15%; margin: 5px" src="${orderItem.product.images ||
-                "default-image.jpg"
-                }" alt="">
-                                    <p style="font-size: 12px;text-align: justify;
-                                font-weight: 400;">${orderItem.product.name || "Tên sản phẩm"
-                }</p>
-                                </td>
-                                <td></td>
-                                <td style="font-size: 12px; color :#0d6efd " class ="item-price">${item.price.toLocaleString(
-                  "vi-VN"
-                )}đ</td>
-                                <td></td>
-                                <td>
-                                    <div class="input-group small-quantity mx-auto ">
-                                        <button class="btn btn-danger btn-sm" onclick="decrement('${item._id
-                }', '${item._id}')">-</button>
-                                        <input type="text" id="${item._id
-                }" class="form-control form-control-sm text-center" value="${item.quantity
-                }" readonly>
-                                        <button class="btn btn-success btn-sm" onclick="increment('${item._id
-                }', '${item._id}')">+</button>
-                                    </div>
-                                </td>
-                                <td></td>
-                                <td style="font-size:12px" >${item.unitName
-                }</td>
-                                <td></td>
-                                <td><button class="icon-button" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button></td>
-`;
-              tableBody.appendChild(row);
-            });
-          });
-          if (count === 0) {
-            alert("Giỏ hàng của bạn đang trống!");
-            window.location.href = "../pages/index.html";
-          }
-          // Tính toán và hiển thị summary
-          const totalAmountBeforeDiscount =
-            cart.totalAmountBeforeDiscount || 0;
-          const totalAmount = cart.totalAmount || 0;
-          const discountAmount = cart.discount?.amount || 0;
-
-          $(".summary").html(`
-                        <div class="summary-row">
-                            <span>Tổng tiền</span>
-                            <span id = "tongTien">${totalAmountBeforeDiscount.toLocaleString(
-            "vi-VN"
-          )}đ</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Giảm giá trực tiếp</span>
-                            <span class="discount">-${discountAmount.toLocaleString(
-            "vi-VN"
-          )}đ</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Giảm giá voucher</span>
-                            <span class="discount">-0đ</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Tiết kiệm được</span>
-                            <span class="saving">${(
-              totalAmountBeforeDiscount - totalAmount
-            ).toLocaleString("vi-VN")}đ</span>
-                        </div>
-                        <div class="summary-total">
-                            <span>Thành tiền</span>
-                            <div class="final-price">
-                                <span class="old-price">${totalAmountBeforeDiscount.toLocaleString(
-              "vi-VN"
-            )}đ</span>
-                                <span class="new-price">${totalAmount.toLocaleString(
-              "vi-VN"
-            )}đ</span>
-                            </div>
-                        </div>
-                        <button class="submit-order-btn" onclick="window.location.href='order.html'">Mua hàng</button>
-                        
-                        <p class="terms-notice">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách xử lý dữ liệu cá nhân</a> của Nhà thuốc Tận Tâm</p>
-`);
-
-          // Hiển thị danh sách sản phẩm trong cart-items
-          let productList = [];
-          cart.cart.orderItems.forEach((orderItem, index) => {
-            if (!orderItem || !Array.isArray(orderItem.items)) return;
-            const product = orderItem.product || {};
-
-            orderItem.items.forEach((item) => {
-              if (!item || !item.price || !item.quantity) return;
-
-              productList.push(`
-                                <div class="row">
-                                    <div class="column-1"></div>
-                                    <div class="column-2">
-                                        <img src="${product.images || "default-image.jpg"
-                }">
-                                    </div>
-                                    <div class="column-4" style="font-size: 12px; color: Black;">
-                                        <div>${product.name || "Tên sản phẩm"
-                } (${item.unitName})</div>
-                                    </div>
-                                    <div class="column-2">
-                                        <div class="price">${item.price.toLocaleString(
-                  "vi-VN"
-                )}đ x ${item.quantity}</div>
-                                    </div>
-                                    <div class="column-1"></div>
-                                </div>
-                            `);
-            });
-          });
-
-          $("#cart-items").html(productList.join(""));
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      }
-    });
-
-    // DELETE SAN PHAM TRONG GIO HANG
-    function deleteRow(button) {
-      const row = button.closest("tr");
-      const itemId = row.dataset.id; // Get item ID from data-id attribute
-
-      // Optional: Delete on server
-      fetch(`${host}/api/cart/item/${itemId}`, {
-        method: "DELETE",
-        headers: requestHeader,
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to delete item");
-          // console.log(`Deleted item ${itemId}`);
-          // Remove row from UI
-          row.remove();
-        })
-        .catch((err) => console.error("Error deleting item:", err));
-      updateTotalPrice();
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const submitButton = document.querySelector(".submitOrderButton");
-      if (submitButton) {
-        submitButton.addEventListener("click", submitOrder);
-      } else {
-        console.error("Submit button not found");
-      }
-    });
-
-    // SUBMIT TAO DON HANG
-    // Function to handle form submission and create an order
-    function submitOrder() {
-      // Collect form data
-      const deliveryMethod = document
-        .querySelector(".btn-primary")
-        .classList.contains("active")
-        ? "Giao hàng tận nơi"
-        : "Nhận tại nhà thuốc";
-      const fullName = document.querySelector(
-        'input[placeholder="Họ và tên người đặt"]'
-      ).value;
-      const phone = document.querySelector(
-        'input[placeholder="Số điện thoại"]'
-      ).value;
-      const email = document.querySelector(
-        'input[placeholder="Email (không bắt buộc)"]'
-      ).value;
-
-      const recipientName = document.querySelector(
-        'input[placeholder="Họ và tên người nhận"]'
-      ).value;
-      const recipientPhone = document.querySelector(
-        'input[placeholder="Số điện thoại"]'
-      ).value;
-      const city = document.querySelector(
-        'select[placeholder="Chọn tỉnh/thành phố"]'
-      ).value;
-      const district = document.querySelector(
-        'select[placeholder="Chọn quận/huyện"]'
-      ).value;
-      const ward = document.querySelector(
-        'select[placeholder="Chọn phường/xã"]'
-      ).value;
-      const specificAddress = document.querySelector(
-        'input[placeholder="Nhập địa chỉ cụ thể"]'
-      ).value;
-      const notes = document.querySelector(
-        'textarea[placeholder="Ghi chú (không bắt buộc)"]'
-      ).value;
-
-      const requiresInvoice =
-        document.getElementById("toggleInvoice").checked;
-
-      // Get the selected payment method
-      const paymentMethods = document.querySelectorAll(
-        'input[name="payment"]:checked'
-      );
-      const paymentMethod =
-        paymentMethods.length > 0
-          ? paymentMethods[0].nextElementSibling.textContent.trim()
-          : "";
-
-      // Prepare data to send to the API
-      const orderData = {
-        deliveryMethod,
-        fullName,
-        phone,
-        email,
-        recipient: {
-          name: recipientName,
-          phone: recipientPhone,
-          address: {
-            city,
-            district,
-            ward,
-            specificAddress,
-            notes,
-          },
-        },
-        requiresInvoice,
-        paymentMethod,
+    <div id="content-footer"></div>
+    <script>
+      const requestHeader = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       };
 
-      // Send a POST request to create the order
-      fetch(`${host}/api/orders`, {
-        // Replace with your API endpoint
-        method: "POST",
-        headers: requestHeader,
-        body: JSON.stringify(orderData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            alert("Đơn hàng đã được tạo thành công!");
-          } else {
-            alert("Có lỗi xảy ra khi tạo đơn hàng!");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("Có lỗi xảy ra khi tạo đơn hàng!");
+      const host = "http://localhost:5000";
+      let cart = [];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const fieldNameorder = document.querySelector(".field-name-order");
+        const fieldPhoneOrder = document.querySelector(".field-phone-order");
+        const fieldEmailOrder = document.querySelector(".field-email-order");
+        const fieldNameReceiver = document.querySelector("#receiver-name");
+
+        fieldNameorder.value = JSON.parse(localStorage.getItem("user"))?.name;
+        fieldPhoneOrder.value = JSON.parse(localStorage.getItem("user"))?.phone;
+        fieldEmailOrder.value = JSON.parse(localStorage.getItem("user"))?.email;
+        fieldNameReceiver.value = JSON.parse(
+          localStorage.getItem("user")
+        )?.name;
+
+        const checkAll = document.getElementById("checkAll");
+
+        // Debugging: Check if script runs and checkboxes exist
+        //console.log("Script Loaded: ", checkAll);
+        //console.log("Item Checkboxes Found: ", document.querySelectorAll('.item-checkbox'));
+
+        checkAll.addEventListener("change", function () {
+          let checkboxes = document.querySelectorAll(".item-checkbox");
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = checkAll.checked;
+          });
+
+          updateTotalPrice();
         });
-    }
 
-    function handleSelectChange(selectElement) {
-      let selectedValue = selectElement.value;
-      document.getElementById("selectedValue").innerText = selectedValue;
-    }
+        fetchData();
 
-    function increment(inputId, itemId) {
-      let quantityInput = document.getElementById(inputId);
-      const updatedQuantity = parseInt(quantityInput.value) + 1;
+        async function fetchData() {
+          try {
+            let response = await fetch(`${host}/api/cart/info`, {
+              method: "GET",
+              headers: requestHeader,
+            });
 
-      fetch(`${host}/api/cart/${itemId}`, {
-        // Replace with your API endpoint
-        method: "PUT",
-        headers: requestHeader,
-        body: JSON.stringify({
-          quantity: updatedQuantity,
-        }),
-      })
-        .then((response) => {
-          // Check if the response status code is 200 (OK) for success
-          if (response.status === 200) {
-            return response.json(); // Parse JSON if the response was successful
-          } else {
-            throw new Error(`HTTP error! Status: ${response.status}`); // Handle non-200 responses
+            if (!response.ok) {
+              throw new Error(
+                `API request failed with status: ${response.status}`
+              );
+            }
+
+            cart = await response.json();
+            //console.log("API Response:", cart);
+
+            let tableBody = document.getElementById("productTableBody");
+            if (!tableBody) {
+              console.error("Error: productTableBody element not found");
+              return;
+            }
+            tableBody.innerHTML = "";
+            let count = 0;
+            // Duyệt qua từng orderItem
+            cart.orderItems.forEach((orderItem, index) => {
+              //console.log("Order Item:", orderItem);
+              orderItem.items.forEach((item, itemIndex) => {
+                //console.log("Item:", item);
+
+                // Tạo một hàng mới cho mỗi sản phẩm
+                let row = document.createElement("tr");
+                row.setAttribute("data-id", item._id); // Set data-id attribute
+                count++;
+                row.innerHTML = `
+                                      <td style="display: none;">${
+                                        index + 1
+                                      }</td>
+                                      <td>
+                                          <label class="toggle-button">
+                                              <input type="checkbox" class="item-checkbox" checked onChange ="updateTotalPrice()">
+                                          </label>
+                                      </td>
+                                      <td style="display: flex; align-items: center; vertical-align: middle;">
+                                          <img style="width: 15%; height: 15%; margin: 5px" src="${
+                                            orderItem.product.images ||
+                                            "default-image.jpg"
+                                          }" alt="">
+                                          <p style="font-size: 12px;text-align: justify;
+                                      font-weight: 400;">${
+                                        orderItem.product.name || "Tên sản phẩm"
+                                      }</p>
+                                      </td>
+                                      <td></td>
+                                      <td style="font-size: 12px; color :#0d6efd " class ="item-price">${item.price.toLocaleString(
+                                        "vi-VN"
+                                      )}đ</td>
+                                      <td></td>
+                                      <td>
+                                          <div class="input-group small-quantity mx-auto ">
+                                              <button class="btn btn-danger btn-sm" onclick="decrement('${
+                                                item._id
+                                              }', '${item._id}')">-</button>
+                                              <input type="text" id="${
+                                                item._id
+                                              }" class="form-control form-control-sm text-center" value="${
+                  item.quantity
+                }" readonly>
+                                              <button class="btn btn-success btn-sm" onclick="increment('${
+                                                item._id
+                                              }', '${item._id}')">+</button>
+                                          </div>
+                                      </td>
+                                      <td></td>
+                                      <td style="font-size:12px" >${
+                                        item.unitName
+                                      }</td>
+                                      <td></td>
+                                      <td><button class="icon-button" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button></td>
+      `;
+                tableBody.appendChild(row);
+              });
+            });
+            if (count === 0) {
+              alert("Giỏ hàng của bạn đang trống!");
+              window.location.href = "../pages/index.html";
+            }
+            // Tính toán và hiển thị summary
+            const totalAmountBeforeDiscount =
+              cart.totalAmountBeforeDiscount || 0;
+            const totalAmount = cart.totalAmount || 0;
+            const discountAmount = cart.discount?.amount || 0;
+
+            $(".summary").html(`
+                              <div class="summary-row">
+                                  <span>Tổng tiền</span>
+                                  <span id = "tongTien">${totalAmountBeforeDiscount.toLocaleString(
+                                    "vi-VN"
+                                  )}đ</span>
+                              </div>
+                              <div class="summary-row">
+                                  <span>Giảm giá trực tiếp</span>
+                                  <span class="discount">-${discountAmount.toLocaleString(
+                                    "vi-VN"
+                                  )}đ</span>
+                              </div>
+                              <div class="summary-row">
+                                  <span>Giảm giá voucher</span>
+                                  <span class="discount">-0đ</span>
+                              </div>
+                              <div class="summary-row">
+                                  <span>Tiết kiệm được</span>
+                                  <span class="saving">${(
+                                    totalAmountBeforeDiscount - totalAmount
+                                  ).toLocaleString("vi-VN")}đ</span>
+                              </div>
+                              <div class="summary-total">
+                                  <span>Thành tiền</span>
+                                  <div class="final-price">
+                                      <span class="old-price">${totalAmountBeforeDiscount.toLocaleString(
+                                        "vi-VN"
+                                      )}đ</span>
+                                      <span class="new-price">${totalAmount.toLocaleString(
+                                        "vi-VN"
+                                      )}đ</span>
+                                  </div>
+                              </div>
+                              <button class="submit-order-btn" onclick="submitOrder()">Mua hàng</button>
+
+                              <p class="terms-notice">Bằng việc tiến hành đặt mua hàng, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách xử lý dữ liệu cá nhân</a> của Nhà thuốc Tận Tâm</p>
+      `);
+
+            // Hiển thị danh sách sản phẩm trong cart-items
+            let productList = [];
+            cart.cart.orderItems.forEach((orderItem, index) => {
+              if (!orderItem || !Array.isArray(orderItem.items)) return;
+              const product = orderItem.product || {};
+
+              orderItem.items.forEach((item) => {
+                if (!item || !item.price || !item.quantity) return;
+
+                productList.push(`
+                                      <div class="row">
+                                          <div class="column-1"></div>
+                                          <div class="column-2">
+                                              <img src="${
+                                                product.images ||
+                                                "default-image.jpg"
+                                              }">
+                                          </div>
+                                          <div class="column-4" style="font-size: 12px; color: Black;">
+                                              <div>${
+                                                product.name || "Tên sản phẩm"
+                                              } (${item.unitName})</div>
+                                          </div>
+                                          <div class="column-2">
+                                              <div class="price">${item.price.toLocaleString(
+                                                "vi-VN"
+                                              )}đ x ${item.quantity}</div>
+                                          </div>
+                                          <div class="column-1"></div>
+                                      </div>
+                                  `);
+              });
+            });
+
+            $("#cart-items").html(productList.join(""));
+          } catch (error) {
+            console.error("Error fetching data:", error);
           }
-        })
-        .then((data) => {
-          // console.log(`data response ${data}`);
-          // Handle successful update here
-          quantityInput.value = updatedQuantity;
-          //console.log("update thanh cong");
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("Có lỗi xảy ra khi cap nhat don hang!");
-        });
-      updateTotalPrice();
-    }
+        }
+      });
 
-    function decrement(inputId, itemId) {
-      let quantityInput = document.getElementById(inputId);
-      if (quantityInput.value > 1) {
-        const updatedQuantity = parseInt(quantityInput.value) - 1;
+      // DELETE SAN PHAM TRONG GIO HANG
+      function deleteRow(button) {
+        const row = button.closest("tr");
+        const itemId = row.dataset.id; // Get item ID from data-id attribute
+
+        // Optional: Delete on server
+        fetch(`${host}/api/cart/item/${itemId}`, {
+          method: "DELETE",
+          headers: requestHeader,
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("Failed to delete item");
+            // console.log(`Deleted item ${itemId}`);
+            // Remove row from UI
+            row.remove();
+          })
+          .catch((err) => console.error("Error deleting item:", err));
+        updateTotalPrice();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.querySelector(".submitOrderButton");
+        if (submitButton) {
+          submitButton.addEventListener("click", submitOrder);
+        } else {
+          console.error("Submit button not found");
+        }
+      });
+
+      // Submit order function
+
+      function submitOrder() {
+        //gọi hàm fetchData() để lấy id cart /api/cart/info
+        const cartid = cart._id;
+
+        const paymentMethod = document.querySelector(
+          'input[name="payment"]:checked'
+        );
+
+        const orderItems = cart.orderItems.map((item) => ({
+          product: item.product._id,
+          items: item.items.map((i) => ({
+            unitName: i.unitName,
+            quantity: i.quantity,
+            price: i.price,
+          })),
+          subtotal: item.subtotal,
+        }));
+
+        if (orderItems.length === 0) {
+          alert("Giỏ hàng của bạn đang trống!");
+          return;
+        }
+
+        const shippingAddress =
+          document.getElementById("receiver-address").value;
+        const phoneNumber = document.getElementById("receiver-phone").value;
+
+        if (!shippingAddress) {
+          alert("Vui lòng nhập địa chỉ giao hàng!");
+          return;
+        }
+        if (!phoneNumber) {
+          alert("Vui lòng nhập số điện thoại!");
+          return;
+        }
+
+        if (!paymentMethod) {
+          alert("Vui lòng chọn phương thức thanh toán!");
+          return;
+        }
+
+        const paymentStatus = "paid"; // Mặc định là chưa thanh toán
+        //Xử lý nếu chọn là cash thì paymenaStatus là unPaid
+        if (paymentMethod.value === "COD") {
+          paymentStatus = "unpaid";
+        }
+
+        //Nếu là các phương thức thanh tón khác thì hiện modal thanh toán
+        else {
+          showPaymentModal(paymentMethod.value, cart.totalAmount, cartid);
+        }
+
+        const orderData = {
+          orderItems,
+          shippingAddress,
+          phoneNumber,
+          totalAmountBeforeDiscount: cart.totalAmountBeforeDiscount,
+          totalAmount: cart.totalAmount,
+          discount: {
+            amount: cart.discount?.amount || 0,
+            percentage: cart.discount?.percentage || 0,
+          },
+          paymentStatus,
+          status: "pending",
+          paymentMethod: paymentMethod.value,
+        };
+
+        fetch(`${host}/api/orders/${cartid}`, {
+          method: "PUT",
+          headers: requestHeader,
+          body: JSON.stringify(orderData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Order submitted:", data);
+            alert("Đặt hàng thành công!");
+            window.location.href = "../pages/index.html";
+          })
+          .catch((error) => {
+            console.error("Error submitting order:", error);
+            alert("Có lỗi xảy ra khi đặt hàng!");
+          });
+      }
+      //here
+      function showPaymentModal(paymentMethod, totalAmount, cartId) {
+        const paymentMethods = {
+          Zalopay: {
+            name: "Thanh toán bằng ví ZaloPay",
+            logo: "../assets/img/zalopay.png",
+          },
+          Momo: {
+            name: "Thanh toán bằng ví MoMo",
+            logo: "../assets/img/momo.png",
+          },
+          VNPAY: {
+            name: "Thanh toán bằng VNPAY",
+            logo: "../assets/img/vnpay.jpg",
+          },
+        };
+
+        // Gán nội dung
+        document.getElementById("modal-method").innerText = paymentMethod;
+        document.getElementById("modal-cartid").innerText = cartId;
+        document.getElementById(
+          "modal-desc"
+        ).innerText = `Thanh toán qua ${paymentMethod}`;
+        document.getElementById(
+          "modal-amount"
+        ).innerText = `${totalAmount.toLocaleString()}₫`;
+        document.getElementById("modal-appname").innerText = paymentMethod;
+
+        // Hiện modal
+        const modal = document.getElementById("paymentModal");
+        modal.style.display = "flex";
+
+        // Clear mã QR cũ nếu có
+        const qrContainer = document.getElementById("qrcode");
+        qrContainer.innerHTML = "";
+
+        // Tạo mã QR mới
+        const QR_CODE = new QRCode(qrContainer, {
+          width: 210,
+          height: 210,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+
+        QR_CODE.makeCode(
+          `API/${paymentMethod}For${cartId}amount${totalAmount}`
+        );
+
+        // Gán logo giữa mã QR nếu cần
+        const barcodeLogo = document.getElementById("barcode");
+        barcodeLogo.innerHTML = `<img src="${paymentMethods[paymentMethod].logo}" style="width: 50px; height: 50px; border-radius: 50%; background: white; padding: 5px;">`;
+
+        // Đếm ngược
+        let timeLeft = 300;
+        const countdown = document.getElementById("countdown");
+        const updateCountdown = () => {
+          const min = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+          const sec = String(timeLeft % 60).padStart(2, "0");
+          countdown.textContent = `${min}:${sec}`;
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            modal.style.display = "none";
+            alert("Hết thời gian thanh toán!");
+          }
+          timeLeft--;
+        };
+        const timer = setInterval(updateCountdown, 1000);
+
+        document.querySelector(".close-btn").onclick = () => {
+          clearInterval(timer);
+          modal.style.display = "none";
+        };
+        modal.onclick = (e) => {
+          if (e.target === modal) {
+            clearInterval(timer);
+            modal.style.display = "none";
+          }
+        };
+      }
+
+      function handleSelectChange(selectElement) {
+        let selectedValue = selectElement.value;
+        document.getElementById("selectedValue").innerText = selectedValue;
+      }
+
+      function increment(inputId, itemId) {
+        let quantityInput = document.getElementById(inputId);
+        const updatedQuantity = parseInt(quantityInput.value) + 1;
 
         fetch(`${host}/api/cart/${itemId}`, {
           // Replace with your API endpoint
@@ -1126,286 +1377,353 @@
             // console.log(`data response ${data}`);
             // Handle successful update here
             quantityInput.value = updatedQuantity;
-            // console.log("update thanh cong");
+            //console.log("update thanh cong");
           })
           .catch((error) => {
             console.error("Error:", error);
             alert("Có lỗi xảy ra khi cap nhat don hang!");
           });
-      }
-      updateTotalPrice();
-    }
-
-    // new a
-    document.addEventListener("DOMContentLoaded", () => {
-      // Khởi tạo các biến
-      const addressModal = document.getElementById("addressModal");
-      const viewAddressBtn = document.getElementById("view-address-list");
-      const closeAddressModal = document.querySelector(".close-address");
-      const addNewAddressBtn = document.getElementById("add-address");
-      const saveAddressBtn = document.querySelector(".btn.save");
-      const cartContainer = document.getElementById("cart-items");
-
-    // Lấy danh sách sản phẩm đã thêm (nếu có)
-    const storedCart = localStorage.getItem("buyAgainItems");
-    let cartItems = storedCart ? JSON.parse(storedCart) : [];
-
-    // Nếu có sản phẩm được mua lại, hiển thị
-    if (cartItems.length > 0) {
-      cartContainer.innerHTML = "";
-      cartItems.forEach((item, index) => {
-        const row = document.createElement("div");
-        row.className = "cart-row";
-        row.innerHTML = `
-          <img src="${item.image}" alt="${item.name}" width="60" />
-          <div>
-            <div><strong>${item.name}</strong></div>
-            <div>${item.price.toLocaleString()}đ x ${item.quantity} ${item.unitName}</div>
-          </div>
-        `;
-        cartContainer.appendChild(row);
-      });
-
-      // Sau khi load xong, xóa khỏi localStorage để không thêm lặp lại
-      localStorage.removeItem("buyAgainItems");
-    }
-
-      // Mở modal khi nhấn nút xem địa chỉ
-      if (viewAddressBtn) {
-        viewAddressBtn.addEventListener("click", () => {
-          addressModal.style.display = "flex";
-          fetchAddressList();
-        });
+        updateTotalPrice();
       }
 
-      // Đóng modal
-      if (closeAddressModal) {
-        closeAddressModal.addEventListener("click", () => {
-          addressModal.style.display = "none";
-        });
-      }
+      function decrement(inputId, itemId) {
+        let quantityInput = document.getElementById(inputId);
+        if (quantityInput.value > 1) {
+          const updatedQuantity = parseInt(quantityInput.value) - 1;
 
-      // Thêm địa chỉ mới
-      if (addNewAddressBtn) {
-        addNewAddressBtn.addEventListener("click", addAddressToTable);
-      }
-
-      // Lưu thay đổi địa chỉ
-      if (saveAddressBtn) {
-        saveAddressBtn.addEventListener("click", saveAddressChanges);
-      }
-
-      // Đóng modal khi click ra ngoài
-      window.addEventListener("click", (event) => {
-        if (event.target === addressModal) {
-          addressModal.style.display = "none";
-        }
-      });
-    });
-
-    // Lấy danh sách địa chỉ từ API
-    function fetchAddressList() {
-      const addressItems = document.getElementById("address-items");
-      addressItems.innerHTML = ""; // Xóa nội dung cũ
-
-      fetch(`http://localhost:5000/api/users/address`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((addresses) => {
-          if (addresses && addresses.length > 0) {
-            addresses.forEach((address) => {
-              const tr = document.createElement("tr");
-              tr.innerHTML = `
-                            <td>${address.address || ""}</td>
-                            <td>${address.phoneToDelivery || ""}</td>
-                            <td>${address.default ? "✅" : ""}</td>
-                            <td>
-                                <button class="btn-select">Chọn</button>
-                                <button class="btn-edit">Sửa</button>
-                                <button class="btn-delete">Xóa</button>
-                            </td>
-                        `;
-              // Thêm sự kiện khi nhấn chọn địa chỉ
-              tr.querySelector(".btn-select").addEventListener(
-                "click",
-                () => {
-                  selectAddress(address);
-                }
-              );
-              addressItems.appendChild(tr);
+          fetch(`${host}/api/cart/${itemId}`, {
+            // Replace with your API endpoint
+            method: "PUT",
+            headers: requestHeader,
+            body: JSON.stringify({
+              quantity: updatedQuantity,
+            }),
+          })
+            .then((response) => {
+              // Check if the response status code is 200 (OK) for success
+              if (response.status === 200) {
+                return response.json(); // Parse JSON if the response was successful
+              } else {
+                throw new Error(`HTTP error! Status: ${response.status}`); // Handle non-200 responses
+              }
+            })
+            .then((data) => {
+              // console.log(`data response ${data}`);
+              // Handle successful update here
+              quantityInput.value = updatedQuantity;
+              // console.log("update thanh cong");
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Có lỗi xảy ra khi cap nhat don hang!");
             });
-            setupEditDeleteButtons();
-          } else {
-            addressItems.innerHTML = `<tr><td colspan="4" class="text-center">Chưa có địa chỉ nào</td></tr>`;
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi lấy danh sách địa chỉ:", error);
-          addressItems.innerHTML = `<tr><td colspan="4" class="text-center">Lỗi khi tải danh sách địa chỉ</td></tr>`;
-        });
-    }
-
-    // Thêm địa chỉ mới vào bảng
-    function addAddressToTable() {
-      const addressInput = document.getElementById("edit-address-inp");
-      const phoneInput = document.getElementById("edit-phoneToDelivery");
-      const defaultCheckbox = document.getElementById("edit-default-address");
-
-      if (!addressInput.value.trim()) {
-        alert("Vui lòng nhập địa chỉ");
-        return;
-      }
-
-      const addressItems = document.getElementById("address-items");
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-                <td>${addressInput.value}</td>
-                <td>${phoneInput.value}</td>
-                <td>${defaultCheckbox.checked ? "✅" : ""}</td>
-                <td>
-                    <button class="btn-edit">Sửa</button>
-                    <button class="btn-delete">Xóa</button>
-                </td>
-            `;
-
-      // Nếu đây là địa chỉ mặc định, bỏ chọn các địa chỉ khác
-      if (defaultCheckbox.checked) {
-        const rows = addressItems.querySelectorAll("tr");
-        rows.forEach((row) => {
-          row.cells[2].textContent = "";
-        });
-      }
-
-      addressItems.appendChild(tr);
-      setupEditDeleteButtons();
-
-      // Xóa nội dung ô nhập
-      addressInput.value = "";
-      phoneInput.value = "";
-      defaultCheckbox.checked = false;
-    }
-
-    // Thiết lập sự kiện cho các nút Sửa/Xóa
-    function setupEditDeleteButtons() {
-      // Xử lý nút Sửa
-      document.querySelectorAll(".btn-edit").forEach((btn) => {
-        btn.addEventListener("click", function () {
-          const row = this.closest("tr");
-          const cells = row.cells;
-
-          document.getElementById("edit-address-inp").value =
-            cells[0].textContent;
-          document.getElementById("edit-phoneToDelivery").value =
-            cells[1].textContent;
-          document.getElementById("edit-default-address").checked =
-            cells[2].textContent === "✅";
-
-          row.remove();
-        });
-      });
-
-      // Xử lý nút Xóa
-      document.querySelectorAll(".btn-delete").forEach((btn) => {
-        btn.addEventListener("click", function () {
-          if (confirm("Bạn có chắc chắn muốn xóa địa chỉ này?")) {
-            this.closest("tr").remove();
-          }
-        });
-      });
-    }
-
-    function selectAddress(address) {
-      document.getElementById("receiver-phone").value =
-        address.phoneToDelivery || "";
-      document.getElementById("receiver-address").value =
-        address.address || "";
-
-      // Đóng modal sau khi chọn
-      document.getElementById("addressModal").style.display = "none";
-
-      // Focus vào trường ghi chú để người dùng có thể nhập tiếp
-      document.getElementById("order-note").focus();
-    }
-
-    // Lưu thay đổi địa chỉ lên server
-    function saveAddressChanges() {
-      const addressItems = document.getElementById("address-items");
-      const rows = addressItems.querySelectorAll("tr");
-      const addresses = [];
-
-      rows.forEach((row) => {
-        const cells = row.cells;
-        addresses.push({
-          address: cells[0].textContent,
-          phoneToDelivery: cells[1].textContent,
-          default: cells[2].textContent === "✅",
-        });
-      });
-
-      fetch("http://localhost:5000/api/users/address", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(addresses),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          alert("Cập nhật địa chỉ thành công!");
-          document.getElementById("addressModal").style.display = "none";
-        })
-        .catch((error) => {
-          console.error("Lỗi khi cập nhật địa chỉ:", error);
-          alert("Có lỗi xảy ra khi cập nhật địa chỉ");
-        });
-    }
-
-    //Cập nhật Thành tiền
-    function updateTotalPrice() {
-      const totalPriceElement = document.querySelector("#tongTien");
-      const amountPriceElement = document.querySelector(".new-price");
-      const oldPriceElement = document.querySelector(".old-price");
-      const itemCheckboxes = document.querySelectorAll(".item-checkbox");
-      const itemPrices = document.querySelectorAll(".item-price");
-
-      let total = 0;
-      itemCheckboxes.forEach((checkbox, index) => {
-        if (checkbox.checked) {
-          //lấy giá tiền từ cột VD định dạng 182.500đ
-          const price = parseFloat(
-            itemPrices[index].textContent.replace(/\./g, "").replace("đ", "")
-          );
-
-          const quantity = parseInt(
-            checkbox.closest("tr").querySelector(".form-control").value
-          );
-          total += price * quantity;
         }
+        updateTotalPrice();
+      }
+
+      // new a
+      document.addEventListener("DOMContentLoaded", () => {
+        // Khởi tạo các biến
+        const addressModal = document.getElementById("addressModal");
+        const viewAddressBtn = document.getElementById("view-address-list");
+        const closeAddressModal = document.querySelector(".close-address");
+        const addNewAddressBtn = document.getElementById("add-address");
+        const saveAddressBtn = document.querySelector(".btn.save");
+        const cartContainer = document.getElementById("cart-items");
+
+        // Lấy danh sách sản phẩm đã thêm (nếu có)
+        const storedCart = localStorage.getItem("buyAgainItems");
+        let cartItems = storedCart ? JSON.parse(storedCart) : [];
+
+        // Nếu có sản phẩm được mua lại, hiển thị
+        if (cartItems.length > 0) {
+          cartContainer.innerHTML = "";
+          cartItems.forEach((item, index) => {
+            const row = document.createElement("div");
+            row.className = "cart-row";
+            row.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" width="60" />
+                <div>
+                  <div><strong>${item.name}</strong></div>
+                  <div>${item.price.toLocaleString()}đ x ${item.quantity} ${
+              item.unitName
+            }</div>
+                </div>
+              `;
+            cartContainer.appendChild(row);
+          });
+
+          // Sau khi load xong, xóa khỏi localStorage để không thêm lặp lại
+          localStorage.removeItem("buyAgainItems");
+        }
+
+        // Mở modal khi nhấn nút xem địa chỉ
+        if (viewAddressBtn) {
+          viewAddressBtn.addEventListener("click", () => {
+            addressModal.style.display = "flex";
+            fetchAddressList();
+          });
+        }
+
+        // Đóng modal
+        if (closeAddressModal) {
+          closeAddressModal.addEventListener("click", () => {
+            addressModal.style.display = "none";
+          });
+        }
+
+        // Thêm địa chỉ mới
+        if (addNewAddressBtn) {
+          addNewAddressBtn.addEventListener("click", addAddressToTable);
+        }
+
+        // Lưu thay đổi địa chỉ
+        if (saveAddressBtn) {
+          saveAddressBtn.addEventListener("click", saveAddressChanges);
+        }
+
+        // Đóng modal khi click ra ngoài
+        window.addEventListener("click", (event) => {
+          if (event.target === addressModal) {
+            addressModal.style.display = "none";
+          }
+        });
       });
 
-      totalPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
-      amountPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
-      oldPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+      // Lấy danh sách địa chỉ từ API
+      function fetchAddressList() {
+        const addressItems = document.getElementById("address-items");
+        addressItems.innerHTML = ""; // Xóa nội dung cũ
 
-      loadCartInfoFromAPIToHeader(); // Cập nhật giỏ hàng trên header
-    }
+        fetch(`http://localhost:5000/api/users/address`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((addresses) => {
+            if (addresses && addresses.length > 0) {
+              addresses.forEach((address) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                                  <td>${address.address || ""}</td>
+                                  <td>${address.phoneToDelivery || ""}</td>
+                                  <td>${address.default ? "✅" : ""}</td>
+                                  <td>
+                                      <button class="btn-select">Chọn</button>
+                                      <button class="btn-edit">Sửa</button>
+                                      <button class="btn-delete">Xóa</button>
+                                  </td>
+                              `;
+                // Thêm sự kiện khi nhấn chọn địa chỉ
+                tr.querySelector(".btn-select").addEventListener(
+                  "click",
+                  () => {
+                    selectAddress(address);
+                  }
+                );
+                addressItems.appendChild(tr);
+              });
+              setupEditDeleteButtons();
+            } else {
+              addressItems.innerHTML = `<tr><td colspan="4" class="text-center">Chưa có địa chỉ nào</td></tr>`;
+            }
+          })
+          .catch((error) => {
+            console.error("Lỗi khi lấy danh sách địa chỉ:", error);
+            addressItems.innerHTML = `<tr><td colspan="4" class="text-center">Lỗi khi tải danh sách địa chỉ</td></tr>`;
+          });
+      }
 
-    function generateQR(value) {
-      const container = document.getElementById('qrcode');
-      container.innerHTML = '';
-      new QRCode(container, {
-        text: value,
-        width: 200,
-        height: 200
-      });
-    }
-  </script>
-</body>
+      // Thêm địa chỉ mới vào bảng
+      function addAddressToTable() {
+        const addressInput = document.getElementById("edit-address-inp");
+        const phoneInput = document.getElementById("edit-phoneToDelivery");
+        const defaultCheckbox = document.getElementById("edit-default-address");
 
+        if (!addressInput.value.trim()) {
+          alert("Vui lòng nhập địa chỉ");
+          return;
+        }
+
+        const addressItems = document.getElementById("address-items");
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+                      <td>${addressInput.value}</td>
+                      <td>${phoneInput.value}</td>
+                      <td>${defaultCheckbox.checked ? "✅" : ""}</td>
+                      <td>
+                          <button class="btn-edit">Sửa</button>
+                          <button class="btn-delete">Xóa</button>
+                      </td>
+                  `;
+
+        // Nếu đây là địa chỉ mặc định, bỏ chọn các địa chỉ khác
+        if (defaultCheckbox.checked) {
+          const rows = addressItems.querySelectorAll("tr");
+          rows.forEach((row) => {
+            row.cells[2].textContent = "";
+          });
+        }
+
+        addressItems.appendChild(tr);
+        setupEditDeleteButtons();
+
+        // Xóa nội dung ô nhập
+        addressInput.value = "";
+        phoneInput.value = "";
+        defaultCheckbox.checked = false;
+      }
+
+      // Thiết lập sự kiện cho các nút Sửa/Xóa
+      function setupEditDeleteButtons() {
+        // Xử lý nút Sửa
+        document.querySelectorAll(".btn-edit").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const row = this.closest("tr");
+            const cells = row.cells;
+
+            document.getElementById("edit-address-inp").value =
+              cells[0].textContent;
+            document.getElementById("edit-phoneToDelivery").value =
+              cells[1].textContent;
+            document.getElementById("edit-default-address").checked =
+              cells[2].textContent === "✅";
+
+            row.remove();
+          });
+        });
+
+        // Xử lý nút Xóa
+        document.querySelectorAll(".btn-delete").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            if (confirm("Bạn có chắc chắn muốn xóa địa chỉ này?")) {
+              this.closest("tr").remove();
+            }
+          });
+        });
+      }
+
+      function selectAddress(address) {
+        document.getElementById("receiver-phone").value =
+          address.phoneToDelivery || "";
+        document.getElementById("receiver-address").value =
+          address.address || "";
+
+        // Đóng modal sau khi chọn
+        document.getElementById("addressModal").style.display = "none";
+
+        // Focus vào trường ghi chú để người dùng có thể nhập tiếp
+        document.getElementById("order-note").focus();
+      }
+
+      // Lưu thay đổi địa chỉ lên server
+      function saveAddressChanges() {
+        const addressItems = document.getElementById("address-items");
+        const rows = addressItems.querySelectorAll("tr");
+        const addresses = [];
+
+        rows.forEach((row) => {
+          const cells = row.cells;
+          addresses.push({
+            address: cells[0].textContent,
+            phoneToDelivery: cells[1].textContent,
+            default: cells[2].textContent === "✅",
+          });
+        });
+
+        fetch("http://localhost:5000/api/users/address", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(addresses),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert("Cập nhật địa chỉ thành công!");
+            document.getElementById("addressModal").style.display = "none";
+          })
+          .catch((error) => {
+            console.error("Lỗi khi cập nhật địa chỉ:", error);
+            alert("Có lỗi xảy ra khi cập nhật địa chỉ");
+          });
+      }
+
+      //Cập nhật Thành tiền
+      function updateTotalPrice() {
+        const totalPriceElement = document.querySelector("#tongTien");
+        const amountPriceElement = document.querySelector(".new-price");
+        const oldPriceElement = document.querySelector(".old-price");
+        const itemCheckboxes = document.querySelectorAll(".item-checkbox");
+        const itemPrices = document.querySelectorAll(".item-price");
+
+        let total = 0;
+        itemCheckboxes.forEach((checkbox, index) => {
+          if (checkbox.checked) {
+            //lấy giá tiền từ cột VD định dạng 182.500đ
+            const price = parseFloat(
+              itemPrices[index].textContent.replace(/\./g, "").replace("đ", "")
+            );
+
+            const quantity = parseInt(
+              checkbox.closest("tr").querySelector(".form-control").value
+            );
+            total += price * quantity;
+          }
+        });
+
+        totalPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+        amountPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+        oldPriceElement.textContent = total.toLocaleString("vi-VN") + "đ";
+
+        loadCartInfoFromAPIToHeader(); // Cập nhật giỏ hàng trên header
+      }
+
+      function generateQR(value) {
+        const container = document.getElementById("qrcode");
+        container.innerHTML = "";
+        new QRCode(container, {
+          text: value,
+          width: 200,
+          height: 200,
+        });
+      }
+    </script>
+
+    <div class="modal-overlay" id="paymentModal" style="display: none">
+      <div class="modal-container">
+        <!-- Thông tin đơn hàng -->
+        <div class="left-info">
+          <h3>Thông tin đơn hàng</h3>
+          <p><strong>Nhà cung cấp:</strong> <span id="modal-method"></span></p>
+          <p><strong>Mã đơn hàng:</strong> <span id="modal-cartid"></span></p>
+          <p><strong>Mô tả:</strong> <span id="modal-desc"></span></p>
+          <p><strong>Số tiền:</strong> <span id="modal-amount"></span></p>
+          <div class="time-box">
+            Đơn hàng sẽ hết hạn sau: <br />
+            <span id="countdown">05:00</span>
+          </div>
+          <button class="close-btn">&larr; Quay lại</button>
+        </div>
+
+        <!-- QR Code -->
+        <div class="qr-box">
+          <h2>Quét mã QR để thanh toán</h2>
+          <div class="qr-wrapper">
+            <div id="qrcode" class="qr-code"></div>
+
+            <div id="barcode" class="qr-logo"></div>
+          </div>
+          <p>
+            Sử dụng App <strong id="modal-appname"></strong> hoặc ứng dụng
+            camera hỗ trợ QR để quét mã
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

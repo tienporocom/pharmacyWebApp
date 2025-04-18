@@ -12,7 +12,6 @@
       type="image/x-icon"
     />
   </head>
-  
 
   <body>
     <!-- Sidebar -->
@@ -38,7 +37,6 @@
         <li id="nav-customers" onclick="showSection('customers')">
           <i>👥</i> Khách hàng
         </li>
-        
       </ul>
     </div>
 
@@ -134,7 +132,7 @@
               <th>Hành động</th>
             </tr>
           </thead>
-          <tbody> </tbody>
+          <tbody></tbody>
         </table>
       </div>
 
@@ -233,38 +231,47 @@
         <h2>Thêm thuốc</h2>
         <label>Tên thuốc:</label><input type="text" id="medicineAddName" />
         <label>Mô tả:</label><input type="text" id="medicineAddDescription" />
-        <label>Mô tả ngắn:</label><input type="text" id="medicineAddShortDescription" />
-        <label>URL ảnh sản phẩm:</label><input type="text" id="medicineAddImages" />
+        <label>Mô tả ngắn:</label
+        ><input type="text" id="medicineAddShortDescription" />
+        <label>URL ảnh sản phẩm:</label
+        ><input type="text" id="medicineAddImages" />
         <label>Thuốc kê đơn:</label>
         <select id="medicineAddIsPrescribe">
           <option value="true">Có</option>
           <option value="false" selected>Không</option>
         </select>
-        <label>Nhóm thuốc:</label><input type="text" id="medicineAddDrugGroup" />
-        <label>Nhà sản xuất:</label><input type="text" id="medicineAddManufacturer" />
-        <label>Nguồn gốc nhà sản xuất:</label><input type="text" id="medicineAddManufacturerOrigin" />
-        <label>Số đăng ký:</label><input type="text" id="medicineAddRegistrationNumber" />
-        <label>Thành phần:</label><input type="text" id="medicineAddIngredient" />
-        <label>Nơi sản xuất:</label><input type="text" id="medicineAddPlaceOfManufacture" />
-        <label>Dạng bào chế:</label><input type="text" id="medicineAddDosageForm" />
+        <label>Nhóm thuốc:</label
+        ><input type="text" id="medicineAddDrugGroup" />
+        <label>Nhà sản xuất:</label
+        ><input type="text" id="medicineAddManufacturer" />
+        <label>Nguồn gốc nhà sản xuất:</label
+        ><input type="text" id="medicineAddManufacturerOrigin" />
+        <label>Số đăng ký:</label
+        ><input type="text" id="medicineAddRegistrationNumber" />
+        <label>Thành phần:</label
+        ><input type="text" id="medicineAddIngredient" />
+        <label>Nơi sản xuất:</label
+        ><input type="text" id="medicineAddPlaceOfManufacture" />
+        <label>Dạng bào chế:</label
+        ><input type="text" id="medicineAddDosageForm" />
         <label>Đóng gói:</label><input type="text" id="medicineAddPackaging" />
         <label>Đơn vị đóng gói:</label>
         <div id="medicineAddPackagingUnits">
           <table>
             <thead>
               <tr>
-          <th>Tên đơn vị</th>
-          <th>Số lượng</th>
-          <th>Giá</th>
-          <th>Hành động</th>
+                <th>Tên đơn vị</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Hành động</th>
               </tr>
             </thead>
             <tbody id="packagingUnitsTableBody">
               <tr>
-          <td><input type="text" class="unitName" value="Viên" /></td>
-          <td><input type="number" class="quantity" value="100" /></td>
-          <td><input type="number" class="price" value="10000" /></td>
-          <td><button onclick="removeRow(this)">Xóa</button></td>
+                <td><input type="text" class="unitName" value="Viên" /></td>
+                <td><input type="number" class="quantity" value="100" /></td>
+                <td><input type="number" class="price" value="10000" /></td>
+                <td><button onclick="removeRow(this)">Xóa</button></td>
               </tr>
             </tbody>
           </table>
@@ -273,8 +280,10 @@
 
         <script>
           function addPackagingUnitRow() {
-            const tableBody = document.getElementById('packagingUnitsTableBody');
-            const newRow = document.createElement('tr');
+            const tableBody = document.getElementById(
+              "packagingUnitsTableBody"
+            );
+            const newRow = document.createElement("tr");
             newRow.innerHTML = `
               <td><input type="text" class="unitName" placeholder="Tên đơn vị" /></td>
               <td><input type="number" class="quantity" placeholder="Số lượng" /></td>
@@ -289,7 +298,8 @@
             row.remove();
           }
         </script>
-        <label>Số lượng đã bán:</label><input type="number" id="medicineAddSales" value="0" />
+        <label>Số lượng đã bán:</label
+        ><input type="number" id="medicineAddSales" value="0" />
 
         <button class="save-btn" onclick="addMedicine()">Thêm</button>
         <button class="cancel-btn" onclick="closeModal('medicineAddModal')">
@@ -312,20 +322,29 @@
         <input type="hidden" id="medicineEditId" />
         <label>Tên thuốc:</label><input type="text" id="medicineEditName" />
         <label>Mô tả:</label><input type="text" id="medicineEditDescription" />
-        <label>Mô tả ngắn:</label><input type="text" id="medicineEditShortDescription" />
-        <label>URL ảnh sản phẩm:</label><input type="text" id="medicineEditImages" />
+        <label>Mô tả ngắn:</label
+        ><input type="text" id="medicineEditShortDescription" />
+        <label>URL ảnh sản phẩm:</label
+        ><input type="text" id="medicineEditImages" />
         <label>Thuốc kê đơn:</label>
         <select id="medicineEditIsPrescribe">
           <option value="true">Có</option>
           <option value="false">Không</option>
         </select>
-        <label>Nhóm thuốc:</label><input type="text" id="medicineEditDrugGroup" />
-        <label>Nhà sản xuất:</label><input type="text" id="medicineEditManufacturer" />
-        <label>Nguồn gốc nhà sản xuất:</label><input type="text" id="medicineEditManufacturerOrigin" />
-        <label>Số đăng ký:</label><input type="text" id="medicineEditRegistrationNumber" />
-        <label>Thành phần:</label><input type="text" id="medicineEditIngredient" />
-        <label>Nơi sản xuất:</label><input type="text" id="medicineEditPlaceOfManufacture" />
-        <label>Dạng bào chế:</label><input type="text" id="medicineEditDosageForm" />
+        <label>Nhóm thuốc:</label
+        ><input type="text" id="medicineEditDrugGroup" />
+        <label>Nhà sản xuất:</label
+        ><input type="text" id="medicineEditManufacturer" />
+        <label>Nguồn gốc nhà sản xuất:</label
+        ><input type="text" id="medicineEditManufacturerOrigin" />
+        <label>Số đăng ký:</label
+        ><input type="text" id="medicineEditRegistrationNumber" />
+        <label>Thành phần:</label
+        ><input type="text" id="medicineEditIngredient" />
+        <label>Nơi sản xuất:</label
+        ><input type="text" id="medicineEditPlaceOfManufacture" />
+        <label>Dạng bào chế:</label
+        ><input type="text" id="medicineEditDosageForm" />
         <label>Đóng gói:</label><input type="text" id="medicineEditPackaging" />
         <label>Đơn vị đóng gói:</label>
         <div id="medicineEditPackagingUnits">
@@ -346,8 +365,10 @@
         </div>
         <script>
           function addEditPackagingUnitRow() {
-            const tableBody = document.getElementById('editPackagingUnitsTableBody');
-            const newRow = document.createElement('tr');
+            const tableBody = document.getElementById(
+              "editPackagingUnitsTableBody"
+            );
+            const newRow = document.createElement("tr");
             newRow.innerHTML = `
               <td><input type="text" class="unitName" placeholder="Tên đơn vị" /></td>
               <td><input type="number" class="quantity" placeholder="Số lượng" /></td>
@@ -357,9 +378,12 @@
             tableBody.appendChild(newRow);
           }
         </script>
-        <label>Số lượng đã bán:</label><input type="number" id="medicineEditSales" />
+        <label>Số lượng đã bán:</label
+        ><input type="number" id="medicineEditSales" />
         <button class="save-btn" onclick="saveMedicine()">Lưu</button>
-        <button class="cancel-btn" onclick="closeModal('medicineEditModal')">Hủy</button>
+        <button class="cancel-btn" onclick="closeModal('medicineEditModal')">
+          Hủy
+        </button>
       </div>
     </div>
     <div class="modal" id="medicineDeleteModal">
@@ -540,6 +564,12 @@
 
         <label for="customerEditDOB">Ngày sinh:</label>
         <input type="date" id="customerEditDOB" required />
+        <!-- Thêm nút chọn reset password -->
+        <label for="customerEditResetPassword" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+          <span>Đặt lại mật khẩu:</span>
+          <input type="checkbox" id="customerEditResetPassword" style="width: 20px; height: 20px;" />
+        </label>
+        
 
         <button class="save-btn" onclick="saveCustomer()">Lưu</button>
         <button class="cancel-btn" onclick="closeModal('customerEditModal')">
@@ -613,5 +643,36 @@
         </button>
       </div>
     </div>
+    <!-- Floating Chat Button -->
+    <div class="floating-chat-button">
+      <button onclick="window.location.href='./chat-management.html'">
+        💬
+      </button>
+    </div>
+
+    <style>
+      .floating-chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+
+      .floating-chat-button button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .floating-chat-button button:hover {
+        background-color: #0056b3;
+      }
+    </style>
   </body>
 </html>

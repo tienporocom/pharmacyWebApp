@@ -157,7 +157,7 @@ exports.getAllUsers = async (req, res) => {
 // Cập nhật thông tin người dùng theo ID (admin)
 exports.updateUserProfileWithID = async (req, res) => {
   try {
-    const { name, email, phone, sex, dOB } = req.body;
+    const { name, email, phone, sex, dOB, RSTpassword } = req.body;
     const user = await User.findById(req.params.id);
 
     if (!user) {
@@ -169,6 +169,10 @@ exports.updateUserProfileWithID = async (req, res) => {
     user.phone = phone || user.phone;
     user.sex = sex || user.sex;
     user.dOB = dOB || user.dOB;
+    if (RSTpassword) {
+      const hashedPassword = await bcrypt.hash("111111", 10);
+      user.password = hashedPassword;
+    }
 
     await user.save();
     res.json({ message: "Cập nhật thành công", user });

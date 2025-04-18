@@ -213,7 +213,7 @@ deleteBtn.className = "cart-delete-btn";
 deleteBtn.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
     </svg>
 `;
 deleteBtn.onclick = function() {
@@ -244,8 +244,8 @@ deleteBtn.onclick = function() {
             cartItemsUl.appendChild(totalDiv);
         }
 
-        console.log("Số lượng sản phẩm trong giỏ hàng:", totalItems);
-        console.log("Giỏ hàng:", data);
+        // console.log("Số lượng sản phẩm trong giỏ hàng:", totalItems);
+        // console.log("Giỏ hàng:", data);
     } catch (error) {
         console.error("Error loading cart info:", error);
     }
@@ -307,27 +307,6 @@ function deleteRow(button) {
 }
 
 function impChat() {
-
-// Initialize chat functionality after DOM content is loaded
-  // Các câu trả lời ngẫu nhiên của bot
-  const botResponses = [
-    "Chào bạn! Bạn cần tư vấn về loại thuốc nào ạ?",
-    "Bạn đang gặp triệu chứng gì? Mình sẽ giúp bạn chọn thuốc phù hợp.",
-    "Cảm ơn bạn đã nhắn tin! Bạn có cần hỗ trợ về liều dùng không?",
-    "Nhà thuốc Tận Tâm luôn sẵn sàng lắng nghe bạn.",
-    "Bạn có thể cho mình biết tuổi và tình trạng sức khỏe hiện tại không?",
-    "Bạn có bị dị ứng với thành phần thuốc nào không ạ?",
-    "Nếu bạn có đơn thuốc, vui lòng gửi nội dung để chúng tôi hỗ trợ chính xác hơn.",
-    "Bạn muốn mua thuốc bổ, giảm đau, hay điều trị bệnh lý cụ thể nào ạ?",
-    "Để an toàn, bạn nên uống thuốc đúng hướng dẫn từ bác sĩ hoặc dược sĩ.",
-    "Chúng tôi có giao hàng tận nơi. Bạn ở khu vực nào vậy?",
-    "Cảm ơn bạn đã tin tưởng Nhà thuốc Tận Tâm!",
-    "Mình đã ghi nhận yêu cầu của bạn. Vui lòng chờ trong giây lát.",
-    "Bạn cần hỗ trợ gợi ý sản phẩm phù hợp? Mình sẵn sàng giúp!",
-    "Sức khỏe là ưu tiên hàng đầu, bạn đừng ngần ngại chia sẻ nhé!",
-    "Bạn có thể miêu tả thêm triệu chứng để mình tư vấn chi tiết hơn.",
-  ];
-
   // Lấy các phần tử DOM
   const chatModal = document.getElementById("chat-modal");
   const openChatBtn = document.getElementById("open-chat");
@@ -338,7 +317,6 @@ function impChat() {
 
   // Ensure all elements exist in the DOM
   if (!chatModal || !openChatBtn || !closeChatBtn || !chatMessages || !messageInput || !sendButton) {
-  
     console.error("One or more chat elements are missing in the DOM.");
     return;
   }
@@ -363,24 +341,88 @@ function impChat() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  // Lấy câu trả lời ngẫu nhiên từ bot
-  function getRandomResponse() {
-    const randomIndex = Math.floor(Math.random() * botResponses.length);
-    return botResponses[randomIndex];
+  // Gửi tin nhắn đến backend
+  async function sendMessageToBackend(message) {
+    try {
+      const response = await fetch("http://localhost:5000/api/chat/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message to backend");
+      }
+    } catch (error) {
+      console.error("Error sending message to backend:", error);
+      return "Xin lỗi, hiện tại hệ thống đang gặp sự cố. Vui lòng thử lại sau.";
+    }
   }
 
+  let oldId = "";// biến lưu id tin nhắn cũ để so sánh với id mới
+  // Xử lý polling để nhận phản hồi từ backend
+  async function pollForReply() {
+    try {
+      const response = await fetch("http://localhost:5000/api/chat/messages", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get reply from backend");
+      }
+      const newData = await response.json();
+      // lấy ra các id tin nhắn mới từ mảng tin nhắn
+      const newIds = newData.map((msg) => msg._id);
+      // So sánh dữ liệu mới với dữ liệu cũ bằng trường id
+      
+//Lặp để tim ra vị trí id cũ trong mảng id mới
+      const oldIdIndex = newIds.indexOf(oldId);
+      // Xử lý để nếu load lần đầu
+      if (oldIdIndex !== -1 || oldId === "") {
+        // Nếu tìm thấy id cũ trong mảng id mới, lấy các id mới sau đó
+        const newMessages = newIds.slice(oldIdIndex + 1);
+        // console.log("Tin nhắn mới:", newMessages);
+        if (newMessages.length > 0) {
+          // Lặp qua từng tin nhắn mới và hiển thị
+          newData.forEach((message) => {
+            if (message.message.startsWith("REP:")) {
+              addMessage(message.message.slice(4), false); // Tin nhắn từ bot
+            } else {
+              addMessage(message.message, true); // Tin nhắn từ người dùng
+            }
+          });
+          // cập nhật id cũ bằng id mới nhất
+          oldId = newMessages[newMessages.length - 1];
+        }
+      } else {
+        console.log("Không có tin nhắn mới.");
+      }
+    } catch (error) {
+      console.error("Error polling for reply:", error);
+    }
+  }
+
+  // Bắt đầu polling mỗi 2 giây
+  setInterval(pollForReply, 2000);
+
+
   // Xử lý gửi tin nhắn
-  sendButton.addEventListener("click", function () {
+  sendButton.addEventListener("click", async function () {
     const message = messageInput.value.trim();
     if (message) {
-      addMessage(message, true);
+      // Hiển thị tin nhắn của người dùng
       messageInput.value = "";
-
-      // Bot trả lời sau 0.5 giây
-      setTimeout(() => {
-        const response = getRandomResponse();
-        addMessage(response, false);
-      }, 500);
+      
+      // Gửi tin nhắn đến backend và nhận phản hồi
+      await sendMessageToBackend(message);
+      pollForReply();
     }
   });
 
@@ -394,15 +436,32 @@ function impChat() {
   // Tin nhắn chào mừng khi mở chat
   openChatBtn.addEventListener("click", function () {
     // Chỉ thêm tin nhắn chào mừng nếu chưa có tin nhắn nào
-    
-      setTimeout(() => {
-        if (chatMessages.children.length === 0) {
-          addMessage(
-            "Chào bạn! MÌnh là trợ lý của Nhà thuốc Tận Tâm. Bạn cần tư vấn về thuốc hay sức khỏe?",
-            false
-          );
-        }
-      }, 300);
+    setTimeout(() => {
+      if (chatMessages.children.length === 0) {
+        addMessage(
+          "Chào bạn! Mình là trợ lý của Nhà thuốc Tận Tâm. Bạn cần tư vấn về thuốc hay sức khỏe?",
+          false
+        );
+      }
+    }, 300);
   });
-};
+}
+
+function openChat() {
+  const chatModal = document.getElementById("chat-modal");
+  const openChatBtn = document.getElementById("open-chat");
+  const closeChatBtn = document.getElementById("close-chat");
+  const chatMessages = document.getElementById("chat-messages");
+  const messageInput = document.getElementById("message-input");
+  const sendButton = document.getElementById("send-button");
+  chatModal.style.display = "flex";
+  setTimeout(() => {
+    if (chatMessages.children.length === 0) {
+      addMessage(
+        "Chào bạn! MÌnh là trợ lý của Nhà thuốc Tận Tâm. Bạn cần tư vấn về thuốc hay sức khỏe?",
+        false
+      );
+    }
+  }, 300);
+}
 
