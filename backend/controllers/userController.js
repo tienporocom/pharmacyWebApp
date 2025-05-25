@@ -45,13 +45,13 @@ exports.loginUser = async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Sai email hoặc mật khẩu" });
     }
-    console.log(user);
+    // console.log(user);
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
-    console.log(token);
+    // console.log(token);
     res.json({ token, user });
   } catch (error) {
     res.status(500).json({ message: "Lỗi máy chủ", error });
@@ -61,7 +61,7 @@ exports.loginUser = async (req, res) => {
 // Lấy thông tin hồ sơ người dùng
 exports.getUserProfile = async (req, res) => {
   try {
-    console.log(req.user);
+    // console.log(req.user);
     const user = await User.findById(req.user);
 
     // if (!user) {
@@ -124,8 +124,8 @@ exports.getAddress = async (req, res) => {
 // chỉnh sửa danh sách địa chỉ
 exports.updateAddress = async (req, res) => {
   try {
-    console.log(req.user);
-    console.log(req.body);
+    // console.log(req.user);
+    // console.log(req.body);
     const user = await User.findById(req.user);
 
     if (!user) {
